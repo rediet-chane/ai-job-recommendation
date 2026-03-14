@@ -1,0 +1,100 @@
+[
+    {
+        "id": 1,
+        "category": "Programming",
+        "question": "How would you process a large CSV file that doesn't fit in memory?",
+        "options": [
+            "Load the entire file with pandas.read_csv()",
+            "Use chunksize parameter to process in batches",
+            "Convert to Excel first",
+            "Split the file manually with a text editor"
+        ],
+        "correct": 1,
+        "skill": "python",
+        "weight": 3
+    },
+    {
+        "id": 2,
+        "category": "Data Analysis",
+        "question": "What method is best for handling missing values in a dataset?",
+        "options": [
+            "Delete all rows with missing values",
+            "Fill with mean/median or use interpolation",
+            "Ignore them completely",
+            "Convert them to zeros"
+        ],
+        "correct": 1,
+        "skill": "data_analysis",
+        "weight": 2
+    },
+    {
+        "id": 3,
+        "category": "Database",
+        "question": "Which SQL command is used to retrieve data from a database?",
+        "options": [
+            "INSERT",
+            "UPDATE",
+            "SELECT",
+            "DELETE"
+        ],
+        "correct": 2,
+        "skill": "sql",
+        "weight": 2
+    },
+    {
+        "id": 4,
+        "category": "Soft Skills",
+        "question": "A teammate misses deadlines repeatedly. What's the best approach?",
+        "options": [
+            "Report to manager immediately",
+            "Privately discuss challenges and offer help",
+            "Ignore it to avoid conflict",
+            "Do their work for them"
+        ],
+        "correct": 1,
+        "skill": "communication",
+        "weight": 1
+    },
+    {
+        "id": 5,
+        "category": "Web Development",
+        "question": "What does API stand for?",
+        "options": [
+            "Application Programming Interface",
+            "Advanced Programming Integration",
+            "Application Process Integration",
+            "Automated Program Interface"
+        ],
+        "correct": 0,
+        "skill": "api",
+        "weight": 1
+    },
+    {
+        "id": 6,
+        "category": "Machine Learning",
+        "question": "Which algorithm is best for classification problems?",
+        "options": [
+            "Linear Regression",
+            "K-Means Clustering",
+            "Random Forest",
+            "Apriori"
+        ],
+        "correct": 2,
+        "skill": "machine_learning",
+        "weight": 3
+    },
+    {
+        "id": 7,
+        "category": "Version Control",
+        "question": "What command creates a new branch in Git?",
+        "options": [
+            "git branch new-branch",
+            "git checkout -b new-branch",
+            "Both A and B work",
+            "git create-branch new-branch"
+        ],
+        "correct": 2,
+        "skill": "git",
+        "weight": 2
+    }
+]

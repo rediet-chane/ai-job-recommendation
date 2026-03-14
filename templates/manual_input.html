@@ -1,88 +1,131 @@
 {% extends "base.html" %}
 
-{% block title %}Enter Your Skills{% endblock %}
+{% block title %}Find Jobs by Skills{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <div class="card">
+            <!-- Input Card -->
+            <div class="card animate__animated animate__fadeInUp">
                 <div class="card-header">
-                    <i class="fas fa-keyboard me-2"></i>
-                    <h4 class="d-inline">Enter Your Skills</h4>
+                    <i class="fas fa-magic"></i>
+                    <span>Tell Us About Your Skills</span>
                 </div>
                 <div class="card-body p-4">
+                    <!-- Skills Input -->
                     <div class="mb-4">
-                        <label for="skills" class="form-label fs-5 fw-bold">
-                            <i class="fas fa-tags me-2"></i>Skills (separate with commas)
+                        <label class="form-label fw-bold fs-5">
+                            <i class="fas fa-code me-2 text-primary"></i>Your Skills
                         </label>
                         <textarea class="form-control" id="skills" rows="4" 
-                            placeholder="python, sql, javascript, communication, teamwork, machine learning"></textarea>
+                            placeholder="e.g., python, sql, javascript, communication, leadership, machine learning"></textarea>
                         <div class="form-text mt-2">
-                            <i class="fas fa-info-circle me-1 text-primary"></i>
-                            Include both technical and soft skills for better matches
+                            <i class="fas fa-info-circle me-1 text-info"></i>
+                            Separate skills with commas
                         </div>
                     </div>
-                    
+
+                    <!-- Experience Level -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold fs-5">
+                            <i class="fas fa-briefcase me-2 text-success"></i>Experience Level
+                        </label>
+                        <div class="exp-container" id="experienceLevels">
+                            <span class="exp-badge entry" data-level="entry">
+                                <i class="fas fa-seedling me-2"></i>Entry Level (0-2 years)
+                            </span>
+                            <span class="exp-badge mid" data-level="mid">
+                                <i class="fas fa-chart-line me-2"></i>Mid Level (2-5 years)
+                            </span>
+                            <span class="exp-badge senior" data-level="senior">
+                                <i class="fas fa-crown me-2"></i>Senior Level (5-8 years)
+                            </span>
+                            <span class="exp-badge lead" data-level="lead">
+                                <i class="fas fa-star me-2"></i>Lead/Manager (8+ years)
+                            </span>
+                        </div>
+                        <input type="hidden" id="experience" value="entry">
+                    </div>
+
+                    <!-- Find Jobs Button -->
                     <div class="text-center">
                         <button class="btn btn-primary btn-lg px-5" id="findJobs">
-                            <i class="fas fa-search me-2"></i>Find Jobs for Me
+                            <i class="fas fa-search me-2"></i>Find My Perfect Job
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="loading" id="loading" style="display: none;">
-                <div class="spinner"></div>
-                <h4 class="text-primary">Finding your perfect job matches...</h4>
-                <p class="text-muted">This may take a few seconds</p>
+            <!-- Loading Spinner -->
+            <div id="loading" style="display: none;" class="text-center my-5">
+                <div class="loading-spinner"></div>
+                <h4 class="text-white mt-3">Finding your perfect job matches...</h4>
+                <p class="text-white-50">This may take a few seconds</p>
             </div>
 
-            <div id="results" style="display: none;"></div>
+            <!-- Results Section -->
+            <div id="results" style="display: none;" class="mt-4"></div>
         </div>
     </div>
 </div>
 
-<!-- Modal for Skill Gap Analysis -->
-<div class="modal fade" id="gapModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+<!-- ========== MODALS - FIXED VERSION (NO DUPLICATES) ========== -->
+<!-- Skill Gap Modal -->
+<div class="modal fade" id="gapModal" tabindex="-1" aria-labelledby="gapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title"><i class="fas fa-chart-bar me-2"></i>Skill Gap Analysis</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            <div class="modal-header">
+                <h5 class="modal-title" id="gapModalLabel">
+                    <i class="fas fa-chart-bar me-2"></i>Skill Gap Analysis
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="gapModalBody">
-                Loading...
+                <div class="text-center p-4">
+                    <div class="loading-spinner"></div>
+                    <p class="mt-3">Loading analysis...</p>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal for Learning Resources -->
-<div class="modal fade" id="resourceModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+<!-- Learning Resources Modal -->
+<div class="modal fade" id="resourceModal" tabindex="-1" aria-labelledby="resourceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
-                <h5 class="modal-title"><i class="fas fa-book me-2"></i>Learning Resources</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <h5 class="modal-title" id="resourceModalLabel">
+                    <i class="fas fa-book me-2"></i>Learning Resources
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="resourceModalBody">
-                Loading...
+                <div class="text-center p-4">
+                    <div class="loading-spinner"></div>
+                    <p class="mt-3">Finding resources...</p>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal for Resume Tips -->
-<div class="modal fade" id="resumeModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+<!-- Resume Tips Modal -->
+<div class="modal fade" id="resumeModal" tabindex="-1" aria-labelledby="resumeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-info text-white">
-                <h5 class="modal-title"><i class="fas fa-file-alt me-2"></i>Resume Tips</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <h5 class="modal-title" id="resumeModalLabel">
+                    <i class="fas fa-file-alt me-2"></i>Resume Tips
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="resumeModalBody">
-                Loading...
+                <div class="text-center p-4">
+                    <div class="loading-spinner"></div>
+                    <p class="mt-3">Generating tips...</p>
+                </div>
             </div>
         </div>
     </div>
@@ -91,246 +134,411 @@
 
 {% block scripts %}
 <script>
-let currentSkills = [];
+// ============================================
+// AI JOB RECOMMENDATION - MAIN APPLICATION
+// ============================================
 
-$('#findJobs').click(function() {
-    const skills = $('#skills').val();
+console.log("🚀 Script loaded - Initializing...");
+
+// Wait for document to be fully ready
+$(document).ready(function() {
+    console.log("✅ Document ready - Starting application");
     
-    if (!skills.trim()) {
-        alert('Please enter your skills!');
-        return;
+    // ========== VARIABLES ==========
+    let currentExperience = 'entry';
+    
+    // ========== EXPERIENCE LEVEL SELECTION ==========
+    function selectExperience(level) {
+        console.log("📌 Experience selected:", level);
+        currentExperience = level;
+        $('#experience').val(level);
+        
+        // Update active state
+        $('.exp-badge').removeClass('active');
+        $(`.exp-badge[data-level="${level}"]`).addClass('active');
     }
     
-    // Show loading
-    $('#findJobs').prop('disabled', true);
-    $('#loading').show();
-    $('#results').hide();
+    // Initialize with entry level selected
+    $('.exp-badge.entry').addClass('active');
     
-    // Parse skills
-    currentSkills = skills.split(',').map(s => s.trim());
-    
-    $.ajax({
-        url: '/get-recommendations',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ skills: skills }),
-        success: function(response) {
-            $('#findJobs').prop('disabled', false);
-            $('#loading').hide();
-            displayResults(response);
-        },
-        error: function() {
-            $('#findJobs').prop('disabled', false);
-            $('#loading').hide();
-            alert('Error getting recommendations. Please try again.');
-        }
+    // Add click handlers for experience badges
+    $('.exp-badge').on('click', function() {
+        const level = $(this).data('level');
+        selectExperience(level);
     });
-});
-
-function displayResults(data) {
-    $('#results').show();
-    const recs = data.recommendations;
     
-    if (recs.length === 0) {
-        $('#results').html(`
-            <div class="alert alert-warning text-center p-5">
-                <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                <h4>No jobs found</h4>
-                <p>Try different skills or add more skills to your list</p>
+    // ========== FIND JOBS BUTTON ==========
+    $('#findJobs').on('click', function() {
+        const skills = $('#skills').val().trim();
+        console.log("🔍 Find Jobs clicked - Skills:", skills);
+        
+        if (!skills) {
+            alert('Please enter your skills!');
+            return;
+        }
+        
+        // Show loading state
+        $(this).prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Searching...');
+        $('#loading').show();
+        $('#results').hide().empty();
+        
+        // Prepare data
+        const data = {
+            skills: skills,
+            experience: currentExperience
+        };
+        
+        console.log("📤 Sending data to server:", data);
+        
+        // AJAX request
+        $.ajax({
+            url: '/get-recommendations',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            timeout: 10000,
+            success: function(response) {
+                console.log("📥 Server response received:", response);
+                
+                $('#findJobs').prop('disabled', false).html('<i class="fas fa-search me-2"></i>Find My Perfect Job');
+                $('#loading').hide();
+                
+                if (response.success) {
+                    displayResults(response);
+                } else {
+                    showError(response.error || 'Unknown error occurred');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("❌ AJAX Error:", {status: status, error: error, response: xhr.responseText});
+                
+                $('#findJobs').prop('disabled', false).html('<i class="fas fa-search me-2"></i>Find My Perfect Job');
+                $('#loading').hide();
+                
+                let errorMsg = 'Error finding jobs. ';
+                if (xhr.responseJSON && xhr.responseJSON.error) {
+                    errorMsg += xhr.responseJSON.error;
+                } else if (xhr.status === 0) {
+                    errorMsg += 'Network error - check if server is running.';
+                } else if (xhr.status === 404) {
+                    errorMsg += 'Server endpoint not found.';
+                } else if (xhr.status === 500) {
+                    errorMsg += 'Server error.';
+                } else {
+                    errorMsg += 'Please try again.';
+                }
+                
+                showError(errorMsg);
+            }
+        });
+    });
+    
+    // ========== DISPLAY RESULTS ==========
+    function displayResults(data) {
+        console.log("🎯 Displaying results:", data);
+        
+        if (!data.recommendations || data.recommendations.length === 0) {
+            $('#results').html(`
+                <div class="alert alert-warning text-center p-5 animate__animated animate__fadeIn">
+                    <i class="fas fa-exclamation-triangle fa-4x mb-3 text-warning"></i>
+                    <h4>No Jobs Found</h4>
+                    <p>Try different skills or add more skills to your list</p>
+                </div>
+            `).show();
+            return;
+        }
+        
+        let html = '<h2 class="text-center text-white mb-4">Your Job Matches</h2>';
+        
+        data.recommendations.forEach(function(job, index) {
+            const medals = ['🥇', '🥈', '🥉'];
+            const medal = index < 3 ? medals[index] : '📌';
+            
+            // Parse skills safely
+            let skills = [];
+            if (job.required_skills) {
+                skills = job.required_skills.split(',').map(s => s.trim());
+            }
+            
+            const skillBadges = skills.map(s => 
+                `<span class="skill-badge"><i class="fas fa-check-circle"></i>${s}</span>`
+            ).join('');
+            
+            // Create description safely
+            const description = job.description || 'No description available';
+            const shortDesc = description.length > 100 ? description.substring(0, 100) + '...' : description;
+            
+            html += `
+                <div class="card mb-4 animate__animated animate__fadeInUp" style="animation-delay: ${index * 0.1}s">
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-1 text-center">
+                                <span class="display-4">${medal}</span>
+                            </div>
+                            <div class="col-md-7">
+                                <h3 class="text-primary">${job.title || 'Unknown Title'}</h3>
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-tag me-2"></i>${job.category || 'General'}
+                                </p>
+                                <div class="mb-3">${skillBadges}</div>
+                                <p class="text-muted small">${shortDesc}</p>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <span class="match-score">${job.match_score || 0}%</span>
+                                <p class="text-muted">Match</p>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="btn-group-vertical w-100">
+                                    <button class="btn btn-primary mb-2 view-gap" data-job="${job.job_id || 0}">
+                                        <i class="fas fa-chart-bar me-1"></i>Gap
+                                    </button>
+                                    <button class="btn btn-success mb-2 view-resources" data-skills="${job.required_skills || ''}">
+                                        <i class="fas fa-book me-1"></i>Learn
+                                    </button>
+                                    <button class="btn btn-info view-resume-tips">
+                                        <i class="fas fa-file-alt me-1"></i>Resume
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        // Add a "Try Quiz" button at the bottom
+        html += `
+            <div class="text-center mt-4">
+                <p class="text-white-50">Want more accurate matches? Try our skill quiz!</p>
+                <a href="/quiz" class="btn btn-warning btn-lg">
+                    <i class="fas fa-question-circle me-2"></i>Take Skill Quiz
+                </a>
+            </div>
+        `;
+        
+        $('#results').html(html).show();
+        console.log("✅ Results displayed");
+        
+        // Attach event handlers for buttons
+        attachButtonHandlers();
+    }
+    
+    // ========== ATTACH BUTTON HANDLERS ==========
+    function attachButtonHandlers() {
+        // Skill Gap buttons
+        $('.view-gap').on('click', function() {
+            const jobId = $(this).data('job');
+            viewSkillGap(jobId);
+        });
+        
+        // Learning Resources buttons
+        $('.view-resources').on('click', function() {
+            const skills = $(this).data('skills');
+            viewResources(skills);
+        });
+        
+        // Resume Tips buttons
+        $('.view-resume-tips').on('click', function() {
+            viewResumeTips();
+        });
+    }
+    
+    // ========== VIEW SKILL GAP ==========
+    function viewSkillGap(jobId) {
+        console.log("🔍 Viewing skill gap for job:", jobId);
+        
+        // Reset modal body
+        $('#gapModal .modal-body').html(`
+            <div class="text-center p-4">
+                <div class="loading-spinner"></div>
+                <p class="mt-3">Analyzing your skills...</p>
             </div>
         `);
-        return;
-    }
-    
-    let html = '<h2 class="text-center mb-4">Your Job Recommendations</h2>';
-    
-    recs.forEach(function(rec) {
-        // Create skill badges
-        const skillsList = rec.required_skills.split(',').map(s => 
-            `<span class="skill-badge"><i class="fas fa-check-circle me-1 text-success"></i>${s.trim()}</span>`
-        ).join('');
         
-        html += `
-            <div class="card mb-4">
-                <div class="card-body p-4">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h3 class="text-primary">${rec.title}</h3>
-                            <p class="text-muted mb-2"><i class="fas fa-briefcase me-2"></i>${rec.category}</p>
-                            <div class="mb-3">${skillsList}</div>
-                            <p class="text-muted">${rec.description}</p>
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <div class="match-score">${rec.match_score}%</div>
-                            <p class="text-muted">Match Score</p>
-                            
-                            <div class="btn-group-vertical w-100">
-                                <button class="btn btn-primary view-gap" data-job="${rec.job_id}">
-                                    <i class="fas fa-chart-bar me-2"></i>Skill Gap
-                                </button>
-                                <button class="btn btn-success view-resources" data-skills="${rec.required_skills}">
-                                    <i class="fas fa-book me-2"></i>Resources
-                                </button>
-                                <button class="btn btn-info view-resume">
-                                    <i class="fas fa-file-alt me-2"></i>Resume Tips
-                                </button>
+        // Show modal using Bootstrap 5 API
+        var gapModal = new bootstrap.Modal(document.getElementById('gapModal'));
+        gapModal.show();
+        
+        $.ajax({
+            url: `/skill-gap/${jobId}`,
+            method: 'GET',
+            timeout: 10000,
+            success: function(data) {
+                console.log("📊 Gap data:", data);
+                
+                let html = '';
+                
+                if (data.gaps && data.gaps.length > 0) {
+                    html += '<h5 class="mb-3">Skills You Need to Develop:</h5>';
+                    data.gaps.forEach(gap => {
+                        const priorityClass = gap.priority === 'High' ? 'priority-high' : 
+                                             (gap.priority === 'Medium' ? 'priority-medium' : 'priority-low');
+                        html += `
+                            <div class="card mb-2">
+                                <div class="card-body d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">${gap.skill}</span>
+                                    <span class="${priorityClass}">${gap.priority} Priority</span>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-    });
-    
-    $('#results').html(html);
-    
-    // Add click handlers
-    $('.view-gap').click(function() {
-        const jobId = $(this).data('job');
-        viewSkillGap(jobId);
-    });
-    
-    $('.view-resources').click(function() {
-        const skills = $(this).data('skills');
-        viewResources(skills);
-    });
-    
-    $('.view-resume').click(function() {
-        viewResumeTips();
-    });
-}
-
-function viewSkillGap(jobId) {
-    $('#gapModal').modal('show');
-    $('#gapModalBody').html('<div class="text-center"><div class="spinner"></div><p>Analyzing skills...</p></div>');
-    
-    $.get(`/skill-gap/${jobId}`, function(data) {
-        let html = `<h5 class="mb-3">Job: ${data.job_title}</h5>`;
-        
-        if (data.gaps.length === 0) {
-            html += `
-                <div class="alert alert-success text-center p-4">
-                    <i class="fas fa-check-circle fa-3x mb-3"></i>
-                    <h5>Congratulations!</h5>
-                    <p>You have all the required skills for this job!</p>
-                </div>
-            `;
-        } else {
-            html += '<h6 class="mb-3">Skills to Develop:</h6>';
-            data.gaps.forEach(function(gap) {
-                let priorityClass = gap.priority === 'High' ? 'priority-high' : 
-                                   (gap.priority === 'Medium' ? 'priority-medium' : 'priority-low');
-                html += `
-                    <div class="card mb-2">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-bold">${gap.skill}</span>
-                                <span class="badge ${priorityClass}">${gap.priority} Priority</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-        
-        $('#gapModalBody').html(html);
-    }).fail(function() {
-        $('#gapModalBody').html('<div class="alert alert-danger">Error loading skill gap analysis</div>');
-    });
-}
-
-function viewResources(skills) {
-    $('#resourceModal').modal('show');
-    $('#resourceModalBody').html('<div class="text-center"><div class="spinner"></div><p>Finding resources...</p></div>');
-    
-    $.get(`/learning-resources?skills=${skills}`, function(data) {
-        let html = '';
-        
-        if (data.resources.length === 0) {
-            html = `
-                <div class="alert alert-info text-center p-4">
-                    <i class="fas fa-info-circle fa-3x mb-3"></i>
-                    <p>No resources found for these skills yet.</p>
-                </div>
-            `;
-        } else {
-            data.resources.forEach(function(item) {
-                html += `<h5 class="mt-3 mb-2"><i class="fas fa-graduation-cap me-2 text-success"></i>${item.skill}</h5>`;
-                item.resources.forEach(function(res) {
+                        `;
+                    });
+                } else {
                     html += `
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <h6 class="card-title">${res.title}</h6>
-                                <p class="text-muted mb-2">${res.platform} • ${res.difficulty}</p>
-                                <a href="${res.url}" target="_blank" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-external-link-alt me-1"></i>View Resource
-                                </a>
-                            </div>
+                        <div class="alert alert-success text-center p-4">
+                            <i class="fas fa-check-circle fa-3x mb-3"></i>
+                            <h5>Congratulations!</h5>
+                            <p>You have all the required skills for this job!</p>
                         </div>
                     `;
-                });
-            });
-        }
-        
-        $('#resourceModalBody').html(html);
-    }).fail(function() {
-        $('#resourceModalBody').html('<div class="alert alert-danger">Error loading resources</div>');
-    });
-}
-
-function viewResumeTips() {
-    $('#resumeModal').modal('show');
-    $('#resumeModalBody').html('<div class="text-center"><div class="spinner"></div><p>Generating tips...</p></div>');
+                }
+                
+                $('#gapModal .modal-body').html(html);
+            },
+            error: function(xhr, status, error) {
+                console.error("❌ Gap analysis error:", error);
+                $('#gapModal .modal-body').html(`
+                    <div class="alert alert-danger text-center p-4">
+                        <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+                        <h5>Error</h5>
+                        <p>Could not load skill gap analysis. Please try again.</p>
+                    </div>
+                `);
+            }
+        });
+    }
     
-    $.get('/resume-tips', function(data) {
-        let html = `
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-header bg-primary text-white">
-                            <h6 class="mb-0"><i class="fas fa-key me-2"></i>Keywords to Include</h6>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-unstyled">
-                                ${data.keywords.map(k => `<li><i class="fas fa-check-circle text-success me-2"></i>${k}</li>`).join('')}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-header bg-success text-white">
-                            <h6 class="mb-0"><i class="fas fa-paint-brush me-2"></i>Formatting Tips</h6>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-unstyled">
-                                ${data.formatting.map(f => `<li><i class="fas fa-check-circle text-success me-2"></i>${f}</li>`).join('')}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+    // ========== VIEW LEARNING RESOURCES ==========
+    function viewResources(skills) {
+        console.log("📚 Viewing resources for skills:", skills);
+        
+        // Reset modal body
+        $('#resourceModal .modal-body').html(`
+            <div class="text-center p-4">
+                <div class="loading-spinner"></div>
+                <p class="mt-3">Finding learning resources...</p>
             </div>
-        `;
+        `);
         
-        if (data.target_jobs && data.target_jobs.length > 0) {
-            html += `
-                <div class="card">
-                    <div class="card-header bg-info text-white">
-                        <h6 class="mb-0"><i class="fas fa-bullseye me-2"></i>For Your Target Jobs</h6>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-unstyled">
-                            ${data.target_jobs.map(t => `<li><i class="fas fa-check-circle text-success me-2"></i>${t.tip}</li>`).join('')}
-                        </ul>
-                    </div>
-                </div>
-            `;
-        }
+        // Show modal using Bootstrap 5 API
+        var resourceModal = new bootstrap.Modal(document.getElementById('resourceModal'));
+        resourceModal.show();
         
-        $('#resumeModalBody').html(html);
-    }).fail(function() {
-        $('#resumeModalBody').html('<div class="alert alert-danger">Error loading resume tips</div>');
-    });
-}
+        $.ajax({
+            url: `/learning-resources?skills=${encodeURIComponent(skills)}`,
+            method: 'GET',
+            timeout: 10000,
+            success: function(data) {
+                console.log("📖 Resource data:", data);
+                
+                let html = '';
+                
+                if (data.resources && data.resources.length > 0) {
+                    data.resources.forEach(item => {
+                        html += `<h5 class="mt-3 mb-2">${item.skill}</h5>`;
+                        item.resources.forEach(res => {
+                            html += `
+                                <div class="card mb-2">
+                                    <div class="card-body">
+                                        <h6 class="card-title">${res.title}</h6>
+                                        <p class="text-muted mb-2">${res.platform} • ${res.difficulty}</p>
+                                        <a href="${res.url}" target="_blank" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-external-link-alt me-1"></i>View Resource
+                                        </a>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    });
+                } else {
+                    html = '<div class="alert alert-info">No resources found for these skills.</div>';
+                }
+                
+                $('#resourceModal .modal-body').html(html);
+            },
+            error: function() {
+                $('#resourceModal .modal-body').html(`
+                    <div class="alert alert-danger text-center p-4">
+                        <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+                        <h5>Error</h5>
+                        <p>Could not load learning resources. Please try again.</p>
+                    </div>
+                `);
+            }
+        });
+    }
+    
+    // ========== VIEW RESUME TIPS ==========
+    function viewResumeTips() {
+        console.log("📝 Viewing resume tips");
+        
+        // Reset modal body
+        $('#resumeModal .modal-body').html(`
+            <div class="text-center p-4">
+                <div class="loading-spinner"></div>
+                <p class="mt-3">Generating resume tips...</p>
+            </div>
+        `);
+        
+        // Show modal using Bootstrap 5 API
+        var resumeModal = new bootstrap.Modal(document.getElementById('resumeModal'));
+        resumeModal.show();
+        
+        $.ajax({
+            url: '/resume-tips',
+            method: 'GET',
+            timeout: 10000,
+            success: function(data) {
+                console.log("💼 Resume tips data:", data);
+                
+                let html = '';
+                
+                if (data.tips && data.tips.length > 0) {
+                    data.tips.forEach(category => {
+                        html += `
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">${category.category}</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled mb-0">
+                                        ${category.tips.map(tip => 
+                                            `<li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>${tip}</li>`
+                                        ).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    html = '<div class="alert alert-info">No resume tips available.</div>';
+                }
+                
+                $('#resumeModal .modal-body').html(html);
+            },
+            error: function() {
+                $('#resumeModal .modal-body').html(`
+                    <div class="alert alert-danger text-center p-4">
+                        <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+                        <h5>Error</h5>
+                        <p>Could not load resume tips. Please try again.</p>
+                    </div>
+                `);
+            }
+        });
+    }
+    
+    // ========== SHOW ERROR ==========
+    function showError(message) {
+        $('#results').html(`
+            <div class="alert alert-danger text-center p-4 animate__animated animate__fadeIn">
+                <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+                <h4>Error</h4>
+                <p>${message}</p>
+            </div>
+        `).show();
+    }
+    
+    console.log("✅ All event handlers initialized successfully");
+});
 </script>
 {% endblock %}

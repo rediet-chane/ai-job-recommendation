@@ -1,4 +1,11 @@
-job_id,title,description,required_skills,category,experience_level
-1,Software Developer,"Develop web applications using Python, Django, and SQL",Python; Django; SQL; REST API,Software Development,Entry
-2,Data Analyst,"Analyze data using SQL, Python, and Excel",SQL; Python; Excel; Statistics,Data Science,Entry
-3,Web Designer,"Design websites using HTML, CSS, and JavaScript",HTML; CSS; JavaScript; Figma,Design,Entry
+job_id,title,description,required_skills,category,experience_level,source
+1,Python Developer,Develop backend services using Python and Django. Experience with REST APIs and SQL databases required.,"Python, Django, SQL, REST API, Git",Software Development,Entry,Sample
+2,Data Analyst,Analyze business data using SQL and Python. Create visualizations and reports for stakeholders.,"SQL, Python, Excel, Data Visualization, Statistics",Data Science,Entry,Sample
+3,Frontend Developer,"Build responsive web interfaces using HTML, CSS, and JavaScript. Experience with React preferred.","HTML, CSS, JavaScript, React, Git",Web Development,Entry,Sample
+4,Full Stack Developer,Develop end-to-end web applications. Strong knowledge of both frontend and backend technologies.,"JavaScript, Python, SQL, HTML, CSS, REST API",Software Development,Intermediate,Sample
+5,Machine Learning Engineer,Build and deploy machine learning models. Experience with scikit-learn and deep learning frameworks.,"Python, Machine Learning, SQL, Scikit-learn, TensorFlow",Data Science,Intermediate,Sample
+6,DevOps Engineer,Manage CI/CD pipelines and cloud infrastructure. Experience with Docker and Kubernetes.,"Docker, Kubernetes, AWS, Linux, Python",DevOps,Intermediate,Sample
+7,UI/UX Designer,Design user interfaces and create prototypes. Strong visual design skills.,"Figma, Adobe XD, UI Design, Prototyping, HTML, CSS",Design,Entry,Sample
+8,Project Manager,Lead software development projects. Coordinate teams and manage stakeholder expectations.,"Agile, Scrum, Communication, Leadership, JIRA",Management,Senior,Sample
+9,QA Engineer,Test software applications and ensure quality. Write and execute test cases.,"Testing, Selenium, Python, SQL, Attention to Detail",Quality Assurance,Entry,Sample
+10,Business Analyst,Bridge gap between business needs and technical solutions. Gather and document requirements.,"Requirements Analysis, Communication, SQL, Excel, Documentation",Business,Intermediate,Sample

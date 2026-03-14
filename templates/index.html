@@ -3,74 +3,131 @@
 {% block title %}Home - Find Your Dream Job{% endblock %}
 
 {% block content %}
-<div class="hero-section text-center">
+<!-- Hero Section -->
+<div class="hero-section text-center animate__animated animate__fadeIn">
     <div class="container">
-        <h1 class="display-3 mb-4"><i class="fas fa-magic me-3"></i>Find Your Perfect Job Match</h1>
-        <p class="lead fs-3 mb-5">Using AI to match your skills with the right opportunities</p>
-        <a href="/manual-input" class="btn btn-light btn-lg px-5 py-3 fs-4">
+        <h1 class="display-3 mb-4">
+            <i class="fas fa-magic me-3"></i>Find Your Perfect Job Match
+        </h1>
+        <p class="lead fs-3 mb-5">
+            Using AI to match your skills with the right opportunities
+        </p>
+        <a href="/manual-input" class="btn btn-light btn-lg px-5 py-3 fs-4 animate__animated animate__pulse animate__infinite">
             <i class="fas fa-rocket me-2"></i>Get Started
         </a>
     </div>
 </div>
 
+<!-- Features Section -->
 <div class="container">
     <div class="row g-4">
         <div class="col-md-4">
-            <div class="card text-center h-100">
-                <div class="card-body p-5">
-                    <i class="fas fa-pen feature-icon"></i>
-                    <h3 class="mb-3">Enter Skills</h3>
-                    <p class="text-muted">Tell us your skills - programming, soft skills, tools you use</p>
+            <div class="feature-box">
+                <div class="feature-icon">
+                    <i class="fas fa-pen-fancy"></i>
+                </div>
+                <h3 class="mb-3">1. Enter Skills</h3>
+                <p class="text-muted">Tell us your skills - programming, soft skills, tools you use</p>
+                <div class="mt-3">
+                    <span class="skill-badge"><i class="fas fa-code"></i>Python</span>
+                    <span class="skill-badge"><i class="fas fa-database"></i>SQL</span>
+                    <span class="skill-badge"><i class="fas fa-comments"></i>Communication</span>
                 </div>
             </div>
         </div>
+        
         <div class="col-md-4">
-            <div class="card text-center h-100">
-                <div class="card-body p-5">
-                    <i class="fas fa-brain feature-icon"></i>
-                    <h3 class="mb-3">AI Matching</h3>
-                    <p class="text-muted">Our AI finds jobs that match your unique skill set</p>
+            <div class="feature-box">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="mb-3">2. AI Analysis</h3>
+                <p class="text-muted">Our AI matches your skills with thousands of job requirements</p>
+                <div class="mt-3">
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-success" style="width: 75%"></div>
+                    </div>
+                    <p class="mt-2 text-muted">75% Match Analysis</p>
                 </div>
             </div>
         </div>
+        
         <div class="col-md-4">
-            <div class="card text-center h-100">
-                <div class="card-body p-5">
-                    <i class="fas fa-chart-line feature-icon"></i>
-                    <h3 class="mb-3">Get Results</h3>
-                    <p class="text-muted">Receive personalized job recommendations with match scores</p>
+            <div class="feature-box">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="mb-3">3. Get Results</h3>
+                <p class="text-muted">Receive personalized job recommendations with match scores</p>
+                <div class="mt-3">
+                    <span class="match-score">85%</span>
+                    <p class="text-muted">Average Match Rate</p>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- How It Works Section -->
     <div class="row mt-5">
         <div class="col-12">
             <div class="card">
-                <div class="card-body p-5 text-center">
-                    <h2 class="mb-4">How It Works</h2>
+                <div class="card-header text-center">
+                    <i class="fas fa-cogs"></i> How It Works
+                </div>
+                <div class="card-body p-5">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-3 text-center">
                             <div class="display-1 text-primary">1️⃣</div>
-                            <h5>Enter Your Skills</h5>
-                            <p class="text-muted">python, sql, communication</p>
+                            <h5>Choose Method</h5>
+                            <p class="text-muted">Take a quiz or enter skills manually</p>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 text-center">
                             <div class="display-1 text-primary">2️⃣</div>
-                            <h5>AI Analysis</h5>
-                            <p class="text-muted">We match you with jobs</p>
+                            <h5>AI Processing</h5>
+                            <p class="text-muted">We analyze and match your skills</p>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 text-center">
                             <div class="display-1 text-primary">3️⃣</div>
                             <h5>View Matches</h5>
-                            <p class="text-muted">See your match percentage</p>
+                            <p class="text-muted">See jobs ranked by match %</p>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 text-center">
                             <div class="display-1 text-primary">4️⃣</div>
-                            <h5>Improve Skills</h5>
-                            <p class="text-muted">Get learning resources</p>
+                            <h5>Improve</h5>
+                            <p class="text-muted">Get learning resources for gaps</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body p-4">
+                    <i class="fas fa-briefcase fa-3x text-primary mb-3"></i>
+                    <h2 class="display-4">10+</h2>
+                    <p class="text-muted">Job Categories</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body p-4">
+                    <i class="fas fa-users fa-3x text-success mb-3"></i>
+                    <h2 class="display-4">100%</h2>
+                    <p class="text-muted">Free to Use</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body p-4">
+                    <i class="fas fa-clock fa-3x text-info mb-3"></i>
+                    <h2 class="display-4">Instant</h2>
+                    <p class="text-muted">Results</p>
                 </div>
             </div>
         </div>
