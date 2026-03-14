@@ -1,0 +1,64 @@
+{
+    "python": [
+        {
+            "title": "Python for Beginners",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/learn/python",
+            "difficulty": "Beginner"
+        },
+        {
+            "title": "Complete Python Bootcamp",
+            "platform": "Udemy",
+            "url": "https://www.udemy.com/course/python/",
+            "difficulty": "Beginner"
+        }
+    ],
+    "sql": [
+        {
+            "title": "SQL Tutorial",
+            "platform": "W3Schools",
+            "url": "https://www.w3schools.com/sql/",
+            "difficulty": "Beginner"
+        }
+    ],
+    "javascript": [
+        {
+            "title": "JavaScript Basics",
+            "platform": "freeCodeCamp",
+            "url": "https://www.freecodecamp.org/learn/",
+            "difficulty": "Beginner"
+        }
+    ],
+    "machine learning": [
+        {
+            "title": "Machine Learning Course",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/learn/machine-learning",
+            "difficulty": "Intermediate"
+        }
+    ],
+    "communication": [
+        {
+            "title": "Effective Communication",
+            "platform": "LinkedIn Learning",
+            "url": "https://www.linkedin.com/learning/",
+            "difficulty": "Beginner"
+        }
+    ],
+    "django": [
+        {
+            "title": "Django for Beginners",
+            "platform": "Django Project",
+            "url": "https://www.djangoproject.com/start/",
+            "difficulty": "Beginner"
+        }
+    ],
+    "react": [
+        {
+            "title": "React Tutorial",
+            "platform": "React.dev",
+            "url": "https://react.dev/learn",
+            "difficulty": "Beginner"
+        }
+    ]
+}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Learning Resources{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4>Learning Resources</h4>
+                </div>
+                <div class="card-body" id="resourcesContent">
+                    <div class="text-center">
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p>Finding resources for you...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    const skills = "{{ skills }}";
+    
+    $.get(`/learning-resources?skills=${skills}`, function(data) {
+        let html = '';
+        
+        if (data.resources.length === 0) {
+            html = '<div class="alert alert-info">No resources found for these skills yet.</div>';
+        } else {
+            data.resources.forEach(function(item) {
+                html += `<h5>${item.skill}</h5>`;
+                item.resources.forEach(function(res) {
+                    html += `
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <h6>${res.title}</h6>
+                                <p class="text-muted">${res.platform} - ${res.difficulty}</p>
+                                <a href="${res.url}" target="_blank" class="btn btn-sm btn-primary">View Resource</a>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+        }
+        
+        $('#resourcesContent').html(html);
+    }).fail(function() {
+        $('#resourcesContent').html('<div class="alert alert-danger">Error loading resources</div>');
+    });
+});
+</script>
+{% endblock %}

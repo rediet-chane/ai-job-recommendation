@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Resume Tips{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4>Resume Improvement Tips</h4>
+                </div>
+                <div class="card-body" id="tipsContent">
+                    <div class="text-center">
+                        <div class="spinner-border text-info" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p>Generating personalized tips...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    $.get('/resume-tips', function(data) {
+        let html = '';
+        
+        html += '<h5>🔑 Keywords to Include:</h5><ul>';
+        data.keywords.forEach(tip => html += `<li>${tip}</li>`);
+        html += '</ul>';
+        
+        html += '<h5>📄 Formatting Tips:</h5><ul>';
+        data.formatting.forEach(tip => html += `<li>${tip}</li>`);
+        html += '</ul>';
+        
+        if (data.target_jobs.length > 0) {
+            html += '<h5>🎯 For Your Target Jobs:</h5><ul>';
+            data.target_jobs.forEach(tip => html += `<li>${tip.tip}</li>`);
+            html += '</ul>';
+        }
+        
+        $('#tipsContent').html(html);
+    }).fail(function() {
+        $('#tipsContent').html('<div class="alert alert-danger">Error loading resume tips</div>');
+    });
+});
+</script>
+{% endblock %}

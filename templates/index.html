@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Find Your Dream Job{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-3 mb-4"><i class="fas fa-magic me-3"></i>Find Your Perfect Job Match</h1>
+        <p class="lead fs-3 mb-5">Using AI to match your skills with the right opportunities</p>
+        <a href="/manual-input" class="btn btn-light btn-lg px-5 py-3 fs-4">
+            <i class="fas fa-rocket me-2"></i>Get Started
+        </a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card text-center h-100">
+                <div class="card-body p-5">
+                    <i class="fas fa-pen feature-icon"></i>
+                    <h3 class="mb-3">Enter Skills</h3>
+                    <p class="text-muted">Tell us your skills - programming, soft skills, tools you use</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center h-100">
+                <div class="card-body p-5">
+                    <i class="fas fa-brain feature-icon"></i>
+                    <h3 class="mb-3">AI Matching</h3>
+                    <p class="text-muted">Our AI finds jobs that match your unique skill set</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center h-100">
+                <div class="card-body p-5">
+                    <i class="fas fa-chart-line feature-icon"></i>
+                    <h3 class="mb-3">Get Results</h3>
+                    <p class="text-muted">Receive personalized job recommendations with match scores</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-5 text-center">
+                    <h2 class="mb-4">How It Works</h2>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="display-1 text-primary">1️⃣</div>
+                            <h5>Enter Your Skills</h5>
+                            <p class="text-muted">python, sql, communication</p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="display-1 text-primary">2️⃣</div>
+                            <h5>AI Analysis</h5>
+                            <p class="text-muted">We match you with jobs</p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="display-1 text-primary">3️⃣</div>
+                            <h5>View Matches</h5>
+                            <p class="text-muted">See your match percentage</p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="display-1 text-primary">4️⃣</div>
+                            <h5>Improve Skills</h5>
+                            <p class="text-muted">Get learning resources</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

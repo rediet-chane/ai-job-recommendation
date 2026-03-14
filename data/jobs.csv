@@ -1,0 +1,4 @@
+job_id,title,description,required_skills,category,experience_level
+1,Software Developer,"Develop web applications using Python, Django, and SQL",Python; Django; SQL; REST API,Software Development,Entry
+2,Data Analyst,"Analyze data using SQL, Python, and Excel",SQL; Python; Excel; Statistics,Data Science,Entry
+3,Web Designer,"Design websites using HTML, CSS, and JavaScript",HTML; CSS; JavaScript; Figma,Design,Entry
