@@ -195,87 +195,46 @@
 $(document).ready(function() {
     console.log("✅ Document ready");
     
-    // ========== MODAL MANAGER ==========
-    // This ensures modals never get stuck
-    const ModalManager = {
-        // Force remove any stuck modals
-        forceCleanup: function() {
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
-            $('.modal').removeClass('show').css('display', 'none');
-            $('body').css('padding-right', '');
-        },
+    // ========== SIMPLE MODAL FUNCTIONS ==========
+    function showModal(modalId) {
+        // Hide any other open modals
+        $('.modal.show').removeClass('show').hide();
         
-        // Safely show a modal
-        show: function(modalId) {
-            // Clean up first
-            this.forceCleanup();
-            
-            // Get the modal element
-            const modalElement = document.getElementById(modalId);
-            if (!modalElement) {
-                console.error(`Modal ${modalId} not found`);
-                return null;
-            }
-            
-            try {
-                // Create new modal instance
-                const modal = new bootstrap.Modal(modalElement, {
-                    backdrop: true,
-                    keyboard: true
-                });
-                
-                // Show the modal
-                modal.show();
-                
-                // Set up one-time cleanup on hide
-                $(modalElement).one('hidden.bs.modal', function() {
-                    ModalManager.forceCleanup();
-                });
-                
-                return modal;
-            } catch (e) {
-                console.error('Error showing modal:', e);
-                return null;
-            }
-        },
-        
-        // Safely hide a modal
-        hide: function(modalId) {
-            const modalElement = document.getElementById(modalId);
-            if (modalElement) {
-                const modal = bootstrap.Modal.getInstance(modalElement);
-                if (modal) {
-                    modal.hide();
-                }
-            }
-            this.forceCleanup();
-        }
-    };
+        // Show this modal
+        $(`#${modalId}`).addClass('show').css('display', 'block');
+    }
     
-    // Initial cleanup on page load
-    ModalManager.forceCleanup();
+    function hideModal(modalId) {
+        $(`#${modalId}`).removeClass('show').hide();
+    }
+    
+    // Handle close buttons
+    $(document).on('click', '[data-bs-dismiss="modal"], .close-modal-btn', function() {
+        const modal = $(this).closest('.modal');
+        modal.removeClass('show').hide();
+    });
+    
+    // Close on escape key
+    $(document).on('keydown', function(e) {
+        if (e.key === 'Escape') {
+            $('.modal.show').removeClass('show').hide();
+        }
+    });
     
     // ========== EXPERIENCE LEVEL SELECTION ==========
     const expBadges = $('.exp-badge');
     const experienceInput = $('#experience');
     
-    // Initialize with entry level selected
     expBadges.removeClass('active').attr('aria-checked', 'false');
     $('.exp-badge.entry').addClass('active').attr('aria-checked', 'true');
     
-    // Handle click events
     expBadges.on('click', function() {
         const level = $(this).data('level');
-        
         expBadges.removeClass('active').attr('aria-checked', 'false');
         $(this).addClass('active').attr('aria-checked', 'true');
         experienceInput.val(level);
-        
-        console.log("📌 Experience selected:", level);
     });
     
-    // Handle keyboard navigation
     expBadges.on('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
@@ -288,7 +247,6 @@ $(document).ready(function() {
     // ========== FIND JOBS BUTTON ==========
     $('#findJobs').on('click', function(e) {
         e.preventDefault();
-        console.log("🔍 Find Jobs button clicked");
         
         const skills = $('#skills').val().trim();
         
@@ -301,21 +259,15 @@ $(document).ready(function() {
         $('#loading').show();
         $('#results').hide().empty();
         
-        const data = {
-            skills: skills,
-            experience: experienceInput.val()
-        };
-        
-        console.log("📤 Sending data:", data);
-        
         $.ajax({
             url: '/get-recommendations',
             method: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify(data),
+            data: JSON.stringify({
+                skills: skills,
+                experience: experienceInput.val()
+            }),
             success: function(response) {
-                console.log("✅ Response received:", response);
-                
                 $('#findJobs').prop('disabled', false).html('<i class="fas fa-search me-2"></i>Find My Perfect Job');
                 $('#loading').hide();
                 
@@ -330,11 +282,9 @@ $(document).ready(function() {
                     `).show();
                 }
             },
-            error: function(xhr, status, error) {
-                console.error("❌ AJAX Error:", error);
+            error: function() {
                 $('#findJobs').prop('disabled', false).html('<i class="fas fa-search me-2"></i>Find My Perfect Job');
                 $('#loading').hide();
-                
                 $('#results').html(`
                     <div class="alert alert-danger text-center">
                         <i class="fas fa-exclamation-circle me-2"></i>
@@ -386,14 +336,13 @@ $(document).ready(function() {
         $('#results').html(html).show();
     }
     
-    // ========== MODAL FUNCTIONS USING MANAGER ==========
+    // ========== MODAL HANDLERS ==========
     
     // View Skill Gap
     $(document).on('click', '.view-gap', function() {
         const jobId = $(this).data('job');
-        console.log("🔍 Viewing skill gap for job:", jobId);
+        console.log("🔍 Opening gap modal for job:", jobId);
         
-        // Set content
         $('#gapModal .modal-body').html(`
             <div class="text-center p-4">
                 <div class="spinner-border text-primary mb-3" role="status">
@@ -403,10 +352,8 @@ $(document).ready(function() {
             </div>
         `);
         
-        // Show modal using manager
-        ModalManager.show('gapModal');
+        showModal('gapModal');
         
-        // Simulate loading (replace with real AJAX)
         setTimeout(function() {
             $('#gapModal .modal-body').html(`
                 <div class="text-center p-4">
@@ -426,7 +373,7 @@ $(document).ready(function() {
                             <span class="badge bg-info">Low Priority</span>
                         </div>
                     </div>
-                    <button class="btn btn-primary close-modal-btn" data-modal="gapModal">
+                    <button class="btn btn-primary close-modal-btn">
                         <i class="fas fa-times me-2"></i>Close
                     </button>
                 </div>
@@ -437,7 +384,7 @@ $(document).ready(function() {
     // View Learning Resources
     $(document).on('click', '.view-resources', function() {
         const skills = $(this).data('skills');
-        console.log("📚 Viewing resources for skills:", skills);
+        console.log("📚 Opening resources modal");
         
         $('#resourceModal .modal-body').html(`
             <div class="text-center p-4">
@@ -448,7 +395,7 @@ $(document).ready(function() {
             </div>
         `);
         
-        ModalManager.show('resourceModal');
+        showModal('resourceModal');
         
         setTimeout(function() {
             $('#resourceModal .modal-body').html(`
@@ -471,7 +418,7 @@ $(document).ready(function() {
                             <small class="text-muted">4.6 ★ (25,678 ratings)</small>
                         </a>
                     </div>
-                    <button class="btn btn-success close-modal-btn" data-modal="resourceModal">
+                    <button class="btn btn-success close-modal-btn">
                         <i class="fas fa-times me-2"></i>Close
                     </button>
                 </div>
@@ -481,7 +428,7 @@ $(document).ready(function() {
     
     // View Resume Tips
     $(document).on('click', '.view-resume-tips', function() {
-        console.log("📝 Viewing resume tips");
+        console.log("📝 Opening resume tips modal");
         
         $('#resumeModal .modal-body').html(`
             <div class="text-center p-4">
@@ -492,7 +439,7 @@ $(document).ready(function() {
             </div>
         `);
         
-        ModalManager.show('resumeModal');
+        showModal('resumeModal');
         
         setTimeout(function() {
             $('#resumeModal .modal-body').html(`
@@ -513,7 +460,7 @@ $(document).ready(function() {
                             Include relevant projects from GitHub
                         </li>
                     </ul>
-                    <button class="btn btn-info close-modal-btn" data-modal="resumeModal">
+                    <button class="btn btn-info close-modal-btn">
                         <i class="fas fa-times me-2"></i>Close
                     </button>
                 </div>
@@ -521,30 +468,7 @@ $(document).ready(function() {
         }, 1500);
     });
     
-    // Global close button handler
-    $(document).on('click', '.close-modal-btn', function() {
-        const modalId = $(this).data('modal');
-        ModalManager.hide(modalId);
-    });
-    
-    // Global handler for modal close buttons
-    $(document).on('click', '[data-bs-dismiss="modal"]', function() {
-        // Find the closest modal and clean up after it closes
-        const modal = $(this).closest('.modal');
-        modal.one('hidden.bs.modal', function() {
-            ModalManager.forceCleanup();
-        });
-    });
-    
-    // Periodically check for stuck modals (every 2 seconds)
-    setInterval(function() {
-        if ($('.modal.show').length === 0 && $('.modal-backdrop').length > 0) {
-            console.log("🧹 Cleaning up stuck modal backdrop");
-            ModalManager.forceCleanup();
-        }
-    }, 2000);
-    
-    console.log("✅ All handlers initialized with ModalManager");
+    console.log("✅ All handlers initialized");
 });
 </script>
 {% endblock %}
