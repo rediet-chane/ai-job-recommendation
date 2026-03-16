@@ -1,11 +1,13 @@
-job_id,title,description,required_skills,category,experience_level,source
-1,Python Developer,Develop backend services using Python and Django. Experience with REST APIs and SQL databases required.,"Python, Django, SQL, REST API, Git",Software Development,Entry,Sample
-2,Data Analyst,Analyze business data using SQL and Python. Create visualizations and reports for stakeholders.,"SQL, Python, Excel, Data Visualization, Statistics",Data Science,Entry,Sample
-3,Frontend Developer,"Build responsive web interfaces using HTML, CSS, and JavaScript. Experience with React preferred.","HTML, CSS, JavaScript, React, Git",Web Development,Entry,Sample
-4,Full Stack Developer,Develop end-to-end web applications. Strong knowledge of both frontend and backend technologies.,"JavaScript, Python, SQL, HTML, CSS, REST API",Software Development,Intermediate,Sample
-5,Machine Learning Engineer,Build and deploy machine learning models. Experience with scikit-learn and deep learning frameworks.,"Python, Machine Learning, SQL, Scikit-learn, TensorFlow",Data Science,Intermediate,Sample
-6,DevOps Engineer,Manage CI/CD pipelines and cloud infrastructure. Experience with Docker and Kubernetes.,"Docker, Kubernetes, AWS, Linux, Python",DevOps,Intermediate,Sample
-7,UI/UX Designer,Design user interfaces and create prototypes. Strong visual design skills.,"Figma, Adobe XD, UI Design, Prototyping, HTML, CSS",Design,Entry,Sample
-8,Project Manager,Lead software development projects. Coordinate teams and manage stakeholder expectations.,"Agile, Scrum, Communication, Leadership, JIRA",Management,Senior,Sample
-9,QA Engineer,Test software applications and ensure quality. Write and execute test cases.,"Testing, Selenium, Python, SQL, Attention to Detail",Quality Assurance,Entry,Sample
-10,Business Analyst,Bridge gap between business needs and technical solutions. Gather and document requirements.,"Requirements Analysis, Communication, SQL, Excel, Documentation",Business,Intermediate,Sample
+job_id,title,description,required_skills,category,experience_level,salary_range,remote
+1,🌟 Software Developer,"Create amazing web applications using Python, Django, and SQL. Build REST APIs and work with cloud platforms.","Python, Django, SQL, REST API, JavaScript, Git",💻 Software Development,Entry,$60k-$80k,Yes
+2,📊 Data Analyst,"Transform data into insights using SQL, Python, Excel. Create beautiful visualizations and reports.","SQL, Python, Excel, Data Visualization, Statistics, Tableau",📊 Data Science,Entry,$55k-$75k,Hybrid
+3,🎨 Web Designer,"Design stunning websites with HTML, CSS, JavaScript, Figma. Create responsive and user-friendly designs.","HTML, CSS, JavaScript, Figma, Responsive Design, Adobe XD",🎨 Design,Entry,$50k-$70k,Yes
+4,📈 Marketing Specialist,"Manage social media campaigns, SEO, Google Ads, and create engaging content.","Social Media, SEO, Google Ads, Content Writing, Analytics",📈 Marketing,Mid,$45k-$65k,No
+5,💰 Accountant,"Handle financial records, Peachtree, Excel, tax preparation, and financial reporting.","Accounting, Excel, Peachtree, Tax, Financial Reporting, QuickBooks",💰 Finance,Entry,$50k-$70k,Hybrid
+6,🐍 Python Developer,"Build powerful backend services with Python, Flask, FastAPI. Work with databases and APIs.","Python, Flask, FastAPI, PostgreSQL, Git, Docker",💻 Software Development,Entry,$65k-$85k,Yes
+7,🗄️ Database Administrator,"Manage SQL databases, optimize queries, handle backups and database security.","SQL, MySQL, PostgreSQL, Database Design, Backup, Performance",🗄️ Database,Mid,$70k-$90k,No
+8,🤖 Machine Learning Engineer,"Develop ML models using scikit-learn, TensorFlow. Deploy models to production.","Python, Machine Learning, scikit-learn, TensorFlow, SQL",🤖 Data Science,Mid,$80k-$110k,Hybrid
+9,📋 Project Manager,"Lead software projects, manage teams, agile methodology, stakeholder communication.","Project Management, Agile, Communication, Leadership, Jira",📋 Management,Senior,$75k-$95k,Yes
+10,🎯 UX Designer,"Create beautiful user interfaces, wireframes, prototypes. User research and usability testing.","UX Design, Figma, Wireframing, User Research, Prototyping, Sketch",🎨 Design,Entry,$60k-$80k,Yes
+11,🔧 DevOps Engineer,"Manage cloud infrastructure, CI/CD pipelines, Docker, Kubernetes, and AWS.","AWS, Docker, Kubernetes, Jenkins, Linux, Python, Git",🔧 DevOps,Mid,$85k-$105k,Hybrid
+12,🛡️ Cybersecurity Analyst,"Protect systems from security threats, monitor networks, and implement security measures.","Network Security, Risk Assessment, Python, Compliance, Firewalls",🛡️ Security,Senior,$80k-$100k,No

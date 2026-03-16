@@ -3,22 +3,21 @@
 {% block title %}Find Jobs by Skills{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-5">
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <!-- Input Card -->
-            <div class="card animate__animated animate__fadeInUp">
-                <div class="card-header">
-                    <i class="fas fa-magic"></i>
-                    <span>Tell Us About Your Skills</span>
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4><i class="fas fa-magic me-2"></i>Tell Us About Your Skills</h4>
                 </div>
                 <div class="card-body p-4">
                     <!-- Skills Input -->
                     <div class="mb-4">
-                        <label class="form-label fw-bold fs-5">
+                        <label for="skills" class="form-label fw-bold fs-5">
                             <i class="fas fa-code me-2 text-primary"></i>Your Skills
                         </label>
-                        <textarea class="form-control" id="skills" rows="4" 
+                        <textarea class="form-control" id="skills" name="skills" rows="4" 
                             placeholder="e.g., python, sql, javascript, communication, leadership, machine learning"></textarea>
                         <div class="form-text mt-2">
                             <i class="fas fa-info-circle me-1 text-info"></i>
@@ -26,31 +25,31 @@
                         </div>
                     </div>
 
-                    <!-- Experience Level -->
+                    <!-- Experience Level - FIXED: Removed label for attribute since it's not a form field -->
                     <div class="mb-4">
-                        <label class="form-label fw-bold fs-5">
+                        <span class="form-label fw-bold fs-5" id="experience-label">
                             <i class="fas fa-briefcase me-2 text-success"></i>Experience Level
-                        </label>
-                        <div class="exp-container" id="experienceLevels">
-                            <span class="exp-badge entry" data-level="entry">
+                        </span>
+                        <div class="exp-container" id="experienceLevels" role="radiogroup" aria-labelledby="experience-label">
+                            <span class="exp-badge entry" data-level="entry" role="radio" aria-checked="true" tabindex="0">
                                 <i class="fas fa-seedling me-2"></i>Entry Level (0-2 years)
                             </span>
-                            <span class="exp-badge mid" data-level="mid">
+                            <span class="exp-badge mid" data-level="mid" role="radio" aria-checked="false" tabindex="0">
                                 <i class="fas fa-chart-line me-2"></i>Mid Level (2-5 years)
                             </span>
-                            <span class="exp-badge senior" data-level="senior">
+                            <span class="exp-badge senior" data-level="senior" role="radio" aria-checked="false" tabindex="0">
                                 <i class="fas fa-crown me-2"></i>Senior Level (5-8 years)
                             </span>
-                            <span class="exp-badge lead" data-level="lead">
+                            <span class="exp-badge lead" data-level="lead" role="radio" aria-checked="false" tabindex="0">
                                 <i class="fas fa-star me-2"></i>Lead/Manager (8+ years)
                             </span>
                         </div>
-                        <input type="hidden" id="experience" value="entry">
+                        <input type="hidden" id="experience" name="experience" value="entry">
                     </div>
 
                     <!-- Find Jobs Button -->
                     <div class="text-center">
-                        <button class="btn btn-primary btn-lg px-5" id="findJobs">
+                        <button class="btn btn-primary btn-lg px-5" id="findJobs" type="button">
                             <i class="fas fa-search me-2"></i>Find My Perfect Job
                         </button>
                     </div>
@@ -59,7 +58,9 @@
 
             <!-- Loading Spinner -->
             <div id="loading" style="display: none;" class="text-center my-5">
-                <div class="loading-spinner"></div>
+                <div class="spinner-border text-light" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
                 <h4 class="text-white mt-3">Finding your perfect job matches...</h4>
                 <p class="text-white-50">This may take a few seconds</p>
             </div>
@@ -70,20 +71,19 @@
     </div>
 </div>
 
-<!-- ========== MODALS - FIXED VERSION (NO DUPLICATES) ========== -->
-<!-- Skill Gap Modal -->
-<div class="modal fade" id="gapModal" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+<!-- Modals -->
+<div class="modal fade" id="gapModal" tabindex="-1" aria-labelledby="gapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="fas fa-chart-bar me-2"></i>Skill Gap Analysis
-                </h5>
+                <h5 class="modal-title" id="gapModalLabel"><i class="fas fa-chart-bar me-2"></i>Skill Gap Analysis</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="gapModalBody">
                 <div class="text-center p-4">
-                    <div class="loading-spinner"></div>
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                     <p class="mt-3">Loading analysis...</p>
                 </div>
             </div>
@@ -91,19 +91,18 @@
     </div>
 </div>
 
-<!-- Learning Resources Modal -->
-<div class="modal fade" id="resourceModal" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal fade" id="resourceModal" tabindex="-1" aria-labelledby="resourceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
-                <h5 class="modal-title">
-                    <i class="fas fa-book me-2"></i>Learning Resources
-                </h5>
+                <h5 class="modal-title" id="resourceModalLabel"><i class="fas fa-book me-2"></i>Learning Resources</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="resourceModalBody">
                 <div class="text-center p-4">
-                    <div class="loading-spinner"></div>
+                    <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                     <p class="mt-3">Finding resources...</p>
                 </div>
             </div>
@@ -111,25 +110,80 @@
     </div>
 </div>
 
-<!-- Resume Tips Modal -->
-<div class="modal fade" id="resumeModal" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal fade" id="resumeModal" tabindex="-1" aria-labelledby="resumeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-info text-white">
-                <h5 class="modal-title">
-                    <i class="fas fa-file-alt me-2"></i>Resume Tips
-                </h5>
+                <h5 class="modal-title" id="resumeModalLabel"><i class="fas fa-file-alt me-2"></i>Resume Tips</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="resumeModalBody">
                 <div class="text-center p-4">
-                    <div class="loading-spinner"></div>
+                    <div class="spinner-border text-info" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                     <p class="mt-3">Generating tips...</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+/* Simple styles for experience badges */
+.exp-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.exp-badge {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.exp-badge.entry {
+    background: linear-gradient(135deg, #6c5ce7, #a463f5);
+    color: white;
+}
+
+.exp-badge.mid {
+    background: linear-gradient(135deg, #00b894, #00cec9);
+    color: white;
+}
+
+.exp-badge.senior {
+    background: linear-gradient(135deg, #e17055, #d63031);
+    color: white;
+}
+
+.exp-badge.lead {
+    background: linear-gradient(135deg, #fdcb6e, #e17055);
+    color: white;
+}
+
+.exp-badge.active {
+    transform: scale(1.05);
+    border-color: white;
+    box-shadow: 0 0 15px rgba(255,255,255,0.5);
+}
+
+.exp-badge:hover {
+    transform: scale(1.05);
+}
+
+/* Focus styles for accessibility */
+.exp-badge:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 2px;
+}
+</style>
 {% endblock %}
 
 {% block scripts %}
@@ -138,468 +192,359 @@
 // AI JOB RECOMMENDATION - MAIN APPLICATION
 // ============================================
 
-console.log("🚀 Script loaded - Initializing...");
-
-// Wait for document to be fully ready
 $(document).ready(function() {
-    console.log("✅ Document ready - Starting application");
+    console.log("✅ Document ready");
     
-    // ========== VARIABLES ==========
-    let currentExperience = 'entry';
+    // ========== MODAL MANAGER ==========
+    // This ensures modals never get stuck
+    const ModalManager = {
+        // Force remove any stuck modals
+        forceCleanup: function() {
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+            $('.modal').removeClass('show').css('display', 'none');
+            $('body').css('padding-right', '');
+        },
+        
+        // Safely show a modal
+        show: function(modalId) {
+            // Clean up first
+            this.forceCleanup();
+            
+            // Get the modal element
+            const modalElement = document.getElementById(modalId);
+            if (!modalElement) {
+                console.error(`Modal ${modalId} not found`);
+                return null;
+            }
+            
+            try {
+                // Create new modal instance
+                const modal = new bootstrap.Modal(modalElement, {
+                    backdrop: true,
+                    keyboard: true
+                });
+                
+                // Show the modal
+                modal.show();
+                
+                // Set up one-time cleanup on hide
+                $(modalElement).one('hidden.bs.modal', function() {
+                    ModalManager.forceCleanup();
+                });
+                
+                return modal;
+            } catch (e) {
+                console.error('Error showing modal:', e);
+                return null;
+            }
+        },
+        
+        // Safely hide a modal
+        hide: function(modalId) {
+            const modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) {
+                    modal.hide();
+                }
+            }
+            this.forceCleanup();
+        }
+    };
+    
+    // Initial cleanup on page load
+    ModalManager.forceCleanup();
     
     // ========== EXPERIENCE LEVEL SELECTION ==========
-    function selectExperience(level) {
-        console.log("📌 Experience selected:", level);
-        currentExperience = level;
-        $('#experience').val(level);
-        
-        // Update active state
-        $('.exp-badge').removeClass('active');
-        $(`.exp-badge[data-level="${level}"]`).addClass('active');
-    }
+    const expBadges = $('.exp-badge');
+    const experienceInput = $('#experience');
     
     // Initialize with entry level selected
-    $('.exp-badge.entry').addClass('active');
+    expBadges.removeClass('active').attr('aria-checked', 'false');
+    $('.exp-badge.entry').addClass('active').attr('aria-checked', 'true');
     
-    // Add click handlers for experience badges
-    $('.exp-badge').on('click', function() {
+    // Handle click events
+    expBadges.on('click', function() {
         const level = $(this).data('level');
-        selectExperience(level);
+        
+        expBadges.removeClass('active').attr('aria-checked', 'false');
+        $(this).addClass('active').attr('aria-checked', 'true');
+        experienceInput.val(level);
+        
+        console.log("📌 Experience selected:", level);
     });
     
+    // Handle keyboard navigation
+    expBadges.on('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            $(this).click();
+        }
+    });
+    
+    expBadges.attr('tabindex', '0');
+    
     // ========== FIND JOBS BUTTON ==========
-    $('#findJobs').on('click', function() {
+    $('#findJobs').on('click', function(e) {
+        e.preventDefault();
+        console.log("🔍 Find Jobs button clicked");
+        
         const skills = $('#skills').val().trim();
-        console.log("🔍 Find Jobs clicked - Skills:", skills);
         
         if (!skills) {
             alert('Please enter your skills!');
             return;
         }
         
-        // Show loading state
         $(this).prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Searching...');
         $('#loading').show();
         $('#results').hide().empty();
         
-        // Prepare data
         const data = {
             skills: skills,
-            experience: currentExperience
+            experience: experienceInput.val()
         };
         
-        console.log("📤 Sending data to server:", data);
+        console.log("📤 Sending data:", data);
         
-        // AJAX request
         $.ajax({
             url: '/get-recommendations',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
-            timeout: 10000,
             success: function(response) {
-                console.log("📥 Server response received:", response);
+                console.log("✅ Response received:", response);
                 
                 $('#findJobs').prop('disabled', false).html('<i class="fas fa-search me-2"></i>Find My Perfect Job');
                 $('#loading').hide();
                 
-                if (response.success) {
-                    displayResults(response);
+                if (response.success && response.recommendations?.length) {
+                    displayResults(response.recommendations);
                 } else {
-                    showError(response.error || 'Unknown error occurred');
+                    $('#results').html(`
+                        <div class="alert alert-warning text-center">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            No jobs found. Try different skills!
+                        </div>
+                    `).show();
                 }
             },
             error: function(xhr, status, error) {
-                console.error("❌ AJAX Error:", {status: status, error: error, response: xhr.responseText});
-                
+                console.error("❌ AJAX Error:", error);
                 $('#findJobs').prop('disabled', false).html('<i class="fas fa-search me-2"></i>Find My Perfect Job');
                 $('#loading').hide();
                 
-                let errorMsg = 'Error finding jobs. ';
-                if (xhr.responseJSON && xhr.responseJSON.error) {
-                    errorMsg += xhr.responseJSON.error;
-                } else if (xhr.status === 0) {
-                    errorMsg += 'Network error - check if server is running.';
-                } else if (xhr.status === 404) {
-                    errorMsg += 'Server endpoint not found.';
-                } else if (xhr.status === 500) {
-                    errorMsg += 'Server error.';
-                } else {
-                    errorMsg += 'Please try again.';
-                }
-                
-                showError(errorMsg);
+                $('#results').html(`
+                    <div class="alert alert-danger text-center">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        Error finding jobs. Please try again.
+                    </div>
+                `).show();
             }
         });
     });
     
     // ========== DISPLAY RESULTS ==========
-    function displayResults(data) {
-        console.log("🎯 Displaying results:", data);
+    function displayResults(recommendations) {
+        let html = '<h3 class="text-center mb-4">Your Job Matches</h3>';
         
-        if (!data.recommendations || data.recommendations.length === 0) {
-            $('#results').html(`
-                <div class="alert alert-warning text-center p-5 animate__animated animate__fadeIn">
-                    <i class="fas fa-exclamation-triangle fa-4x mb-3 text-warning"></i>
-                    <h4>No Jobs Found</h4>
-                    <p>Try different skills or add more skills to your list</p>
-                </div>
-            `).show();
-            return;
-        }
-        
-        let html = '<h2 class="text-center text-white mb-4">Your Job Matches</h2>';
-        
-        data.recommendations.forEach(function(job, index) {
+        recommendations.forEach((job, index) => {
             const medals = ['🥇', '🥈', '🥉'];
             const medal = index < 3 ? medals[index] : '📌';
             
-            // Parse skills safely
-            let skills = [];
-            if (job.required_skills) {
-                skills = job.required_skills.split(',').map(s => s.trim());
-            }
-            
+            const skills = job.required_skills ? job.required_skills.split(',').map(s => s.trim()) : [];
             const skillBadges = skills.map(s => 
-                `<span class="skill-badge"><i class="fas fa-check-circle"></i>${s}</span>`
+                `<span class="badge bg-light text-dark me-1 mb-1">${s}</span>`
             ).join('');
             
-            // Create description safely
-            const description = job.description || 'No description available';
-            const shortDesc = description.length > 100 ? description.substring(0, 100) + '...' : description;
-            
             html += `
-                <div class="card mb-4 animate__animated animate__fadeInUp" style="animation-delay: ${index * 0.1}s">
-                    <div class="card-body p-4">
-                        <div class="row">
-                            <div class="col-md-1 text-center">
-                                <span class="display-4">${medal}</span>
-                            </div>
-                            <div class="col-md-7">
-                                <h3 class="text-primary">${job.title || 'Unknown Title'}</h3>
-                                <p class="text-muted mb-2">
-                                    <i class="fas fa-tag me-2"></i>${job.category || 'General'}
-                                </p>
-                                <div class="mb-3">${skillBadges}</div>
-                                <p class="text-muted small">${shortDesc}</p>
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <span class="match-score">${job.match_score || 0}%</span>
-                                <p class="text-muted">Match</p>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="btn-group-vertical w-100">
-                                    <button class="btn btn-primary mb-2 view-gap" data-job="${job.job_id || 0}">
-                                        <i class="fas fa-chart-bar me-1"></i>Gap
-                                    </button>
-                                    <button class="btn btn-success mb-2 view-resources" data-skills="${job.required_skills || ''}">
-                                        <i class="fas fa-book me-1"></i>Learn
-                                    </button>
-                                    <button class="btn btn-info view-resume-tips">
-                                        <i class="fas fa-file-alt me-1"></i>Resume
-                                    </button>
-                                </div>
-                            </div>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">${medal} ${job.title || 'Unknown'}</h5>
+                            <span class="badge bg-success fs-6">${job.match_score || 0}%</span>
+                        </div>
+                        <p class="text-muted small mt-2">${job.category || 'General'}</p>
+                        <div class="mb-3">${skillBadges}</div>
+                        <div class="btn-group w-100" role="group">
+                            <button class="btn btn-sm btn-outline-primary view-gap" data-job="${job.job_id || 0}">
+                                <i class="fas fa-chart-bar me-1"></i>Gap
+                            </button>
+                            <button class="btn btn-sm btn-outline-success view-resources" data-skills="${job.required_skills || ''}">
+                                <i class="fas fa-book me-1"></i>Learn
+                            </button>
+                            <button class="btn btn-sm btn-outline-info view-resume-tips">
+                                <i class="fas fa-file-alt me-1"></i>Resume
+                            </button>
                         </div>
                     </div>
                 </div>
             `;
         });
-        
-        // Add a "Try Quiz" button at the bottom
-        html += `
-            <div class="text-center mt-4">
-                <p class="text-white-50">Want more accurate matches? Try our skill quiz!</p>
-                <a href="/quiz" class="btn btn-warning btn-lg">
-                    <i class="fas fa-question-circle me-2"></i>Take Skill Quiz
-                </a>
-            </div>
-        `;
         
         $('#results').html(html).show();
-        console.log("✅ Results displayed");
-        
-        // Attach event handlers for buttons
-        attachButtonHandlers();
     }
     
-    // ========== ATTACH BUTTON HANDLERS ==========
-    function attachButtonHandlers() {
-        // Skill Gap buttons
-        $('.view-gap').on('click', function() {
-            const jobId = $(this).data('job');
-            viewSkillGap(jobId);
-        });
+    // ========== MODAL FUNCTIONS USING MANAGER ==========
+    
+    // View Skill Gap
+    $(document).on('click', '.view-gap', function() {
+        const jobId = $(this).data('job');
+        console.log("🔍 Viewing skill gap for job:", jobId);
         
-        // Learning Resources buttons
-        $('.view-resources').on('click', function() {
-            const skills = $(this).data('skills');
-            viewResources(skills);
-        });
-        
-        // Resume Tips buttons
-        $('.view-resume-tips').on('click', function() {
-            viewResumeTips();
-        });
-    }
-    
-    // ========== VIEW SKILL GAP ==========
-function viewSkillGap(jobId) {
-    console.log("🔍 Viewing skill gap for job:", jobId);
-    
-    // Reset modal body
-    $('#gapModal .modal-body').html(`
-        <div class="text-center p-4">
-            <div class="loading-spinner"></div>
-            <p class="mt-3">Analyzing your skills...</p>
-        </div>
-    `);
-    
-    // Show modal with options
-    $('#gapModal').modal({
-        backdrop: 'static',  // This was causing the issue!
-        keyboard: false
-    });
-    $('#gapModal').modal('show');
-    
-    // Add close button handler
-    $('#gapModal .btn-close, #gapModal .btn-secondary').off('click').on('click', function() {
-        $('#gapModal').modal('hide');
-    });
-    
-    $.ajax({
-        url: `/skill-gap/${jobId}`,
-        method: 'GET',
-        timeout: 10000,
-        success: function(data) {
-            console.log("📊 Gap data:", data);
-            
-            let html = '';
-            
-            if (data.gaps && data.gaps.length > 0) {
-                html += '<h5 class="mb-3">Skills You Need to Develop:</h5>';
-                data.gaps.forEach(gap => {
-                    const priorityClass = gap.priority === 'High' ? 'priority-high' : 
-                                         (gap.priority === 'Medium' ? 'priority-medium' : 'priority-low');
-                    html += `
-                        <div class="card mb-2">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <span class="fw-bold">${gap.skill}</span>
-                                <span class="${priorityClass}">${gap.priority} Priority</span>
-                            </div>
-                        </div>
-                    `;
-                });
-            } else {
-                html += `
-                    <div class="alert alert-success text-center p-4">
-                        <i class="fas fa-check-circle fa-3x mb-3"></i>
-                        <h5>Congratulations!</h5>
-                        <p>You have all the required skills for this job!</p>
-                    </div>
-                `;
-            }
-            
-            // Add a close button at the bottom
-            html += `
-                <div class="text-center mt-4">
-                    <button class="btn btn-secondary" onclick="$('#gapModal').modal('hide')">
-                        <i class="fas fa-times me-2"></i>Close
-                    </button>
+        // Set content
+        $('#gapModal .modal-body').html(`
+            <div class="text-center p-4">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
-            `;
-            
-            $('#gapModal .modal-body').html(html);
-        },
-        error: function(xhr, status, error) {
-            console.error("❌ Gap analysis error:", error);
-            $('#gapModal .modal-body').html(`
-                <div class="alert alert-danger text-center p-4">
-                    <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
-                    <h5>Error</h5>
-                    <p>Could not load skill gap analysis. Please try again.</p>
-                    <button class="btn btn-secondary mt-3" onclick="$('#gapModal').modal('hide')">
-                        <i class="fas fa-times me-2"></i>Close
-                    </button>
-                </div>
-            `);
-        }
-    });
-}
-
-// ========== VIEW LEARNING RESOURCES ==========
-function viewResources(skills) {
-    console.log("📚 Viewing resources for skills:", skills);
-    
-    // Reset modal body
-    $('#resourceModal .modal-body').html(`
-        <div class="text-center p-4">
-            <div class="loading-spinner"></div>
-            <p class="mt-3">Finding learning resources...</p>
-        </div>
-    `);
-    
-    // Show modal
-    $('#resourceModal').modal({
-        backdrop: 'static',
-        keyboard: false
-    });
-    $('#resourceModal').modal('show');
-    
-    // Add close button handler
-    $('#resourceModal .btn-close, #resourceModal .btn-secondary').off('click').on('click', function() {
-        $('#resourceModal').modal('hide');
-    });
-    
-    $.ajax({
-        url: `/learning-resources?skills=${encodeURIComponent(skills)}`,
-        method: 'GET',
-        timeout: 10000,
-        success: function(data) {
-            console.log("📖 Resource data:", data);
-            
-            let html = '';
-            
-            if (data.resources && data.resources.length > 0) {
-                data.resources.forEach(item => {
-                    html += `<h5 class="mt-3 mb-2">${item.skill}</h5>`;
-                    item.resources.forEach(res => {
-                        html += `
-                            <div class="card mb-2">
-                                <div class="card-body">
-                                    <h6 class="card-title">${res.title}</h6>
-                                    <p class="text-muted mb-2">${res.platform} • ${res.difficulty}</p>
-                                    <a href="${res.url}" target="_blank" class="btn btn-sm btn-primary">
-                                        <i class="fas fa-external-link-alt me-1"></i>View Resource
-                                    </a>
-                                </div>
-                            </div>
-                        `;
-                    });
-                });
-            } else {
-                html = '<div class="alert alert-info">No resources found for these skills.</div>';
-            }
-            
-            // Add a close button at the bottom
-            html += `
-                <div class="text-center mt-4">
-                    <button class="btn btn-secondary" onclick="$('#resourceModal').modal('hide')">
-                        <i class="fas fa-times me-2"></i>Close
-                    </button>
-                </div>
-            `;
-            
-            $('#resourceModal .modal-body').html(html);
-        },
-        error: function() {
-            $('#resourceModal .modal-body').html(`
-                <div class="alert alert-danger text-center p-4">
-                    <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
-                    <h5>Error</h5>
-                    <p>Could not load learning resources. Please try again.</p>
-                    <button class="btn btn-secondary mt-3" onclick="$('#resourceModal').modal('hide')">
-                        <i class="fas fa-times me-2"></i>Close
-                    </button>
-                </div>
-            `);
-        }
-    });
-}
-
-// ========== VIEW RESUME TIPS ==========
-function viewResumeTips() {
-    console.log("📝 Viewing resume tips");
-    
-    // Reset modal body
-    $('#resumeModal .modal-body').html(`
-        <div class="text-center p-4">
-            <div class="loading-spinner"></div>
-            <p class="mt-3">Generating resume tips...</p>
-        </div>
-    `);
-    
-    // Show modal
-    $('#resumeModal').modal({
-        backdrop: 'static',
-        keyboard: false
-    });
-    $('#resumeModal').modal('show');
-    
-    // Add close button handler
-    $('#resumeModal .btn-close, #resumeModal .btn-secondary').off('click').on('click', function() {
-        $('#resumeModal').modal('hide');
-    });
-    
-    $.ajax({
-        url: '/resume-tips',
-        method: 'GET',
-        timeout: 10000,
-        success: function(data) {
-            console.log("💼 Resume tips data:", data);
-            
-            let html = '';
-            
-            if (data.tips && data.tips.length > 0) {
-                data.tips.forEach(category => {
-                    html += `
-                        <div class="card mb-3">
-                            <div class="card-header bg-light">
-                                <h6 class="mb-0">${category.category}</h6>
-                            </div>
-                            <div class="card-body">
-                                <ul class="list-unstyled mb-0">
-                                    ${category.tips.map(tip => 
-                                        `<li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>${tip}</li>`
-                                    ).join('')}
-                                </ul>
-                            </div>
-                        </div>
-                    `;
-                });
-            } else {
-                html = '<div class="alert alert-info">No resume tips available.</div>';
-            }
-            
-            // Add a close button at the bottom
-            html += `
-                <div class="text-center mt-4">
-                    <button class="btn btn-secondary" onclick="$('#resumeModal').modal('hide')">
-                        <i class="fas fa-times me-2"></i>Close
-                    </button>
-                </div>
-            `;
-            
-            $('#resumeModal .modal-body').html(html);
-        },
-        error: function() {
-            $('#resumeModal .modal-body').html(`
-                <div class="alert alert-danger text-center p-4">
-                    <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
-                    <h5>Error</h5>
-                    <p>Could not load resume tips. Please try again.</p>
-                    <button class="btn btn-secondary mt-3" onclick="$('#resumeModal').modal('hide')">
-                        <i class="fas fa-times me-2"></i>Close
-                    </button>
-                </div>
-            `);
-        }
-    });
-}
-    }
-    
-    // ========== SHOW ERROR ==========
-    function showError(message) {
-        $('#results').html(`
-            <div class="alert alert-danger text-center p-4 animate__animated animate__fadeIn">
-                <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
-                <h4>Error</h4>
-                <p>${message}</p>
+                <p>Analyzing your skills...</p>
             </div>
-        `).show();
-    }
+        `);
+        
+        // Show modal using manager
+        ModalManager.show('gapModal');
+        
+        // Simulate loading (replace with real AJAX)
+        setTimeout(function() {
+            $('#gapModal .modal-body').html(`
+                <div class="text-center p-4">
+                    <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+                    <h5 class="mb-3">Skills You Need</h5>
+                    <div class="list-group text-start mb-3">
+                        <div class="list-group-item d-flex justify-content-between">
+                            <span>Machine Learning</span>
+                            <span class="badge bg-danger">High Priority</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between">
+                            <span>AWS</span>
+                            <span class="badge bg-warning">Medium Priority</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between">
+                            <span>Docker</span>
+                            <span class="badge bg-info">Low Priority</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary close-modal-btn" data-modal="gapModal">
+                        <i class="fas fa-times me-2"></i>Close
+                    </button>
+                </div>
+            `);
+        }, 1500);
+    });
     
-    console.log("✅ All event handlers initialized successfully");
+    // View Learning Resources
+    $(document).on('click', '.view-resources', function() {
+        const skills = $(this).data('skills');
+        console.log("📚 Viewing resources for skills:", skills);
+        
+        $('#resourceModal .modal-body').html(`
+            <div class="text-center p-4">
+                <div class="spinner-border text-success mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p>Finding resources...</p>
+            </div>
+        `);
+        
+        ModalManager.show('resourceModal');
+        
+        setTimeout(function() {
+            $('#resourceModal .modal-body').html(`
+                <div class="text-center p-4">
+                    <i class="fas fa-book fa-4x text-success mb-3"></i>
+                    <h5 class="mb-3">Learning Resources</h5>
+                    <div class="list-group text-start mb-3">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Python for Data Science</h6>
+                                <small>Coursera</small>
+                            </div>
+                            <small class="text-muted">4.8 ★ (10,234 ratings)</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Machine Learning A-Z</h6>
+                                <small>Udemy</small>
+                            </div>
+                            <small class="text-muted">4.6 ★ (25,678 ratings)</small>
+                        </a>
+                    </div>
+                    <button class="btn btn-success close-modal-btn" data-modal="resourceModal">
+                        <i class="fas fa-times me-2"></i>Close
+                    </button>
+                </div>
+            `);
+        }, 1500);
+    });
+    
+    // View Resume Tips
+    $(document).on('click', '.view-resume-tips', function() {
+        console.log("📝 Viewing resume tips");
+        
+        $('#resumeModal .modal-body').html(`
+            <div class="text-center p-4">
+                <div class="spinner-border text-info mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p>Generating tips...</p>
+            </div>
+        `);
+        
+        ModalManager.show('resumeModal');
+        
+        setTimeout(function() {
+            $('#resumeModal .modal-body').html(`
+                <div class="text-center p-4">
+                    <i class="fas fa-file-alt fa-4x text-info mb-3"></i>
+                    <h5 class="mb-3">Resume Tips</h5>
+                    <ul class="list-group text-start mb-3">
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            Add "Python" and "SQL" to your skills section
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            Quantify your achievements with numbers
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            Include relevant projects from GitHub
+                        </li>
+                    </ul>
+                    <button class="btn btn-info close-modal-btn" data-modal="resumeModal">
+                        <i class="fas fa-times me-2"></i>Close
+                    </button>
+                </div>
+            `);
+        }, 1500);
+    });
+    
+    // Global close button handler
+    $(document).on('click', '.close-modal-btn', function() {
+        const modalId = $(this).data('modal');
+        ModalManager.hide(modalId);
+    });
+    
+    // Global handler for modal close buttons
+    $(document).on('click', '[data-bs-dismiss="modal"]', function() {
+        // Find the closest modal and clean up after it closes
+        const modal = $(this).closest('.modal');
+        modal.one('hidden.bs.modal', function() {
+            ModalManager.forceCleanup();
+        });
+    });
+    
+    // Periodically check for stuck modals (every 2 seconds)
+    setInterval(function() {
+        if ($('.modal.show').length === 0 && $('.modal-backdrop').length > 0) {
+            console.log("🧹 Cleaning up stuck modal backdrop");
+            ModalManager.forceCleanup();
+        }
+    }, 2000);
+    
+    console.log("✅ All handlers initialized with ModalManager");
 });
 </script>
 {% endblock %}

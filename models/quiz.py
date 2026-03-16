@@ -1,94 +1,126 @@
-import json
 import random
 
 class SkillQuiz:
     def __init__(self):
-        """Initialize quiz with questions"""
+        """Initialize beautiful quiz with colorful questions"""
         self.questions = self.load_questions()
         self.current_score = 0
         self.responses = []
+        print("🎨 Loading colorful quiz questions...")
         
     def load_questions(self):
-        """Load quiz questions"""
+        """Load beautiful quiz questions with categories"""
         return [
             {
                 'id': 1,
-                'category': 'Programming',
+                'category': '💻 Programming',
                 'question': 'How would you process a large CSV file that doesn\'t fit in memory?',
                 'options': [
-                    'Load the entire file with pandas.read_csv()',
+                    'Load entire file with pandas.read_csv()',
                     'Use chunksize parameter to process in batches',
                     'Convert to Excel first',
-                    'Split the file manually with a text editor'
+                    'Use a text editor to split manually'
                 ],
                 'correct': 1,
                 'skill': 'python',
-                'weight': 3
+                'weight': 3,
+                'explanation': 'Using chunksize allows processing large files in manageable batches!'
             },
             {
                 'id': 2,
-                'category': 'Data Analysis',
-                'question': 'What method is best for handling missing values in a dataset?',
-                'options': [
-                    'Delete all rows with missing values',
-                    'Fill with mean/median or use interpolation',
-                    'Ignore them completely',
-                    'Convert them to zeros'
-                ],
-                'correct': 1,
-                'skill': 'data_analysis',
-                'weight': 2
+                'category': '🗄️ Database',
+                'question': 'Which SQL command is used to retrieve data from a database?',
+                'options': ['INSERT', 'UPDATE', 'SELECT', 'DELETE'],
+                'correct': 2,
+                'skill': 'sql',
+                'weight': 2,
+                'explanation': 'SELECT is the command to query and retrieve data!'
             },
             {
                 'id': 3,
-                'category': 'Database',
-                'question': 'Which SQL command is used to retrieve data from a database?',
+                'category': '🤖 Machine Learning',
+                'question': 'Which algorithm is best for classification problems?',
                 'options': [
-                    'INSERT',
-                    'UPDATE',
-                    'SELECT',
-                    'DELETE'
+                    'Linear Regression',
+                    'K-Means Clustering',
+                    'Random Forest',
+                    'Apriori Algorithm'
                 ],
                 'correct': 2,
-                'skill': 'sql',
-                'weight': 2
+                'skill': 'machine_learning',
+                'weight': 3,
+                'explanation': 'Random Forest is excellent for classification tasks!'
             },
             {
                 'id': 4,
-                'category': 'Soft Skills',
-                'question': 'A teammate misses deadlines repeatedly. What\'s the best approach?',
+                'category': '💼 Soft Skills',
+                'question': 'A teammate misses deadlines. What\'s the best approach?',
                 'options': [
                     'Report to manager immediately',
-                    'Privately discuss challenges and offer help',
+                    'Privately discuss and offer help',
                     'Ignore it to avoid conflict',
                     'Do their work for them'
                 ],
                 'correct': 1,
                 'skill': 'communication',
-                'weight': 1
+                'weight': 1,
+                'explanation': 'Private, supportive communication is key!'
             },
             {
                 'id': 5,
-                'category': 'Web Development',
-                'question': 'What does API stand for?',
+                'category': '☁️ Cloud',
+                'question': 'What does IaaS stand for in cloud computing?',
                 'options': [
-                    'Application Programming Interface',
-                    'Advanced Programming Integration',
-                    'Application Process Integration',
-                    'Automated Program Interface'
+                    'Infrastructure as a Service',
+                    'Internet as a Service',
+                    'Integration as a Service',
+                    'Identity as a Service'
                 ],
                 'correct': 0,
-                'skill': 'api',
-                'weight': 1
+                'skill': 'aws',
+                'weight': 2,
+                'explanation': 'IaaS provides virtualized computing resources over the internet!'
+            },
+            {
+                'id': 6,
+                'category': '🔧 DevOps',
+                'question': 'What is Docker primarily used for?',
+                'options': [
+                    'Virtual machines',
+                    'Containerization',
+                    'Database management',
+                    'Version control'
+                ],
+                'correct': 1,
+                'skill': 'docker',
+                'weight': 2,
+                'explanation': 'Docker containerizes applications for consistency across environments!'
+            },
+            {
+                'id': 7,
+                'category': '🎨 Design',
+                'question': 'What does UX stand for?',
+                'options': [
+                    'User Experience',
+                    'Universal XML',
+                    'Unix Extension',
+                    'User Xpress'
+                ],
+                'correct': 0,
+                'skill': 'ux_design',
+                'weight': 1,
+                'explanation': 'UX focuses on the overall feel of the user experience!'
             }
         ]
     
     def get_questions(self):
-        """Get all questions"""
-        return self.questions
+        """Get shuffled questions"""
+        questions = self.questions.copy()
+        random.shuffle(questions)
+        return questions
     
     def check_answer(self, question_id, selected_option):
-        """Check if answer is correct"""
+        """Check answer and return result"""
         question = next((q for q in self.questions if q['id'] == question_id), None)
         if question:
             is_correct = (selected_option == question['correct'])
@@ -106,12 +138,13 @@ class SkillQuiz:
             return {
                 'correct': is_correct,
                 'skill': question['skill'],
-                'points_earned': question['weight'] if is_correct else 0
+                'points': question['weight'] if is_correct else 0,
+                'explanation': question.get('explanation', '')
             }
         return None
     
     def calculate_skill_profile(self):
-        """Generate skill profile from quiz responses"""
+        """Generate skill profile from responses"""
         skill_scores = {}
         total_possible = sum(q['weight'] for q in self.questions)
         
@@ -127,31 +160,30 @@ class SkillQuiz:
             if response['correct']:
                 skill_scores[skill]['correct'] += 1
         
-        # Generate skill list based on performance
+        # Generate skills based on performance
         skills = []
         display_skills = []
         
         for skill, scores in skill_scores.items():
             if scores['correct'] > 0:
-                # Add skill multiple times based on proficiency
                 proficiency = scores['correct'] / scores['total']
                 count = max(1, int(proficiency * 3))
                 skills.extend([skill] * count)
                 display_skills.append(skill)
         
         return {
-            'skills': list(set(skills)),  # Remove duplicates for processing
-            'display_skills': list(set(display_skills)),  # For display
+            'skills': list(set(skills)),
+            'display_skills': list(set(display_skills)),
             'score': self.current_score,
             'total_possible': total_possible
         }
     
     def reset(self):
-        """Reset quiz state"""
+        """Reset quiz"""
         self.current_score = 0
         self.responses = []
 
-# Test the quiz
+# Test
 if __name__ == "__main__":
     quiz = SkillQuiz()
-    print(f"✅ Loaded {len(quiz.questions)} questions")
+    print(f"✅ Loaded {len(quiz.questions)} beautiful questions")
