@@ -175,7 +175,10 @@ $('#nextBtn').click(function() {
         return;
     }
     
+    // Store as integer
     answers[currentQuestion] = parseInt(selected);
+    console.log(`📝 Answer for Q${q.id} saved:`, answers[currentQuestion]);
+    
     currentQuestion++;
     displayQuestion(currentQuestion);
 });
@@ -195,6 +198,7 @@ $('#prevBtn').click(function() {
 
 // Submit quiz
 $('#submitBtn').click(function() {
+    // Save last answer
     const q = questions[currentQuestion];
     const selected = $(`input[name="question${q.id}"]:checked`).val();
     
@@ -203,9 +207,18 @@ $('#submitBtn').click(function() {
         return;
     }
     
-    answers[currentQuestion] = parseInt(selected);
+    // Format answers properly - THIS IS THE KEY FIX
+    let formattedAnswers = [];
+    for (let i = 0; i <= currentQuestion; i++) {
+        formattedAnswers.push({
+            question_id: questions[i].id,
+            selected: answers[i]
+        });
+    }
     
-    // Hide quiz, show loading
+    console.log("📤 Submitting answers:", formattedAnswers);
+    
+    // Show loading
     $('#quizCard').hide();
     $('.d-flex').hide();
     $('#loading').show();
@@ -215,12 +228,15 @@ $('#submitBtn').click(function() {
         url: '/submit-quiz',
         method: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({ answers: answers }),
+        data: JSON.stringify({ answers: formattedAnswers }), // Send formatted answers
         success: function(response) {
+            console.log("✅ Quiz submitted successfully:", response);
             $('#loading').hide();
             displayResults(response);
         },
-        error: function() {
+        error: function(xhr, status, error) {
+            console.error("❌ Error submitting quiz:", error);
+            console.error("Response:", xhr.responseText);
             $('#loading').hide();
             alert('Error submitting quiz. Please try again.');
             $('#quizCard').show();
@@ -228,7 +244,6 @@ $('#submitBtn').click(function() {
         }
     });
 });
-
 function displayResults(data) {
     let html = `
         <div class="card animate__animated animate__fadeInUp">
@@ -313,52 +328,142 @@ function displayResults(data) {
     });
 }
 
+// ========== VIEW SKILL GAP ==========
 function viewSkillGap(jobId) {
-    $('#gapModal').modal('show');
-    $('#gapModalBody').html(`
+    console.log("🔍 Viewing skill gap for job:", jobId);
+    
+    if (!jobId) {
+        console.error("❌ No job ID provided");
+        return;
+    }
+    
+    // Force cleanup any stuck modals
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+    $('.modal.show').removeClass('show').hide();
+    
+    // Set loading content
+    $('#gapModal .modal-body').html(`
         <div class="text-center p-4">
-            <div class="loading-spinner"></div>
-            <p class="mt-3">Analyzing your skills...</p>
+            <div class="spinner-border text-primary mb-3" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p>Analyzing your skills...</p>
         </div>
     `);
     
+    // Show modal
+    $('#gapModal').addClass('show').css('display', 'block');
+    
+    // Make AJAX request
     $.ajax({
         url: `/skill-gap/${jobId}`,
         method: 'GET',
+        timeout: 10000,
         success: function(data) {
+            console.log("📊 Gap data received:", data);
+            
             let html = '';
             
             if (data.gaps && data.gaps.length > 0) {
-                html += '<h5 class="mb-3">Skills to Develop:</h5>';
+                html += '<h5 class="mb-3">Skills You Need to Develop:</h5>';
                 data.gaps.forEach(gap => {
-                    const priorityClass = gap.priority === 'High' ? 'priority-high' : 
-                                         (gap.priority === 'Medium' ? 'priority-medium' : 'priority-low');
+                    let priorityClass = '';
+                    let priorityText = gap.priority || 'Medium';
+                    
+                    if (priorityText.includes('High') || priorityText === 'High') {
+                        priorityClass = 'priority-high';
+                        priorityText = '🔴 High Priority';
+                    } else if (priorityText.includes('Medium') || priorityText === 'Medium') {
+                        priorityClass = 'priority-medium';
+                        priorityText = '🟡 Medium Priority';
+                    } else {
+                        priorityClass = 'priority-low';
+                        priorityText = '🟢 Low Priority';
+                    }
+                    
                     html += `
                         <div class="card mb-2">
                             <div class="card-body d-flex justify-content-between align-items-center">
-                                <span class="fw-bold">${gap.skill}</span>
-                                <span class="${priorityClass}">${gap.priority}</span>
+                                <span class="fw-bold">${gap.skill || 'Unknown skill'}</span>
+                                <span class="${priorityClass}">${priorityText}</span>
                             </div>
                         </div>
                     `;
                 });
-            } else {
+                
+                // Add close button
                 html += `
+                    <div class="text-center mt-4">
+                        <button class="btn btn-secondary close-modal-btn" data-modal="gapModal">
+                            <i class="fas fa-times me-2"></i>Close
+                        </button>
+                    </div>
+                `;
+            } else {
+                html = `
                     <div class="alert alert-success text-center p-4">
-                        <i class="fas fa-check-circle fa-3x mb-3"></i>
-                        <h5>Congratulations!</h5>
+                        <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+                        <h5>Congratulations! 🎉</h5>
                         <p>You have all the required skills for this job!</p>
+                        <button class="btn btn-primary mt-3 close-modal-btn" data-modal="gapModal">
+                            <i class="fas fa-times me-2"></i>Close
+                        </button>
                     </div>
                 `;
             }
             
-            $('#gapModalBody').html(html);
+            $('#gapModal .modal-body').html(html);
+            
+            // Add close button handler
+            $('.close-modal-btn').off('click').on('click', function() {
+                const modalId = $(this).data('modal');
+                $(`#${modalId}`).removeClass('show').hide();
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            });
         },
-        error: function() {
-            $('#gapModalBody').html('<div class="alert alert-danger">Error loading skill gap analysis</div>');
+        error: function(xhr, status, error) {
+            console.error("❌ Gap analysis error:", error);
+            
+            $('#gapModal .modal-body').html(`
+                <div class="alert alert-danger text-center p-4">
+                    <i class="fas fa-exclamation-circle fa-4x mb-3"></i>
+                    <h5>Error</h5>
+                    <p>Could not load skill gap analysis.</p>
+                    <button class="btn btn-secondary mt-3 close-modal-btn" data-modal="gapModal">
+                        <i class="fas fa-times me-2"></i>Close
+                    </button>
+                </div>
+            `);
+            
+            $('.close-modal-btn').off('click').on('click', function() {
+                const modalId = $(this).data('modal');
+                $(`#${modalId}`).removeClass('show').hide();
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            });
         }
     });
 }
+
+// Also add this helper function to handle modal close for X buttons
+$(document).on('click', '[data-bs-dismiss="modal"]', function() {
+    const modal = $(this).closest('.modal');
+    modal.removeClass('show').hide();
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+});
+
+// Close on escape key
+$(document).on('keydown', function(e) {
+    if (e.key === 'Escape') {
+        $('.modal.show').removeClass('show').hide();
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+    }
+});
+
 </script>
 
 <style>
@@ -381,6 +486,25 @@ function viewSkillGap(jobId) {
 .form-check-input:checked {
     background-color: #4ecdc4;
     border-color: #4ecdc4;
+/* Fix for modal freezing */
+
+body.modal-open {
+    overflow: auto !important;
+    padding-right: 0 !important;
+}
+
+.modal-backdrop {
+    display: none !important;
+}
+
+.modal {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal.show {
+    display: block !important;
+    z-index: 1050;
+}
 }
 </style>
 {% endblock %}

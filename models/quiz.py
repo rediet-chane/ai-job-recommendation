@@ -2,14 +2,14 @@ import random
 
 class SkillQuiz:
     def __init__(self):
-        """Initialize beautiful quiz with colorful questions"""
+        """Initialize quiz with questions"""
         self.questions = self.load_questions()
         self.current_score = 0
         self.responses = []
-        print("🎨 Loading colorful quiz questions...")
+        print("🎨 Loading quiz questions...")
         
     def load_questions(self):
-        """Load beautiful quiz questions with categories"""
+        """Load quiz questions"""
         return [
             {
                 'id': 1,
@@ -19,7 +19,7 @@ class SkillQuiz:
                     'Load entire file with pandas.read_csv()',
                     'Use chunksize parameter to process in batches',
                     'Convert to Excel first',
-                    'Use a text editor to split manually'
+                    'Split the file manually with a text editor'
                 ],
                 'correct': 1,
                 'skill': 'python',
@@ -80,36 +80,6 @@ class SkillQuiz:
                 'skill': 'aws',
                 'weight': 2,
                 'explanation': 'IaaS provides virtualized computing resources over the internet!'
-            },
-            {
-                'id': 6,
-                'category': '🔧 DevOps',
-                'question': 'What is Docker primarily used for?',
-                'options': [
-                    'Virtual machines',
-                    'Containerization',
-                    'Database management',
-                    'Version control'
-                ],
-                'correct': 1,
-                'skill': 'docker',
-                'weight': 2,
-                'explanation': 'Docker containerizes applications for consistency across environments!'
-            },
-            {
-                'id': 7,
-                'category': '🎨 Design',
-                'question': 'What does UX stand for?',
-                'options': [
-                    'User Experience',
-                    'Universal XML',
-                    'Unix Extension',
-                    'User Xpress'
-                ],
-                'correct': 0,
-                'skill': 'ux_design',
-                'weight': 1,
-                'explanation': 'UX focuses on the overall feel of the user experience!'
             }
         ]
     
@@ -148,17 +118,28 @@ class SkillQuiz:
         skill_scores = {}
         total_possible = sum(q['weight'] for q in self.questions)
         
+        # If no responses, return empty profile
+        if not self.responses:
+            return {
+                'skills': [],
+                'display_skills': [],
+                'score': 0,
+                'total_possible': total_possible
+            }
+        
         for response in self.responses:
             skill = response['skill']
             if skill not in skill_scores:
                 skill_scores[skill] = {'correct': 0, 'total': 0, 'weight': 0}
             
-            question = next(q for q in self.questions if q['id'] == response['question_id'])
-            skill_scores[skill]['total'] += 1
-            skill_scores[skill]['weight'] += question['weight']
-            
-            if response['correct']:
-                skill_scores[skill]['correct'] += 1
+            # Find the question to get its weight
+            question = next((q for q in self.questions if q['id'] == response['question_id']), None)
+            if question:
+                skill_scores[skill]['total'] += 1
+                skill_scores[skill]['weight'] += question['weight']
+                
+                if response['correct']:
+                    skill_scores[skill]['correct'] += 1
         
         # Generate skills based on performance
         skills = []
@@ -166,24 +147,26 @@ class SkillQuiz:
         
         for skill, scores in skill_scores.items():
             if scores['correct'] > 0:
-                proficiency = scores['correct'] / scores['total']
-                count = max(1, int(proficiency * 3))
-                skills.extend([skill] * count)
+                # Add the skill to the list
                 display_skills.append(skill)
+                # Add multiple times based on proficiency for better matching
+                proficiency = scores['correct'] / max(scores['total'], 1)
+                count = max(1, int(proficiency * 2))
+                skills.extend([skill] * count)
+        
+        # Ensure we have at least one skill
+        if not skills:
+            skills = ['python']  # Default skill
+            display_skills = ['Python']
         
         return {
-            'skills': list(set(skills)),
-            'display_skills': list(set(display_skills)),
+            'skills': skills,
+            'display_skills': display_skills,
             'score': self.current_score,
             'total_possible': total_possible
         }
-    
-    def reset(self):
-        """Reset quiz"""
-        self.current_score = 0
-        self.responses = []
 
 # Test
 if __name__ == "__main__":
     quiz = SkillQuiz()
-    print(f"✅ Loaded {len(quiz.questions)} beautiful questions")
+    print(f"✅ Loaded {len(quiz.questions)} quiz questions")
