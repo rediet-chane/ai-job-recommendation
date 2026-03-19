@@ -1,38 +1,26 @@
-job_id,title,description,required_skills,category,experience_level,salary_range,remote,company,date,channel,message_id
-1.0,🌟 Software Developer,"Create amazing web applications using Python, Django, and SQL. Build REST APIs and work with cloud platforms.","Python, Django, SQL, REST API, JavaScript, Git",💻 Software Development,Entry,$60k-$80k,Yes,,,,
-2.0,📊 Data Analyst,"Transform data into insights using SQL, Python, Excel. Create beautiful visualizations and reports.","SQL, Python, Excel, Data Visualization, Statistics, Tableau",📊 Data Science,Entry,$55k-$75k,Hybrid,,,,
-3.0,🎨 Web Designer,"Design stunning websites with HTML, CSS, JavaScript, Figma. Create responsive and user-friendly designs.","HTML, CSS, JavaScript, Figma, Responsive Design, Adobe XD",🎨 Design,Entry,$50k-$70k,Yes,,,,
-4.0,📈 Marketing Specialist,"Manage social media campaigns, SEO, Google Ads, and create engaging content.","Social Media, SEO, Google Ads, Content Writing, Analytics",📈 Marketing,Mid,$45k-$65k,No,,,,
-5.0,💰 Accountant,"Handle financial records, Peachtree, Excel, tax preparation, and financial reporting.","Accounting, Excel, Peachtree, Tax, Financial Reporting, QuickBooks",💰 Finance,Entry,$50k-$70k,Hybrid,,,,
-6.0,🐍 Python Developer,"Build powerful backend services with Python, Flask, FastAPI. Work with databases and APIs.","Python, Flask, FastAPI, PostgreSQL, Git, Docker",💻 Software Development,Entry,$65k-$85k,Yes,,,,
-7.0,🗄️ Database Administrator,"Manage SQL databases, optimize queries, handle backups and database security.","SQL, MySQL, PostgreSQL, Database Design, Backup, Performance",🗄️ Database,Mid,$70k-$90k,No,,,,
-8.0,🤖 Machine Learning Engineer,"Develop ML models using scikit-learn, TensorFlow. Deploy models to production.","Python, Machine Learning, scikit-learn, TensorFlow, SQL",🤖 Data Science,Mid,$80k-$110k,Hybrid,,,,
-9.0,📋 Project Manager,"Lead software projects, manage teams, agile methodology, stakeholder communication.","Project Management, Agile, Communication, Leadership, Jira",📋 Management,Senior,$75k-$95k,Yes,,,,
-10.0,🎯 UX Designer,"Create beautiful user interfaces, wireframes, prototypes. User research and usability testing.","UX Design, Figma, Wireframing, User Research, Prototyping, Sketch",🎨 Design,Entry,$60k-$80k,Yes,,,,
-11.0,🔧 DevOps Engineer,"Manage cloud infrastructure, CI/CD pipelines, Docker, Kubernetes, and AWS.","AWS, Docker, Kubernetes, Jenkins, Linux, Python, Git",🔧 DevOps,Mid,$85k-$105k,Hybrid,,,,
-12.0,🛡️ Cybersecurity Analyst,"Protect systems from security threats, monitor networks, and implement security measures.","Network Security, Risk Assessment, Python, Compliance, Firewalls",🛡️ Security,Senior,$80k-$100k,No,,,,
-,Job Position,"**Florist **
+title,company,description,date,channel,message_id
+Job Position,Unknown Company,"**Florist **
 #bettys_organic
 #business
 #Addis_Ababa
 Bachelor’s  Degree In any field of study with relevant work experience with relevant work experience.
 Duties & Responsibilities:
 - Designing and creating a wide variety of floral arrangements (bouquets, centerpieces, and gift baskets).
-- Providing ",,,,,,Unknown Company,2026-03-19,@hahujobs,158802.0
-,Job Position,"**HR Training and Recuirement  Officer**
+- Providing ",2026-03-19,@hahujobs,158802
+Job Position,Unknown Company,"**HR Training and Recuirement  Officer**
 #shangtex_garment_manufacturing_ethiopia_plc
 #business
 #Addis_Ababa
 Bachelor’s  Degree In Human Resources Management, Business Administration, Management, Psychology, Law or with related  field of study with relevant work experience.
- Duties & Responsibilitie",,,,,,Unknown Company,2026-03-19,@hahujobs,158801.0
-,Job Position,"**Senior Marketing & Talent Promotion Officer**
+ Duties & Responsibilitie",2026-03-19,@hahujobs,158801
+Job Position,Unknown Company,"**Senior Marketing & Talent Promotion Officer**
 #lela_creative_management_agency_plc
 #business
 #Addis_Ababa
 Bachelor’s  Degree or Masters in Marketing, Media, Communications, or related field of study with relevant work experience.
 Duties & Responsibilities:
-- Plan and execute advanced digital marke",,,,,,Unknown Company,2026-03-19,@hahujobs,158800.0
-,Job Position,"**Driver VI (High Bed ****/Low**** Bed)**
+- Plan and execute advanced digital marke",2026-03-19,@hahujobs,158800
+Job Position,Unknown Company,"**Driver VI (High Bed ****/Low**** Bed)**
 #ethiopian_engineering_corporation
 #transportation_and_logistics
 #Addis_Ababa
@@ -42,8 +30,8 @@ Duties & Responsibilities:
 - ጭነትን መጫን፣ መውረድና መጠንቀቅ
 - ከመጓጓዝ በፊትና በኋላ ተሽከርካሪ መመርመር
 - የጭነት ሰነዶችን መሙላትና መያዝ
-- ከሎጂ",,,,,,Unknown Company,2026-03-19,@hahujobs,158797.0
-,Job Position,"**Driver I**
+- ከሎጂ",2026-03-19,@hahujobs,158797
+Job Position,Unknown Company,"**Driver I**
 #ethiopian_engineering_corporation
 #transportation_and_logistics
 #Addis_Ababa
@@ -54,8 +42,8 @@ Duties & Responsibilities:
 - የጭነት ሰነዶችን መሙላትና መያዝ
 - ከሎጂስቲክስ እና ከቢሮ ጋር መግናኘት
 - የመንገድ ደህንነት ህጎችን መከተል
-- ቀላል የመኪና ጥገና ማድረ",,,,,,Unknown Company,2026-03-19,@hahujobs,158796.0
-,Job Position,"**Driver V**
+- ቀላል የመኪና ጥገና ማድረ",2026-03-19,@hahujobs,158796
+Job Position,Unknown Company,"**Driver V**
 #ethiopian_engineering_corporation
 #transportation_and_logistics
 #Addis_Ababa
@@ -63,8 +51,8 @@ Duties & Responsibilities:
 ዋና ሃላፊነቶች
 - አስቸኳይ ምርመራ እና አስተዳደር እንዲኖረው መንገዶችን በትክክል መከታተል እና የነዳጅ አጠቃቀም እንዲቀነስ ማድረግ።
 - ከጉዞ በፊት እና ከጉዞ በኋላ መኪናዎችን መፈተሽ
-- ሁሉንም የመንገድ ሕጎች፣ ደህንነት ደንቦች እና የድርጅቱ",,,,,,Unknown Company,2026-03-19,@hahujobs,158795.0
-,Job Position,"**Driver IV**
+- ሁሉንም የመንገድ ሕጎች፣ ደህንነት ደንቦች እና የድርጅቱ",2026-03-19,@hahujobs,158795
+Job Position,Unknown Company,"**Driver IV**
 #ethiopian_engineering_corporation
 #transportation_and_logistics
 #Addis_Ababa
@@ -75,22 +63,22 @@ Duties & Responsibilities:
 - የጭነት ሰነዶችን መሙላትና መያዝ
 - ከሎጂስቲክስ እና ከቢሮ ጋር መግናኘት
 - የመንገድ ደህንነት ህጎችን መከተል
-- ቀላል የመኪና ጥገና ማ",,,,,,Unknown Company,2026-03-19,@hahujobs,158794.0
-,Job Position,"**Project Manager**
+- ቀላል የመኪና ጥገና ማ",2026-03-19,@hahujobs,158794
+Job Position,Unknown Company,"**Project Manager**
 #mers_consulting_and_construction_plc
 #engineering
 #Addis_Ababa
 Bachelor’s  Degree In Civil Engineering, Construction Management, or with  related field of study with relevant work experience.
 Duties & Responsibilities:
--  Lead and manage overall site execution to ensure works pr",,,,,,Unknown Company,2026-03-19,@hahujobs,158793.0
-,Job Position,"**Sales Person**
+-  Lead and manage overall site execution to ensure works pr",2026-03-19,@hahujobs,158793
+Job Position,Unknown Company,"**Sales Person**
 #furniture_village_plc
 #business
 #Addis_Ababa
 Bachelor’s  Degree or  Diploma in Marketing Management, Marketing & Salesmanship or with related field of study with relevant work experience.
 Duties & Responsibilities:
-- Welcome and assist customers in the showroom and provide product ",,,,,,Unknown Company,2026-03-19,@hahujobs,158792.0
-,Job Position,"**Assistant Transistor**
+- Welcome and assist customers in the showroom and provide product ",2026-03-19,@hahujobs,158792
+Job Position,Unknown Company,"**Assistant Transistor**
 #ocean_logistics_and_trading_plc
 #transportation_and_logistics
 
@@ -98,8 +86,8 @@ Degree or Diploma in any field of study with relevant work experience
 Duties & Responsibilities:
 - Assist in preparing transit and customs documentation.
 -Support cargo clearance and shipment tracking.
-- Coordin",,,,,,Unknown Company,2026-03-19,@hahujobs,158791.0
-,Job Position,"**Sales Officer**
+- Coordin",2026-03-19,@hahujobs,158791
+Job Position,Unknown Company,"**Sales Officer**
 #pacific_afr_import_and_export
 #business
 #Addis_Ababa
@@ -108,76 +96,76 @@ Gender : Female Applicants Only
 Duties & Responsibilities:
 - Ability to achieve sales targets.
 - Implement Customer Follow- up
-- M",,,,,,Unknown Company,2026-03-19,@hahujobs,158790.0
-,Job Position,"**Account Specialist**
+- M",2026-03-19,@hahujobs,158790
+Job Position,Unknown Company,"**Account Specialist**
 #pacific_afr_import_and_export
 #finance
 #Addis_Ababa
 Bachelor of Art in Accounting, Finance, or in any related field of study with relevant work experience
 Duties & Responsibilities:
 - Record and monitor all company financial and accounting transactions.
-- Prepare invoices and",,,,,,Unknown Company,2026-03-19,@hahujobs,158789.0
-,Job Position,"**Sales Promoter**
+- Prepare invoices and",2026-03-19,@hahujobs,158789
+Job Position,Unknown Company,"**Sales Promoter**
 #pacific_afr_import_and_export
 #business
 #Addis_Ababa
 Bachelor’s degree or Diploma (preferred) in any related field of study with relevant work experience
 Duties & Responsibilities:
 - Promote the company’s products and increase brand awareness.
-- Attract customers and explain prod",,,,,,Unknown Company,2026-03-19,@hahujobs,158788.0
-,Job Position,"**Technical Officer**
+- Attract customers and explain prod",2026-03-19,@hahujobs,158788
+Job Position,Unknown Company,"**Technical Officer**
 #bio_safe_trading_plc
 #engineering
 #Addis_Ababa
 Bachelor's Degree in Biomedical Engineering, Chemical Engineering, Computer Engineering, Mechanical Engineering or in a related field of study with relevant work experience.
 Duties & Responsibilities:
-- Provide administrative and ",,,,,,Unknown Company,2026-03-19,@hahujobs,158787.0
-,Job Position,"**Ethiopia Chief of Staff (Renewable)**
+- Provide administrative and ",2026-03-19,@hahujobs,158787
+Job Position,Unknown Company,"**Ethiopia Chief of Staff (Renewable)**
 #one_acre_fund
 #business
 #Bahir_Dar | #Addis_Ababa
 Bachelor’s  Degree In Public Relation, Human Resource Management with related  field of study with relevant work experience.
 Duties & Responsibilities:
-- Manage the People Operations Lead (managing HR admin, F",,,,,,Unknown Company,2026-03-19,@hahujobs,158786.0
-,Job Position,"**Technical Officer**
+- Manage the People Operations Lead (managing HR admin, F",2026-03-19,@hahujobs,158786
+Job Position,Unknown Company,"**Technical Officer**
 #bio_safe_trading_plc
 #engineering
 #Addis_Ababa
 Bachelor's Degree in Biomedical Engineering, Chemical Engineering, Computer Engineering, Mechanical Engineering or in a related field of study with relevant work experience.
 Duties & Responsibilities:
-- Provide administrative and ",,,,,,Unknown Company,2026-03-18,@hahujobs,158785.0
-,Job Position,"**Sales Person**
+- Provide administrative and ",2026-03-18,@hahujobs,158785
+Job Position,Unknown Company,"**Sales Person**
 #furniture_village_plc
 #business
 #Addis_Ababa
 Bachelor’s  Degree or  Diploma in Marketing Management, Marketing & Salesmanship or with related field of study with relevant work experience.
 Duties & Responsibilities:
-- Welcome and assist customers in the showroom and provide product ",,,,,,Unknown Company,2026-03-18,@hahujobs,158784.0
-,Job Position,"**Biomedical Engineer**
+- Welcome and assist customers in the showroom and provide product ",2026-03-18,@hahujobs,158784
+Job Position,Unknown Company,"**Biomedical Engineer**
 #eff
 #engineering
 #Addis_Ababa
 Bachelor’s  Degree In  Biomedical Engineering With related field of study with relevant work experience.
 Duties & Responsibilities:
 - Deal with suppliers and select appropriate medical equipment for import.
-- Fill out, prepare, and submit medica",,,,,,Unknown Company,2026-03-18,@hahujobs,158783.0
-,Job Position,"**Sales and Marketing representative **
+- Fill out, prepare, and submit medica",2026-03-18,@hahujobs,158783
+Job Position,Unknown Company,"**Sales and Marketing representative **
 #ahadu_digital_technologies
 #business
 #Addis_Ababa
 High school diploma required; additional education is an advantage with relevant work of experience.
 Duties & Responsibilities:
 - Make outbound cold calls daily to potential customers based on targeted leads.
-",,,,,,Unknown Company,2026-03-18,@hahujobs,158782.0
-,Job Position,"**ዳታ ኢንኮደር **
+",2026-03-18,@hahujobs,158782
+Job Position,Unknown Company,"**ዳታ ኢንኮደር **
 #mar_made_steel_trading_plc
 #ict
 #Addis_Ababa
 12ኛ ክፍል ወይም በማንኛውም የትምህርት መስክ ዲፕሎማ  ያለው/ላት ተዛማጅ ከሆነ የሥራ ልምድ ጋር
 ዋና ሃላፊነቶች
 - ​ፕሮፎርማዎችን፣ ደብዳቤዎችን፣ ማስታወሻዎችን (memos)፣ ሪፖርቶችን እና ኢሜይሎችን ጨምሮ ልዩ ልዩ ሰነዶችን በትክክል ማርቀቅ፣ ማዘጋጀት፣ ለተገቢው ቦታ ማቅረብ መመዝገብ እና ማቀነባበር።
-- ገቢ እና ወጪ ደብዳቤዎችን፣ እንዲሁም የፖስታ እና የፋይል አያያዝ ",,,,,,Unknown Company,2026-03-18,@hahujobs,158781.0
-,Job Position,"**Client Service Representative**
+- ገቢ እና ወጪ ደብዳቤዎችን፣ እንዲሁም የፖስታ እና የፋይል አያያዝ ",2026-03-18,@hahujobs,158781
+Job Position,Unknown Company,"**Client Service Representative**
 **__at International Clinical Laboratories ICL__**
 
 **Categories:** #HealthCare #SocialSciences #CommunityService
@@ -191,8 +179,8 @@ Duties & Responsibilities:
 **Number of people required:** 1
 
 **Requirements:**
-•",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7173.0
-,Job Position,"**Back Loader Operator**
+•",2026-03-19,@ethiojobsofficial,7173
+Job Position,Unknown Company,"**Back Loader Operator**
 **__at Brothers Trading PLC__**
 
 **Categories:** #Engineering
@@ -208,8 +196,8 @@ Duties & Responsibilities:
 **Number of people required:** 1
 
 **Requirements:**
-• At least 4 years and above of ",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7172.0
-,Job Position,"**Quantity Surveyor**
+• At least 4 years and above of ",2026-03-19,@ethiojobsofficial,7172
+Job Position,Unknown Company,"**Quantity Surveyor**
 **__at Brothers Trading PLC__**
 
 **Categories:** #Engineering
@@ -225,8 +213,8 @@ Duties & Responsibilities:
 **Number of people required:** 1
 
 **Requirements:**
-• First degree from recognized univ",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7171.0
-,Job Position,"**Material Inspector**
+• First degree from recognized univ",2026-03-19,@ethiojobsofficial,7171
+Job Position,Unknown Company,"**Material Inspector**
 **__at Brothers Trading PLC__**
 
 **Categories:** #Engineering
@@ -242,8 +230,8 @@ Duties & Responsibilities:
 **Number of people required:** 2
 
 **Requirements:**
-• Educational Background:  LEVEL I",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7170.0
-,Job Position,"**Site Engineer**
+• Educational Background:  LEVEL I",2026-03-19,@ethiojobsofficial,7170
+Job Position,Unknown Company,"**Site Engineer**
 **__at Brothers Trading PLC__**
 
 **Categories:** #Engineering
@@ -259,8 +247,8 @@ Duties & Responsibilities:
 **Number of people required:** 2
 
 **Requirements:**
-• BSc Degree in Civil Engineer or other",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7169.0
-,Job Position,"**Construction Forman**
+• BSc Degree in Civil Engineer or other",2026-03-19,@ethiojobsofficial,7169
+Job Position,Unknown Company,"**Construction Forman**
 **__at Brothers Trading PLC__**
 
 **Categories:** #Engineering
@@ -276,8 +264,8 @@ Duties & Responsibilities:
 **Number of people required:** 2
 
 **Requirements:**
-• Level iv, Diploma, in or Constr",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7168.0
-,Job Position,"**Earth Work Forman**
+• Level iv, Diploma, in or Constr",2026-03-19,@ethiojobsofficial,7168
+Job Position,Unknown Company,"**Earth Work Forman**
 **__at Brothers Trading PLC__**
 
 **Categories:** #Engineering
@@ -293,8 +281,8 @@ Duties & Responsibilities:
 **Number of people required:** 2
 
 **Requirements:**
-• Level iv, Diploma, Degree in Cons",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7167.0
-,Job Position,"**concrete Plant Manager**
+• Level iv, Diploma, Degree in Cons",2026-03-19,@ethiojobsofficial,7167
+Job Position,Unknown Company,"**concrete Plant Manager**
 **__at Brothers Trading PLC__**
 
 **Categories:** #Management
@@ -310,8 +298,8 @@ Duties & Responsibilities:
 **Number of people required:** 1
 
 **Requirements:**
-• BSC in Mechanical Enginee",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7166.0
-,Job Position,"**Life Skills Trainer (Part-Time)**
+• BSC in Mechanical Enginee",2026-03-19,@ethiojobsofficial,7166
+Job Position,Unknown Company,"**Life Skills Trainer (Part-Time)**
 **__at New Life Training Center__**
 
 **Categories:** #Consultancy #Training
@@ -326,8 +314,8 @@ Duties & Responsibilities:
 
 **Requirements:**
 • Qualifications and Requirements
-• Bach",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7165.0
-,Job Position,"**Mixer Truck Operator**
+• Bach",2026-03-19,@ethiojobsofficial,7165
+Job Position,Unknown Company,"**Mixer Truck Operator**
 **__at Brothers Trading PLC__**
 
 **Categories:** #Automotive
@@ -343,8 +331,8 @@ Duties & Responsibilities:
 **Number of people required:** 3
 
 **Requirements:**
-• 8 Years and Above",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7164.0
-,Job Position,"**Equipment Maintenance and Admin head**
+• 8 Years and Above",2026-03-19,@ethiojobsofficial,7164
+Job Position,Unknown Company,"**Equipment Maintenance and Admin head**
 **__at Brothers Trading PLC__**
 
 **Categories:** #Automotive
@@ -360,8 +348,8 @@ Duties & Responsibilities:
 **Number of people required:** 1
 
 **Requirements:**
-• BSC in Mechanical",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7163.0
-,Job Position,"**Analyst, Research and Market**
+• BSC in Mechanical",2026-03-19,@ethiojobsofficial,7163
+Job Position,Unknown Company,"**Analyst, Research and Market**
 **__at Kifiya Financial Technologies__**
 
 **Categories:** #SocialSciences #CommunityService #Accounting #Finance #Economics
@@ -374,8 +362,8 @@ Duties & Responsibilities:
 
 **Experience Level:** 1-3 years
 
-**Number of",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7162.0
-,Job Position,"**Regional health security activity officer**
+**Number of",2026-03-19,@ethiojobsofficial,7162
+Job Position,Unknown Company,"**Regional health security activity officer**
 **__at Health Development and Anti Malaria Association (HDAMA)__**
 
 **Categories:** #Development #ProjectManagement #HealthCare
@@ -384,8 +372,8 @@ Duties & Responsibilities:
 
 **Deadline:** Mar 26, 2026
 
-**Career Level:** Senio",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7161.0
-,Job Position,"**Senior HR Officer**
+**Career Level:** Senio",2026-03-19,@ethiojobsofficial,7161
+Job Position,Unknown Company,"**Senior HR Officer**
 **__at A Two ElectroMechanical__**
 
 **Categories:** #HumanResource #Recruitment #Business #Administration #SocialSciences #CommunityService
@@ -398,8 +386,8 @@ Duties & Responsibilities:
 
 **Experience Level:** 8-12 years
 
-**Num",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7160.0
-,Job Position,"**Analyst, Finance and Data**
+**Num",2026-03-19,@ethiojobsofficial,7160
+Job Position,Unknown Company,"**Analyst, Finance and Data**
 **__at Kifiya Financial Technologies__**
 
 **Categories:** #SocialSciences #CommunityService #Accounting #Finance #Economics
@@ -412,8 +400,8 @@ Duties & Responsibilities:
 
 **Experience Level:** 3-5 years
 
-**Number of peopl",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7159.0
-,Job Position,"**Prevention  Officer**
+**Number of peopl",2026-03-19,@ethiojobsofficial,7159
+Job Position,Unknown Company,"**Prevention  Officer**
 **__at Hamlin Fistula Ethiopia__**
 
 **Categories:** #Development #ProjectManagement #HealthCare
@@ -426,8 +414,8 @@ Duties & Responsibilities:
 
 **Number of people required:** 1
 
-**Requirem",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7158.0
-,Job Position,"**Senior Accountant**
+**Requirem",2026-03-19,@ethiojobsofficial,7158
+Job Position,Unknown Company,"**Senior Accountant**
 **__at Winbarg Business__**
 
 **Categories:** #Accounting #Finance #SocialSciences #CommunityService
@@ -442,8 +430,8 @@ Duties & Responsibilities:
 
 **Number of people required:** 1
 
-**Requirements:**",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7157.0
-,Job Position,"**Junior HR Expert**
+**Requirements:**",2026-03-19,@ethiojobsofficial,7157
+Job Position,Unknown Company,"**Junior HR Expert**
 **__at Winbarg Business__**
 
 **Categories:** #HumanResource #Recruitment #Business #Administration #SocialSciences #CommunityService
@@ -456,8 +444,8 @@ Duties & Responsibilities:
 
 **Number of people required:** 1
 
-**Requirement",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7156.0
-,Job Position,"**Head of Irrigation and Climate Control Department**
+**Requirement",2026-03-19,@ethiojobsofficial,7156
+Job Position,Unknown Company,"**Head of Irrigation and Climate Control Department**
 **__at Florensis Ethiopia PLC__**
 
 **Categories:** #Agriculture #Environment #NaturalResource
@@ -471,8 +459,8 @@ Duties & Responsibilities:
 **Number of people required:** 1
 
 **Requirements:**
-• Educational ",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7155.0
-,Job Position,"**Political Parties Liaison Expert (Contract)**
+• Educational ",2026-03-19,@ethiojobsofficial,7155
+Job Position,Unknown Company,"**Political Parties Liaison Expert (Contract)**
 **__at National Election Board of Ethiopia(NEBE)__**
 
 **Categories:** #Legal
@@ -486,8 +474,8 @@ Duties & Responsibilities:
 **Number of people required:** 1
 
 **Requirements:**
-• Education and Work Exp",,,,,,Unknown Company,2026-03-19,@ethiojobsofficial,7154.0
-,[ New ] Job by  Engineering Corporation of Oromia ,"[ New ] Job by  Engineering Corporation of Oromia  18-March 2026
+• Education and Work Exp",2026-03-19,@ethiojobsofficial,7154
+[ New ] Job by  Engineering Corporation of Oromia ,Unknown Company,"[ New ] Job by  Engineering Corporation of Oromia  18-March 2026
 
 I𝗻𝘁𝗲𝗿𝗻𝗮𝗹 & 𝗘𝘅𝘁𝗲𝗿𝗻𝗮𝗹 𝗩𝗮𝗰𝗮𝗻𝗰𝘆 𝗔𝗻𝗻𝗼𝘂𝗻𝗰𝗲𝗺𝗲𝗻𝘁
 
@@ -495,8 +483,8 @@ Engineering Corporation of Oromia would like to invite qualified and competent p
 
 1.  Senior Irrigation and Drainage Engineer
 2.  Senior Dam Engineer
-3. ",,,,,,Unknown Company,2026-03-18,@Elelanjobs,146.0
-,[ Fresh Graduates ] Job by United Nation OHCHR  16,"[ Fresh Graduates ] Job by United Nation OHCHR  16-March 2026
+3. ",2026-03-18,@Elelanjobs,146
+[ Fresh Graduates ] Job by United Nation OHCHR  16,Unknown Company,"[ Fresh Graduates ] Job by United Nation OHCHR  16-March 2026
 
  Position: Intern – Addis Ababa, Ethiopia
 
@@ -504,8 +492,8 @@ Engineering Corporation of Oromia would like to invite qualified and competent p
 
 a) Be enrolled in, or have completed, a graduate school programme (second university degree or equivalent, or higher); or,
 
-b) Be enrolled in, or have completed, the final aca",,,,,,Unknown Company,2026-03-16,@Elelanjobs,145.0
-,[ New ] Job by Tsehay Bank  16-March 2026,"[ New ] Job by Tsehay Bank  16-March 2026
+b) Be enrolled in, or have completed, the final aca",2026-03-16,@Elelanjobs,145
+[ New ] Job by Tsehay Bank  16-March 2026,Unknown Company,"[ New ] Job by Tsehay Bank  16-March 2026
 
 1: Junior Customer Service Officer
 
@@ -519,8 +507,8 @@ b) Be enrolled in, or have completed, the final aca",,,,,,Unknown Company,2026-0
 
 6: Senior Planning, Monitoring and Evaluation Officer
 
-7: Principal Digital Banking Op",,,,,,Unknown Company,2026-03-16,@Elelanjobs,144.0
-,[ New ] Job by Temer Properties  16-March 2026,"[ New ] Job by Temer Properties  16-March 2026
+7: Principal Digital Banking Op",2026-03-16,@Elelanjobs,144
+[ New ] Job by Temer Properties  16-March 2026,Unknown Company,"[ New ] Job by Temer Properties  16-March 2026
 
 1: Junior Sales Representative
 
@@ -542,8 +530,8 @@ b) Be enrolled in, or have completed, the final aca",,,,,,Unknown Company,2026-0
 
 6: Graphic Designer
 
-Ho",,,,,,Unknown Company,2026-03-16,@Elelanjobs,143.0
-,[ New ] Job by Dynamic Microfinance Institution 16,"[ New ] Job by Dynamic Microfinance Institution 16-March 2026
+Ho",2026-03-16,@Elelanjobs,143
+[ New ] Job by Dynamic Microfinance Institution 16,Unknown Company,"[ New ] Job by Dynamic Microfinance Institution 16-March 2026
 
 Position 1: Cashier Level I
 Qualification: Diploma/ level 4 in Accounting and Finance
@@ -554,8 +542,8 @@ Qualification: BA/Diploma Diploma/ level 4 in Accounting and Finance
 
 Experience: 0 year
 
-Position 3",,,,,,Unknown Company,2026-03-16,@Elelanjobs,142.0
-,[ New  ] Job by Rammis Bank 13-March 2026,"[ New  ] Job by Rammis Bank 13-March 2026
+Position 3",2026-03-16,@Elelanjobs,142
+[ New  ] Job by Rammis Bank 13-March 2026,Unknown Company,"[ New  ] Job by Rammis Bank 13-March 2026
 
 Req. No 25
 
@@ -570,8 +558,8 @@ How to Apply
 
 https://elelanjobs.com/job/business-jobs-at-rammis-bank-march-2026/
 
-Deadline : March 22, 2026",,,,,,Unknown Company,2026-03-15,@Elelanjobs,141.0
-,[ New  ] Job by Rammis Bank 13-March 2026,"[ New  ] Job by Rammis Bank 13-March 2026
+Deadline : March 22, 2026",2026-03-15,@Elelanjobs,141
+[ New  ] Job by Rammis Bank 13-March 2026,Unknown Company,"[ New  ] Job by Rammis Bank 13-March 2026
 
 Req. No 25
 
@@ -586,8 +574,8 @@ How to Apply
 
 https://elelanjobs.com/job/business-jobs-at-rammis-bank-march-2026/
 
-Deadline : March 22, 2026",,,,,,Unknown Company,2026-03-15,@Elelanjobs,140.0
-,[ New ]  Jobs by  Adwa Dil Micro Finance Instituti,"[ New ]  Jobs by  Adwa Dil Micro Finance Institution  – 9-March 2026
+Deadline : March 22, 2026",2026-03-15,@Elelanjobs,140
+[ New ]  Jobs by  Adwa Dil Micro Finance Instituti,Unknown Company,"[ New ]  Jobs by  Adwa Dil Micro Finance Institution  – 9-March 2026
 
 1.CUSTOMER SERVICE OFFICER (TELLER) I
 
@@ -602,8 +590,8 @@ How to Apply
 
 https://elelanjobs.com/job/jobs-by-adwa-dil-micro-finance-institution-9-march-2026/
 
-Deadline :March 14, 202",,,,,,Unknown Company,2026-03-10,@Elelanjobs,139.0
-,Job Position,"[ 607 ሰው ]ለዚህ ነው ሁሌም ማትሰሩ ከሆነ ምንም ስራ ላይ Sign up or Register አታድርጉ የምንለው
+Deadline :March 14, 202",2026-03-10,@Elelanjobs,139
+Job Position,Unknown Company,"[ 607 ሰው ]ለዚህ ነው ሁሌም ማትሰሩ ከሆነ ምንም ስራ ላይ Sign up or Register አታድርጉ የምንለው
 
 607 ሰው Signup አድርገዋል ገነር ግን አንድም ሰው Active ሆኖ እየሰራ አይደለም
 
@@ -614,16 +602,16 @@ Wifi የምትጠቀሙ ሰዎች Computer or Mobile ላይ ከፍታቹ ማስ�
 
 🍯 Honey gain  የምሰሩ ስዎች ማወቅ ያለባቹ ነገሮች ፥
 
-1 ፡ ከስልክ ይልቅ በፒሲ በደምብ mine ያረጋል [ Register ባደረጋቹት email የተለያየ Devi",,,,,,Unknown Company,2026-03-09,@Elelanjobs,138.0
-,Job Position,"✈️ **Cabin Crew Interview Preparation – 100 Questions & Answers**
+1 ፡ ከስልክ ይልቅ በፒሲ በደምብ mine ያረጋል [ Register ባደረጋቹት email የተለያየ Devi",2026-03-09,@Elelanjobs,138
+Job Position,Unknown Company,"✈️ **Cabin Crew Interview Preparation – 100 Questions & Answers**
 
 Preparing for your cabin crew / flight attendant interview?
 This video covers the most common airline interview questions with professional sample answers to help you succeed.
 
 Practice, personalize, and build your confidence! 💼✨
 
-Pa",,,,,,Unknown Company,2026-03-08,@Elelanjobs,137.0
-,Job Position,"የ Ethiopian airlines School of Marketing 
+Pa",2026-03-08,@Elelanjobs,137
+Job Position,Unknown Company,"የ Ethiopian airlines School of Marketing 
 
 10 ደቂቃ Video ነው ሁሉንም ተመለከቱ 100 ጥያቄ ከነ መለሱ ነው 
 
@@ -634,8 +622,8 @@ https://youtu.be/xF39drqMD3o
 
 🔴ተጨማሪ ጥያቄ እና የ Interview ጥያቄ ከፈለጋቹ  SOM questions or SOM interview questions ብላቹ Comment አድርጉ
 
-🔴ከተጠቀማቹ ለምንድ ነው like and subscribe ማታደርጉት 🤔",,,,,,Unknown Company,2026-03-08,@Elelanjobs,136.0
-,[ NGO ]  Jobs by Positive Action for Development 8,"[ NGO ]  Jobs by Positive Action for Development 8-March 2026
+🔴ከተጠቀማቹ ለምንድ ነው like and subscribe ማታደርጉት 🤔",2026-03-08,@Elelanjobs,136
+[ NGO ]  Jobs by Positive Action for Development 8,Unknown Company,"[ NGO ]  Jobs by Positive Action for Development 8-March 2026
 
 
 1.CCCM Project Coordinator
@@ -644,8 +632,8 @@ Bachelor’s Degree in Sociology, Management, Humanitarian Studies, Disaster Ris
 
 2.CCCM Outreach Social Worker
 
-BA/Di",,,,,,Unknown Company,2026-03-08,@Elelanjobs,135.0
-,[ New ]  Jobs by Dodai Manufacturing Plc 8-March 2,"[ New ]  Jobs by Dodai Manufacturing Plc 8-March 2026
+BA/Di",2026-03-08,@Elelanjobs,135
+[ New ]  Jobs by Dodai Manufacturing Plc 8-March 2,Unknown Company,"[ New ]  Jobs by Dodai Manufacturing Plc 8-March 2026
 
 
 1.Junior Assembly Technician
@@ -654,9 +642,9 @@ Bachelor's degree in Mechanical Engineering, Industrial Engineering or closely r
 
 2.Junior Customer Experience Officer
 
-Bachelor's degree in Marketing Management, Bus",,,,,,Unknown Company,2026-03-08,@Elelanjobs,134.0
-,Job Position,__This message couldn't be displayed on your device because it violates the Telegram Terms of Service.__,,,,,,Unknown Company,2025-11-28,@Elelanjobs,129.0
-,[114  Fresh Graduates ] Jobs by Ethiopian Engineer,"[114  Fresh Graduates ] Jobs by Ethiopian Engineering Corporation November 2025
+Bachelor's degree in Marketing Management, Bus",2026-03-08,@Elelanjobs,134
+Job Position,Unknown Company,__This message couldn't be displayed on your device because it violates the Telegram Terms of Service.__,2025-11-28,@Elelanjobs,129
+[114  Fresh Graduates ] Jobs by Ethiopian Engineer,Unknown Company,"[114  Fresh Graduates ] Jobs by Ethiopian Engineering Corporation November 2025
 
 Number of people required : 114
 
@@ -664,29 +652,29 @@ BSC in civil engineering or construction management
 
 Bsc in Architecture.
 
-BSC. degree in Purchasing and Supplies Management and/or other relevant disciplines preferably such as procurem",,,,,,Unknown Company,2025-11-28,@Elelanjobs,128.0
-,[ 445 Fresh Graduates & Exp ] Jobs by Addis Ababa ,"[ 445 Fresh Graduates & Exp ] Jobs by Addis Ababa City Administration Revenue Bureau   November 2025
+BSC. degree in Purchasing and Supplies Management and/or other relevant disciplines preferably such as procurem",2025-11-28,@Elelanjobs,128
+[ 445 Fresh Graduates & Exp ] Jobs by Addis Ababa ,Unknown Company,"[ 445 Fresh Graduates & Exp ] Jobs by Addis Ababa City Administration Revenue Bureau   November 2025
 
 1.Sales Register and Receipt Usage Control Specialist I
 2.Electronic Tax Filing Monitoring Specialist I
 3.Electronic Tax Collection and Monitoring Specialist I
-4.Electronic Transaction Tax Collectio",,,,,,Unknown Company,2025-11-23,@Elelanjobs,127.0
-,Job Position,"5 ወር ሙሉ ገንዘብ እየተሰራበት ነው 
+4.Electronic Transaction Tax Collectio",2025-11-23,@Elelanjobs,127
+Job Position,Unknown Company,"5 ወር ሙሉ ገንዘብ እየተሰራበት ነው 
 
 ስለተመዘገባቹ ብቻ እስከ አንድ ሺ ሁለት መቶ ታገኛላቹ
 ሰዎችን ከጋበዛቹ እስከምትፈልጉት ገንዘብ ድረስ መስራት ትችላላቹ
 
 Mepass ላይ አዳዲስ Update እየተደረጉ እንደሆነ አስተዉላችኋል እናም በዚህ ምክንያት Register በምታደርጉበት ሰዓት ችግር እያጋጠማችሁ ይገኛል።
 
-Verification ለመጨረስ National ID, Passport, International Driving License ያስፈልጋችኋል፤ እንዴት Verificatio",,,,,,Unknown Company,2025-11-23,@Elelanjobs,126.0
-,[Fresh Graduates ] Jobs by Ethiotelecom November 2,"[Fresh Graduates ] Jobs by Ethiotelecom November 2025
+Verification ለመጨረስ National ID, Passport, International Driving License ያስፈልጋችኋል፤ እንዴት Verificatio",2025-11-23,@Elelanjobs,126
+[Fresh Graduates ] Jobs by Ethiotelecom November 2,Unknown Company,"[Fresh Graduates ] Jobs by Ethiotelecom November 2025
 
 
 Marketing, Business Management or Sales or Business Administration or Related field of study
 
 
-Electrical/Electronic Equipment Servicing Management, Building Electrical Installation, Electrical /Electronic Technology, Mechatronics and Instrumen",,,,,,Unknown Company,2025-11-21,@Elelanjobs,125.0
-,[ New ] Jobs by Commercial bank of Ethiopia  Novem,"[ New ] Jobs by Commercial bank of Ethiopia  November 2025
+Electrical/Electronic Equipment Servicing Management, Building Electrical Installation, Electrical /Electronic Technology, Mechatronics and Instrumen",2025-11-21,@Elelanjobs,125
+[ New ] Jobs by Commercial bank of Ethiopia  Novem,Unknown Company,"[ New ] Jobs by Commercial bank of Ethiopia  November 2025
 
 Salary: As per the Bank’s Salary scale
 Duty station: Under Head Office
@@ -695,8 +683,8 @@ How to Apply
 
 https://elelanjobs.com/job/jobs-by-commercial-bank-of-ethiopia-november-2025/
 
-Deadline : November 23, 2025",,,,,,Unknown Company,2025-11-21,@Elelanjobs,124.0
-,[ 221 Positions Fresh Graduates and Exp ] Jobs by ,"[ 221 Positions Fresh Graduates and Exp ] Jobs by Ethio Djibouti Railway  November 2025
+Deadline : November 23, 2025",2025-11-21,@Elelanjobs,124
+[ 221 Positions Fresh Graduates and Exp ] Jobs by ,Unknown Company,"[ 221 Positions Fresh Graduates and Exp ] Jobs by Ethio Djibouti Railway  November 2025
 
 Total Required: 221 Positions
 
@@ -705,8 +693,8 @@ Total Required: 221 Positions
 2. Construction Engineer III
 3. Construction Engineer II
 4. Material Engineer II
-5. Senior Human R",,,,,,Unknown Company,2025-11-21,@Elelanjobs,123.0
-,Job Title: **Accountant**,"Job Title: **Accountant**
+5. Senior Human R",2025-11-21,@Elelanjobs,123
+Job Title: **Accountant**,Unknown Company,"Job Title: **Accountant**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -721,8 +709,8 @@ Deadline: **March 28th, 2026**
 **Description**:
 Job Description
 
-We are looking for a qualified individual w",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94427.0
-,Job Title: **Video Editor**,"Job Title: **Video Editor**
+We are looking for a qualified individual w",2026-03-19,@freelance_ethio,94427
+Job Title: **Video Editor**,Unknown Company,"Job Title: **Video Editor**
 
 Job Type: **On-site - Contractual**
 
@@ -733,8 +721,8 @@ Salary/Compensation: **Fixed (One-time)**
 Deadline: **March 28th, 2026**
 
 **Description**:
-We are producing an **online Amharic language course for learners**. The course will include recorde",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94426.0
-,Job Title: **Social Media Manager(Afaan Oromoo-Spe,"Job Title: **Social Media Manager(Afaan Oromoo-Speaking)**
+We are producing an **online Amharic language course for learners**. The course will include recorde",2026-03-19,@freelance_ethio,94426
+Job Title: **Social Media Manager(Afaan Oromoo-Spe,Unknown Company,"Job Title: **Social Media Manager(Afaan Oromoo-Speaking)**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -747,8 +735,8 @@ Salary/Compensation: **Monthly**
 Deadline: **March 26th, 2026**
 
 **Description**:
-Blue Ocean Creatives, a full-scale di",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94425.0
-,Job Title: **Digital Marketing & Social Media Mana,"Job Title: **Digital Marketing & Social Media Manager**
+Blue Ocean Creatives, a full-scale di",2026-03-19,@freelance_ethio,94425
+Job Title: **Digital Marketing & Social Media Mana,Unknown Company,"Job Title: **Digital Marketing & Social Media Manager**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -761,8 +749,8 @@ Salary/Compensation: **Monthly**
 Deadline: **March 26th, 2026**
 
 **Description**:
-Blue Ocean Creatives, a full-scale digit",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94424.0
-,Job Title: **Administrative Assistant**,"Job Title: **Administrative Assistant**
+Blue Ocean Creatives, a full-scale digit",2026-03-19,@freelance_ethio,94424
+Job Title: **Administrative Assistant**,Unknown Company,"Job Title: **Administrative Assistant**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -775,8 +763,8 @@ Salary/Compensation: **10000 ETB Monthly**
 Deadline: **April 2nd, 2026**
 
 **Description**:
-Milkomi Flour Factory is seeking an organized a",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94423.0
-,Job Title: **Graphic Designer & Video Editor**,"Job Title: **Graphic Designer & Video Editor**
+Milkomi Flour Factory is seeking an organized a",2026-03-19,@freelance_ethio,94423
+Job Title: **Graphic Designer & Video Editor**,Unknown Company,"Job Title: **Graphic Designer & Video Editor**
 
 Job Type: **Hybrid - Part-time**
 
@@ -789,8 +777,8 @@ Salary/Compensation: **Monthly**
 Deadline: **March 28th, 2026**
 
 **Description**:
-**Golden Family Real Estate** is looking for a highly creative a",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94422.0
-,Job Title: **Graphics Designer & Product Content d,"Job Title: **Graphics Designer & Product Content developer**
+**Golden Family Real Estate** is looking for a highly creative a",2026-03-19,@freelance_ethio,94422
+Job Title: **Graphics Designer & Product Content d,Unknown Company,"Job Title: **Graphics Designer & Product Content developer**
 
 Job Type: **Remote - Freelance**
 
@@ -801,8 +789,8 @@ Salary/Compensation: **Monthly**
 Deadline: **March 30th, 2026**
 
 **Description**:
-We are seeking a highly creative and versatile **Graphic Designer and Product Co",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94421.0
-,Job Title: **Digital Marketing Manager**,"Job Title: **Digital Marketing Manager**
+We are seeking a highly creative and versatile **Graphic Designer and Product Co",2026-03-19,@freelance_ethio,94421
+Job Title: **Digital Marketing Manager**,Unknown Company,"Job Title: **Digital Marketing Manager**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -813,8 +801,8 @@ Salary/Compensation: **20000 ETB Monthly**
 Deadline: **March 30th, 2026**
 
 **Description**:
-Are you a strategic thinker with a passion for storytelling and data? At **C",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94420.0
-,Job Title: **Real estate sales consultant**,"Job Title: **Real estate sales consultant**
+Are you a strategic thinker with a passion for storytelling and data? At **C",2026-03-19,@freelance_ethio,94420
+Job Title: **Real estate sales consultant**,Unknown Company,"Job Title: **Real estate sales consultant**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -827,8 +815,8 @@ Deadline: **March 28th, 2026**
 **Description**:
 አስቸኳይ የስራ ማስታወቂያ!
 የስራው ዝርዝር:
-- ድርጅታችን ሪሊያብል ሆምስ በሪልእስቴት ሽያጭ ዘርፍ የሽያጭ ሰራተኞችን አወዳድሮ መ",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94419.0
-,Job Title: **Junior Accountant**,"Job Title: **Junior Accountant**
+- ድርጅታችን ሪሊያብል ሆምስ በሪልእስቴት ሽያጭ ዘርፍ የሽያጭ ሰራተኞችን አወዳድሮ መ",2026-03-19,@freelance_ethio,94419
+Job Title: **Junior Accountant**,Unknown Company,"Job Title: **Junior Accountant**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -841,8 +829,8 @@ Salary/Compensation: **Monthly**
 Deadline: **March 29th, 2026**
 
 **Description**:
-we are seeking a detail-oriented and motivated Junior Accountan",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94418.0
-,Job Title: **Senior Full Stack Developer**,"Job Title: **Senior Full Stack Developer**
+we are seeking a detail-oriented and motivated Junior Accountan",2026-03-19,@freelance_ethio,94418
+Job Title: **Senior Full Stack Developer**,Unknown Company,"Job Title: **Senior Full Stack Developer**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -853,8 +841,8 @@ Salary/Compensation: **Monthly**
 Deadline: **April 2nd, 2026**
 
 **Description**:
-Shirshir Business Group PLC (SBG) seeks a Senior Full Stack System Developer to desig",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94417.0
-,Job Title: **structural darfts peron**,"Job Title: **structural darfts peron**
+Shirshir Business Group PLC (SBG) seeks a Senior Full Stack System Developer to desig",2026-03-19,@freelance_ethio,94417
+Job Title: **structural darfts peron**,Unknown Company,"Job Title: **structural darfts peron**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -865,8 +853,8 @@ Salary/Compensation: **Monthly**
 Deadline: **April 2nd, 2026**
 
 **Description**:
-we are looking for a skilled and detail -oriented structural drafts person to join our te",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94416.0
-,Job Title: **Secretary**,"Job Title: **Secretary**
+we are looking for a skilled and detail -oriented structural drafts person to join our te",2026-03-19,@freelance_ethio,94416
+Job Title: **Secretary**,Unknown Company,"Job Title: **Secretary**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -879,8 +867,8 @@ Salary/Compensation: **9981 ETB Monthly**
 Deadline: **March 30th, 2026**
 
 **Description**:
-Company name: Nimrod Consultancy(powered by Nimrod Network and",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94415.0
-,Job Title: **Saleswoman**,"Job Title: **Saleswoman**
+Company name: Nimrod Consultancy(powered by Nimrod Network and",2026-03-19,@freelance_ethio,94415
+Job Title: **Saleswoman**,Unknown Company,"Job Title: **Saleswoman**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -894,8 +882,8 @@ Deadline: **March 24th, 2026**
 
 **Description**:
 **Description:**
-We are seeking indoor saleswoman, who's capable of th",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94414.0
-,Job Title: **Secretary**,"- - - - - - - - CLOSED - - - - - - - -
+We are seeking indoor saleswoman, who's capable of th",2026-03-19,@freelance_ethio,94414
+Job Title: **Secretary**,Unknown Company,"- - - - - - - - CLOSED - - - - - - - -
 Job Title: **Secretary**
 
 Job Type: **On-site - Permanent (Full-time)**
@@ -910,8 +898,8 @@ Deadline: **March 30th, 2026**
 
 **Description**:
 Job Description
-Company",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94413.0
-,Job Title: **Customer Sucess Intern**,"Job Title: **Customer Sucess Intern**
+Company",2026-03-19,@freelance_ethio,94413
+Job Title: **Customer Sucess Intern**,Unknown Company,"Job Title: **Customer Sucess Intern**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -923,8 +911,8 @@ Deadline: **April 2nd, 2026**
 
 **Description**:
 **Job Description**
-Afriwork is currently seeking a highly motivated Customer Sucess inter",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94412.0
-,Job Title: **Architectural Model Maker**,"Job Title: **Architectural Model Maker**
+Afriwork is currently seeking a highly motivated Customer Sucess inter",2026-03-19,@freelance_ethio,94412
+Job Title: **Architectural Model Maker**,Unknown Company,"Job Title: **Architectural Model Maker**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -935,8 +923,8 @@ Salary/Compensation: **Monthly**
 Deadline: **March 31st, 2026**
 
 **Description**:
-ROHA Interior and Architect PLC are seeking a skilled **Architectural Model Maker** to",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94411.0
-,Job Title: **Procurement & Supplies Coordination M,"Job Title: **Procurement & Supplies Coordination Manager**
+ROHA Interior and Architect PLC are seeking a skilled **Architectural Model Maker** to",2026-03-19,@freelance_ethio,94411
+Job Title: **Procurement & Supplies Coordination M,Unknown Company,"Job Title: **Procurement & Supplies Coordination Manager**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -947,8 +935,8 @@ Salary/Compensation: **Monthly**
 Deadline: **April 2nd, 2026**
 
 **Description**:
-**Elmi Olindo Contractors** **PLC** is seeking a highly organized and",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94410.0
-,Job Title: **ሁለገብ ባለሙያ**,"Job Title: **ሁለገብ ባለሙያ**
+**Elmi Olindo Contractors** **PLC** is seeking a highly organized and",2026-03-19,@freelance_ethio,94410
+Job Title: **ሁለገብ ባለሙያ**,Unknown Company,"Job Title: **ሁለገብ ባለሙያ**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -961,8 +949,8 @@ Salary/Compensation: **Monthly**
 Deadline: **April 2nd, 2026**
 
 **Description**:
-ድርጅታችን በማስታወቂያ ስራዎች ዘርፍ (ላይት ቦክስ፣ ስቲከር፣ ሳይኔጅ እና ተመሳሳይ ስራዎች) ላይ ለመስራት ብቁ የሆ",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94409.0
-,Job Title: **የሽያጭ ሰራተኛ**,"Job Title: **የሽያጭ ሰራተኛ**
+ድርጅታችን በማስታወቂያ ስራዎች ዘርፍ (ላይት ቦክስ፣ ስቲከር፣ ሳይኔጅ እና ተመሳሳይ ስራዎች) ላይ ለመስራት ብቁ የሆ",2026-03-19,@freelance_ethio,94409
+Job Title: **የሽያጭ ሰራተኛ**,Unknown Company,"Job Title: **የሽያጭ ሰራተኛ**
 
 Job Type: **On-site - Permanent (Full-time)**
 
@@ -975,4 +963,4 @@ Salary/Compensation: **Monthly**
 Deadline: **April 1st, 2026**
 
 **Description**:
-ድርጅታችን Crystal Glass furnishing ሰሚት 72, 72 ፕላዛ ለይ ላለው ሱቃችን የሽያጭ ሰራተኛ (Sa",,,,,,Unknown Company,2026-03-19,@freelance_ethio,94408.0
+ድርጅታችን Crystal Glass furnishing ሰሚት 72, 72 ፕላዛ ለይ ላለው ሱቃችን የሽያጭ ሰራተኛ (Sa",2026-03-19,@freelance_ethio,94408
