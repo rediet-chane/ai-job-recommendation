@@ -3,6 +3,7 @@ from telethon import TelegramClient
 from telethon.tl.types import MessageEntityUrl, MessageEntityTextUrl
 import pandas as pd
 import re
+import os
 
 # ============================================
 # TELEGRAM SCRAPER WITH BUTTON LINK EXTRACTION
@@ -40,68 +41,43 @@ async def scrape_jobs():
                         all_jobs.append(job)
                         print(f"  ✅ Found: {job['title'][:40]}...")
                         
-            except Exception as e:
-                print(f"⚠️ Couldn't read {channel_name}: {e}")
+        except Exception as e:
+            print(f"⚠️ Couldn't read {channel_name}: {e}")
     
     await client.disconnect()
     return all_jobs
 
 def extract_job_info(message, channel_name):
     """Extract job info including button links"""
-    
     text = message.text
     
-    # Extract title
     title = extract_title(text)
-    
-    # Extract company
     company = extract_company(text)
-    
-    # Extract skills
     skills = extract_skills(text)
-    
-    # Get the message link (always available)
     message_link = f"https://t.me/{channel_name}/{message.id}"
     
-    # LOOK FOR BUTTON LINKS IN THE MESSAGE
+    # Look for button links
     button_links = []
-    
-    # Check if message has reply markup (buttons)
     if message.reply_markup:
         try:
-            # For inline keyboard buttons
             if hasattr(message.reply_markup, 'rows'):
                 for row in message.reply_markup.rows:
                     for button in row.buttons:
                         if hasattr(button, 'url') and button.url:
-                            button_links.append({
-                                'text': button.text,
-                                'url': button.url
-                            })
-                        elif hasattr(button, 'data'):
-                            # This is a callback button, not a URL
-                            pass
-        except Exception as e:
-            print(f"  ⚠️ Could not parse buttons: {e}")
+                            button_links.append(button.url)
+        except:
+            pass
     
-    # Also look for URLs in the text (as fallback)
+    # Also look for URLs in text
     urls = re.findall(r'https?://[^\s]+', text)
     for url in urls:
-        if 't.me' not in url:  # Skip internal Telegram links
-            button_links.append({'text': 'External Link', 'url': url})
+        if 't.me' not in url:
+            button_links.append(url)
     
-    # Determine which link to use as the primary apply link
+    # Determine apply link
     apply_link = None
-    for link in button_links:
-        if 'apply' in link['text'].lower() or 'apply' in link['url'].lower():
-            apply_link = link['url']
-            break
-    
-    # If no apply button found, use the first external link
-    if not apply_link and button_links:
-        apply_link = button_links[0]['url']
-    
-    # If still no link, use the message link (user can see full post)
+    if button_links:
+        apply_link = button_links[0]
     if not apply_link:
         apply_link = message_link
     
@@ -114,8 +90,7 @@ def extract_job_info(message, channel_name):
         'company': company,
         'channel': f'@{channel_name}',
         'message_link': message_link,
-        'apply_link': apply_link,  # This is the actual apply button link!
-        'button_links': str(button_links),  # Store all buttons for debugging
+        'apply_link': apply_link,
         'date': str(message.date)[:10],
         'message_id': message.id,
     }
@@ -153,8 +128,6 @@ def extract_skills(text):
         'accounting': ['accounting', 'finance'],
         'marketing': ['marketing', 'seo'],
         'design': ['design', 'photoshop', 'figma'],
-        'engineering': ['engineering', 'engineer'],
-        'architecture': ['architecture', 'architect', 'autocad']
     }
     for skill, keywords in skill_keywords.items():
         for kw in keywords:
@@ -171,8 +144,6 @@ def guess_category(text, skills):
         return 'Engineering'
     if any(s in skills for s in ['python', 'javascript', 'sql']):
         return 'Technology'
-    if any(s in skills for s in ['accounting', 'finance']):
-        return 'Finance'
     return 'General'
 
 def save_to_csv(jobs, filename='data/jobs.csv'):
@@ -192,26 +163,18 @@ def save_to_csv(jobs, filename='data/jobs.csv'):
     combined.to_csv(filename, index=False, encoding='utf-8-sig')
     print(f"✅ Saved {len(jobs)} new jobs")
     print(f"📊 Total jobs now: {len(combined)}")
-    
-    # Show sample of apply links
-    sample = combined[combined['apply_link'].notna()].head(3)
-    if len(sample) > 0:
-        print("\n📎 Sample Apply Links:")
-        for _, row in sample.iterrows():
-            print(f"   {row['title'][:40]}... → {row['apply_link'][:60]}")
-    
     return combined
 
 async def main():
     print("=" * 60)
-    print("🤖 TELEGRAM JOB SCRAPER (WITH BUTTON LINKS)")
+    print("🤖 TELEGRAM JOB SCRAPER")
     print("=" * 60)
     
     jobs = await scrape_jobs()
     
     if jobs:
         save_to_csv(jobs)
-        print(f"\n✅ Done! Found {len(jobs)} jobs with apply links")
+        print(f"\n✅ Done! Found {len(jobs)} jobs")
     else:
         print("❌ No jobs found")
 
