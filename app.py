@@ -1,273 +1,285 @@
 from flask import Flask, render_template, request, jsonify, session
 import secrets
-import random
-import json
-from utils.nlp_processor import NLPProcessor
-from models.recommender import JobRecommender
-from models.quiz import SkillQuiz
+import pandas as pd
+import re
+import io
+from fuzzywuzzy import fuzz
+import PyPDF2
+import docx
+from models.smart_matcher import SmartMatcher
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
-# Initialize components
-nlp = NLPProcessor()
-recommender = JobRecommender()
+# ============================================
+# INITIALIZE AI MATCHER
+# ============================================
 
-# Load job data
+matcher = SmartMatcher()
 try:
-    recommender.load_jobs('data/jobs.csv')
-    print("✅ Job data loaded successfully!")
+    matcher.load_jobs('data/jobs.csv')
+    print(f"✅ AI Matcher ready with {len(matcher.jobs_df)} jobs")
 except Exception as e:
-    print(f"⚠️ Could not load jobs: {e}")
+    print(f"⚠️ Error: {e}")
+
+# ============================================
+# CV PARSING FUNCTIONS
+# ============================================
+
+def extract_text_from_pdf(file_bytes):
+    try:
+        pdf_reader = PyPDF2.PdfReader(io.BytesIO(file_bytes))
+        text = ""
+        for page in pdf_reader.pages:
+            text += page.extract_text() or ""
+        return text
+    except:
+        return ""
+
+def extract_text_from_docx(file_bytes):
+    try:
+        doc = docx.Document(io.BytesIO(file_bytes))
+        text = ""
+        for para in doc.paragraphs:
+            text += para.text + "\n"
+        return text
+    except:
+        return ""
+
+def extract_text_from_txt(file_bytes):
+    try:
+        return file_bytes.decode('utf-8', errors='ignore')
+    except:
+        return ""
+
+# ============================================
+# SKILL EXTRACTION
+# ============================================
+
+def extract_skills_from_text(text):
+    text_lower = text.lower()
+    skills = []
+    
+    skill_database = {
+        'python': ['python', 'django', 'flask', 'pandas', 'numpy'],
+        'sql': ['sql', 'mysql', 'postgresql', 'database'],
+        'javascript': ['javascript', 'react', 'node', 'vue'],
+        'java': ['java', 'spring'],
+        'html': ['html', 'css', 'frontend'],
+        'communication': ['communication', 'presentation', 'public speaking'],
+        'leadership': ['leadership', 'management', 'team lead'],
+        'accounting': ['accounting', 'finance', 'quickbooks'],
+        'marketing': ['marketing', 'seo', 'social media'],
+        'design': ['design', 'photoshop', 'illustrator', 'figma'],
+        'project management': ['project management', 'agile', 'scrum', 'jira'],
+        'data analysis': ['data analysis', 'analytics', 'statistics', 'tableau'],
+        'machine learning': ['machine learning', 'ml', 'ai', 'tensorflow'],
+        'aws': ['aws', 'amazon', 'cloud', 'ec2', 's3'],
+        'docker': ['docker', 'kubernetes', 'container'],
+        'git': ['git', 'github', 'version control'],
+        'excel': ['excel', 'spreadsheet'],
+        'problem solving': ['problem solving', 'analytical', 'critical thinking'],
+        'teamwork': ['teamwork', 'collaboration', 'team player'],
+        'creativity': ['creativity', 'creative', 'innovation']
+    }
+    
+    for skill, keywords in skill_database.items():
+        for keyword in keywords:
+            if keyword in text_lower:
+                skills.append(skill)
+                break
+    
+    return list(set(skills))
+
+# ============================================
+# PERSONALIZED RESUME TIPS
+# ============================================
+
+def generate_personalized_tips(skills, text):
+    tips = []
+    
+    # Basic tips
+    tips.append({'category': '📝 Keywords', 'tips': ['Use action verbs: Developed, Led, Created, Implemented']})
+    tips.append({'category': '📄 Format', 'tips': ['Keep to 1-2 pages', 'Use bullet points', 'Quantify achievements']})
+    
+    # Skill-based tips
+    if skills:
+        tips.append({'category': '🎯 Skills to Highlight', 'tips': [f'Emphasize your {skills[0]} experience', f'Add specific projects using {", ".join(skills[:3])}']})
+    
+    # Missing common skills detection
+    common_skills = ['communication', 'teamwork', 'problem solving']
+    missing = [s for s in common_skills if s not in skills]
+    if missing:
+        tips.append({'category': '📚 Skills to Add', 'tips': [f'Consider adding {", ".join(missing)} to your resume']})
+    
+    # Length check
+    words = len(text.split())
+    if words < 200:
+        tips.append({'category': '📏 Length', 'tips': ['Your resume seems short. Add more details about your experience and projects.']})
+    
+    return tips
+
+# ============================================
+# ROUTES
+# ============================================
 
 @app.route('/')
 def index():
-    """Home page"""
     return render_template('index.html')
 
 @app.route('/quiz')
 def quiz():
-    """Quiz page"""
     return render_template('quiz.html')
 
-@app.route('/get-quiz-questions')
-def get_quiz_questions():
-    """Get quiz questions"""
-    try:
-        quiz_instance = SkillQuiz()
-        questions = quiz_instance.get_questions()
-        print(f"✅ Loaded {len(questions)} quiz questions")
-        return jsonify({'questions': questions})
-    except Exception as e:
-        print(f"❌ Error loading quiz questions: {e}")
-        return jsonify({'questions': [], 'error': str(e)}), 500
-
-@app.route('/submit-quiz', methods=['POST'])
-def submit_quiz():
-    """Process quiz submission"""
-    try:
-        data = request.json
-        print(f"📥 Quiz submission received: {data}")
-        
-        answers = data.get('answers', [])
-        
-        if not answers:
-            return jsonify({'success': False, 'error': 'No answers provided'}), 400
-        
-        print(f"📝 Processing {len(answers)} answers")
-        
-        quiz_instance = SkillQuiz()
-        
-        # Process each answer
-        for answer in answers:
-            question_id = answer.get('question_id')
-            selected = answer.get('selected')
-            if question_id is not None and selected is not None:
-                quiz_instance.check_answer(question_id, selected)
-        
-        # Generate skill profile
-        profile = quiz_instance.calculate_skill_profile()
-        skills = profile.get('skills', [])
-        display_skills = profile.get('display_skills', [])
-        
-        print(f"✅ Quiz completed - Score: {profile.get('score', 0)}/{profile.get('total_possible', 0)}")
-        print(f"📊 Skills identified: {display_skills}")
-        
-        # Store in session
-        session['user_skills'] = skills
-        session['display_skills'] = display_skills
-        
-        # Get recommendations
-        recommendations = []
-        if skills:
-            recommendations = recommender.get_recommendations(skills)
-            print(f"🎯 Found {len(recommendations)} job recommendations")
-        else:
-            print("⚠️ No skills identified, skipping recommendations")
-        
-        return jsonify({
-            'success': True,
-            'skills': display_skills,
-            'recommendations': recommendations,
-            'score': profile.get('score', 0),
-            'total_possible': profile.get('total_possible', 0)
-        })
-        
-    except Exception as e:
-        print(f"❌ Error in submit-quiz: {e}")
-        import traceback
-        traceback.print_exc()  # This will print the full error in terminal
-        return jsonify({'success': False, 'error': str(e)}), 500
 @app.route('/manual-input')
 def manual_input():
-    """Manual skill input page"""
     return render_template('manual_input.html')
+
+@app.route('/upload-cv')
+def upload_cv():
+    return render_template('upload_cv.html')
 
 @app.route('/get-recommendations', methods=['POST'])
 def get_recommendations():
-    """Get job recommendations from skills"""
     try:
         data = request.json
-        print(f"📥 Received skills data: {data}")
-        
         skills_text = data.get('skills', '')
-        experience = data.get('experience', 'entry')
+        skills_list = [s.strip() for s in skills_text.split(',') if s.strip()]
         
-        # Parse skills
-        if isinstance(skills_text, str):
-            skills_list = [s.strip() for s in skills_text.split(',') if s.strip()]
-        else:
-            skills_list = []
-        
-        print(f"📋 Skills parsed: {skills_list}")
-        print(f"💼 Experience level: {experience}")
-        
-        # Store in session
         session['user_skills'] = skills_list
-        session['display_skills'] = skills_list
-        session['experience'] = experience
         
-        # Get recommendations
-        recommendations = recommender.get_recommendations(skills_list)
-        print(f"✅ Found {len(recommendations)} recommendations")
+        recommendations = matcher.get_recommendations(skills_list)
         
         return jsonify({
             'success': True,
             'skills': skills_list,
-            'experience': experience,
             'recommendations': recommendations
         })
     except Exception as e:
-        print(f"❌ Error in get-recommendations: {e}")
-        import traceback
-        traceback.print_exc()
         return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/analyze-cv', methods=['POST'])
+def analyze_cv():
+    try:
+        if 'cv' not in request.files:
+            return jsonify({'error': 'No file uploaded'}), 400
+        
+        file = request.files['cv']
+        if file.filename == '':
+            return jsonify({'error': 'No file selected'}), 400
+        
+        file_bytes = file.read()
+        filename = file.filename.lower()
+        text = ""
+        
+        if filename.endswith('.pdf'):
+            text = extract_text_from_pdf(file_bytes)
+        elif filename.endswith('.docx'):
+            text = extract_text_from_docx(file_bytes)
+        else:
+            text = extract_text_from_txt(file_bytes)
+        
+        if not text.strip():
+            return jsonify({'error': 'Could not extract text'}), 400
+        
+        skills = extract_skills_from_text(text)
+        session['user_skills'] = skills
+        
+        recommendations = matcher.get_recommendations(skills)
+        
+        # Personalized resume tips
+        tips = generate_personalized_tips(skills, text)
+        
+        # Learning resources
+        learning_resources = []
+        for skill in skills[:5]:
+            learning_resources.append({
+                'skill': skill,
+                'resources': [
+                    {'title': f'Learn {skill.title()}', 'url': f'https://www.google.com/search?q=learn+{skill}'}
+                ]
+            })
+        
+        return jsonify({
+            'success': True,
+            'skills': skills,
+            'recommendations': recommendations[:8],
+            'learning_resources': learning_resources,
+            'resume_tips': tips,
+            'filename': file.filename
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/skill-gap/<int:job_id>')
 def skill_gap(job_id):
-    """Get skill gap analysis for a specific job"""
     try:
         user_skills = session.get('user_skills', [])
-        
         if not user_skills:
-            return jsonify({'error': 'No skills found in session'}), 400
+            return jsonify({'gaps': [], 'job_title': ''})
         
-        # Get job details
-        job = recommender.jobs_df[recommender.jobs_df['job_id'] == job_id].iloc[0]
-        
-        # Parse required skills
+        job = matcher.jobs_df.iloc[job_id]
         required_skills = [s.strip().lower() for s in str(job.get('required_skills', '')).split(',') if s.strip()]
         user_skills_lower = [s.lower() for s in user_skills]
         
-        # Find gaps
         gaps = []
         for skill in required_skills:
             if skill and skill not in user_skills_lower:
-                # Determine priority
-                freq = recommender.jobs_df['required_skills'].str.lower().str.contains(skill).mean()
-                if freq > 0.7:
-                    priority = 'High'
-                elif freq > 0.4:
-                    priority = 'Medium'
-                else:
-                    priority = 'Low'
-                
-                gaps.append({
-                    'skill': skill.title(),
-                    'priority': priority
-                })
-        
-        print(f"📊 Skill gap analysis for job {job_id}: {len(gaps)} gaps found")
+                # Check if similar skill exists
+                is_similar = False
+                for uskill in user_skills_lower:
+                    if fuzz.ratio(skill, uskill) > 85:
+                        is_similar = True
+                        break
+                if not is_similar:
+                    # Calculate priority based on job importance
+                    if len(required_skills) <= 3:
+                        priority = 'High'
+                    elif len(required_skills) <= 6:
+                        priority = 'Medium'
+                    else:
+                        priority = 'Low'
+                    
+                    gaps.append({
+                        'skill': skill.title(),
+                        'priority': priority,
+                        'learning_url': f"https://www.google.com/search?q=learn+{skill.replace(' ', '+')}"
+                    })
         
         return jsonify({
-            'gaps': gaps,
+            'gaps': gaps[:8],
             'job_title': job['title']
         })
     except Exception as e:
-        print(f"❌ Error in skill-gap: {e}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/learning-resources')
 def learning_resources():
-    """Get learning resources for skills"""
     try:
         skills = request.args.get('skills', '').split(',')
-        
-        # Sample resources database
-        resources_db = {
-            'python': [
-                {'title': '🐍 Python for Beginners', 'platform': 'Coursera', 'url': '#', 'difficulty': 'Beginner'},
-                {'title': 'Complete Python Bootcamp', 'platform': 'Udemy', 'url': '#', 'difficulty': 'Beginner'}
-            ],
-            'sql': [
-                {'title': '🗄️ SQL Mastery', 'platform': 'Udemy', 'url': '#', 'difficulty': 'Beginner'}
-            ],
-            'javascript': [
-                {'title': '📜 JavaScript Complete', 'platform': 'freeCodeCamp', 'url': '#', 'difficulty': 'Beginner'}
-            ],
-            'machine learning': [
-                {'title': '🤖 Machine Learning A-Z', 'platform': 'Coursera', 'url': '#', 'difficulty': 'Intermediate'}
-            ],
-            'aws': [
-                {'title': '☁️ AWS Certified', 'platform': 'AWS Training', 'url': '#', 'difficulty': 'Intermediate'}
-            ],
-            'docker': [
-                {'title': '🐳 Docker Mastery', 'platform': 'Udemy', 'url': '#', 'difficulty': 'Intermediate'}
-            ],
-            'communication': [
-                {'title': '💬 Communication Skills', 'platform': 'LinkedIn', 'url': '#', 'difficulty': 'Beginner'}
-            ]
-        }
-        
-        result = []
+        resources = []
         for skill in skills:
-            skill_clean = skill.strip().lower()
-            if skill_clean in resources_db:
-                result.append({
-                    'skill': skill_clean,
-                    'resources': resources_db[skill_clean]
+            if skill.strip():
+                resources.append({
+                    'skill': skill.strip(),
+                    'resources': [
+                        {'title': f'Learn {skill.title()} - Course', 'url': f'https://www.coursera.org/search?query={skill}'},
+                        {'title': f'{skill.title()} Tutorial', 'url': f'https://www.youtube.com/results?search_query={skill}+tutorial'}
+                    ]
                 })
-        
-        return jsonify({'resources': result})
+        return jsonify({'resources': resources})
     except Exception as e:
-        print(f"❌ Error in learning-resources: {e}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/resume-tips')
 def resume_tips():
-    """Get resume tips"""
-    try:
-        tips = [
-            {
-                'category': '🎯 Keywords to Include',
-                'tips': [
-                    'Use action verbs: Developed, Implemented, Led, Created',
-                    'Include relevant technical skills from job descriptions',
-                    'Add industry-specific keywords'
-                ]
-            },
-            {
-                'category': '📄 Formatting Tips',
-                'tips': [
-                    'Keep resume to 1-2 pages',
-                    'Use clean, professional layout',
-                    'Use bullet points for readability'
-                ]
-            },
-            {
-                'category': '✨ Content Suggestions',
-                'tips': [
-                    'Quantify achievements with numbers',
-                    'Tailor resume for each job application',
-                    'Include relevant projects and outcomes'
-                ]
-            }
-        ]
-        
-        return jsonify({'tips': tips})
-    except Exception as e:
-        print(f"❌ Error in resume-tips: {e}")
-        return jsonify({'error': str(e)}), 500
+    tips = [
+        {'category': '🎯 Keywords', 'tips': ['Use action verbs: Developed, Implemented, Led, Created', 'Include skills from job descriptions', 'Add industry keywords']},
+        {'category': '📄 Format', 'tips': ['Keep to 1-2 pages', 'Use bullet points', 'Quantify achievements with numbers']},
+        {'category': '✨ Content', 'tips': ['Tailor resume for each job', 'Include relevant projects', 'Add certifications']}
+    ]
+    return jsonify({'tips': tips})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

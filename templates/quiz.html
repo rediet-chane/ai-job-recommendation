@@ -1,80 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}Skill Assessment Quiz{% endblock %}
+{% block title %}Skill Quiz{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-3">
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <!-- Progress Card -->
-            <div class="card mb-4 animate__animated animate__fadeInDown">
+            <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-tasks me-2"></i>
-                    <span>Your Progress</span>
+                    <i class="fas fa-question-circle me-2"></i>Skill Assessment Quiz
                 </div>
-                <div class="card-body">
-                    <div class="progress" style="height: 20px;">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" 
-                             id="progressBar" style="width: 0%;">
-                            <span class="fw-bold" id="progressText">0% Complete</span>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between mt-2">
-                        <span class="text-muted" id="questionCounter">Question 1 of <span id="totalQuestions">0</span></span>
-                        <span class="badge bg-primary" id="currentCategory">Loading...</span>
+                <div class="card-body" id="quizArea">
+                    <div id="quizQuestions"></div>
+                    <div id="quizControls" class="d-flex justify-content-between mt-3">
+                        <button class="btn btn-secondary btn-sm" id="prevBtn" disabled>Previous</button>
+                        <button class="btn btn-primary btn-sm" id="nextBtn">Next</button>
+                        <button class="btn btn-success btn-sm" id="submitBtn" style="display:none">Submit Quiz</button>
                     </div>
                 </div>
             </div>
-
-            <!-- Question Card -->
-            <div class="card" id="quizCard">
-                <div class="card-header">
-                    <i class="fas fa-question-circle me-2"></i>
-                    <span>Question <span id="currentQuestionNum">1</span></span>
-                </div>
-                <div class="card-body p-4">
-                    <h4 class="card-title mb-4 text-primary" id="question"></h4>
-                    
-                    <div id="options" class="mt-4">
-                        <!-- Options will load here -->
-                    </div>
-
-                    <!-- Navigation Buttons -->
-                    <div class="d-flex justify-content-between mt-4">
-                        <button class="btn btn-secondary" id="prevBtn" style="display: none;">
-                            <i class="fas fa-arrow-left me-2"></i>Previous
-                        </button>
-                        <div></div>
-                        <button class="btn btn-primary" id="nextBtn">
-                            Next<i class="fas fa-arrow-right ms-2"></i>
-                        </button>
-                        <button class="btn btn-success" id="submitBtn" style="display: none;">
-                            <i class="fas fa-check me-2"></i>Submit Quiz
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Loading Spinner -->
-            <div id="loading" style="display: none;" class="text-center my-5">
-                <div class="loading-spinner"></div>
-                <h4 class="text-white mt-3">Analyzing your skills...</h4>
-                <p class="text-white-50">This may take a few seconds</p>
-            </div>
-
-            <!-- Results Section -->
-            <div id="results" style="display: none;" class="mt-4"></div>
+            <div id="quizResults" style="display: none;" class="mt-3"></div>
         </div>
     </div>
 </div>
 
-<!-- Modals (reuse from manual_input) -->
 <div class="modal fade" id="gapModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="fas fa-chart-bar me-2"></i>Skill Gap Analysis</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Skill Gap Analysis</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body" id="gapModalBody"></div>
         </div>
@@ -84,427 +39,177 @@
 
 {% block scripts %}
 <script>
-let questions = [];
+const quizQuestions = [
+    { id: 1, text: "What does Python use for indentation?", options: ["Braces", "Spaces/Tabs", "Keywords", "Parentheses"], correct: 1, skill: "python" },
+    { id: 2, text: "Which SQL command is used to retrieve data?", options: ["INSERT", "UPDATE", "SELECT", "DELETE"], correct: 2, skill: "sql" },
+    { id: 3, text: "What's the best way to handle a conflict with a colleague?", options: ["Ignore it", "Report immediately", "Private discussion", "Email chain"], correct: 2, skill: "communication" },
+    { id: 4, text: "What does API stand for?", options: ["Application Programming Interface", "Application Process Integration", "Automated Program Interface", "Advanced Programming Interface"], correct: 0, skill: "api" },
+    { id: 5, text: "What is Git primarily used for?", options: ["Database management", "Version control", "Web hosting", "Image editing"], correct: 1, skill: "git" }
+];
+
 let currentQuestion = 0;
-let answers = [];
+let userAnswers = new Array(quizQuestions.length).fill(-1);
+let quizSubmitted = false;
 
-// Load questions
-$.ajax({
-    url: '/get-quiz-questions',
-    method: 'GET',
-    success: function(data) {
-        questions = data.questions;
-        $('#totalQuestions').text(questions.length);
-        if (questions.length > 0) {
-            displayQuestion(0);
-        }
-    },
-    error: function() {
-        $('#quizCard').html(`
-            <div class="card-body text-center p-5">
-                <i class="fas fa-exclamation-triangle fa-4x text-danger mb-3"></i>
-                <h4>Error Loading Quiz</h4>
-                <p>Please try again later</p>
-            </div>
-        `);
-    }
-});
-
-function displayQuestion(index) {
-    if (index >= questions.length) return;
+function renderQuestion() {
+    let q = quizQuestions[currentQuestion];
+    let selected = userAnswers[currentQuestion];
     
-    const q = questions[index];
+    let html = `<div class="mb-3">
+        <span class="badge bg-primary mb-2">Question ${currentQuestion + 1}/${quizQuestions.length}</span>
+        <h6>${q.text}</h6>
+    </div>`;
     
-    // Update displays
-    $('#currentQuestionNum').text(index + 1);
-    $('#currentCategory').text(q.category);
-    $('#question').text(q.question);
-    
-    // Create options
-    let optionsHtml = '';
-    q.options.forEach((option, i) => {
-        const checked = answers[index] === i ? 'checked' : '';
-        const letter = String.fromCharCode(65 + i); // A, B, C, D
-        
-        optionsHtml += `
-            <div class="card mb-3 option-card" style="cursor: pointer;" onclick="selectOption(${q.id}, ${i})">
-                <div class="card-body">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" 
-                               name="question${q.id}" id="opt${q.id}_${i}" 
-                               value="${i}" ${checked}>
-                        <label class="form-check-label w-100" for="opt${q.id}_${i}">
-                            <span class="fw-bold me-3">${letter}.</span> ${option}
-                        </label>
-                    </div>
-                </div>
-            </div>
-        `;
-    });
-    
-    $('#options').html(optionsHtml);
-    
-    // Update buttons
-    $('#prevBtn').toggle(index > 0);
-    $('#nextBtn').toggle(index < questions.length - 1);
-    $('#submitBtn').toggle(index === questions.length - 1);
-    
-    // Update progress
-    const progress = ((index + 1) / questions.length) * 100;
-    $('#progressBar').css('width', progress + '%');
-    $('#progressText').text(Math.round(progress) + '% Complete');
-    $('#questionCounter').text(`Question ${index + 1} of ${questions.length}`);
-}
-
-function selectOption(questionId, optionIndex) {
-    $(`input[name="question${questionId}"]`).prop('checked', false);
-    $(`#opt${questionId}_${optionIndex}`).prop('checked', true);
-    
-    // Highlight selected card
-    $('.option-card').removeClass('border-primary bg-light');
-    $(event.currentTarget).addClass('border-primary bg-light');
-}
-
-// Next button
-$('#nextBtn').click(function() {
-    const q = questions[currentQuestion];
-    const selected = $(`input[name="question${q.id}"]:checked`).val();
-    
-    if (selected === undefined) {
-        alert('Please select an answer before proceeding.');
-        return;
-    }
-    
-    // Store as integer
-    answers[currentQuestion] = parseInt(selected);
-    console.log(`📝 Answer for Q${q.id} saved:`, answers[currentQuestion]);
-    
-    currentQuestion++;
-    displayQuestion(currentQuestion);
-});
-
-// Previous button
-$('#prevBtn').click(function() {
-    const q = questions[currentQuestion];
-    const selected = $(`input[name="question${q.id}"]:checked`).val();
-    
-    if (selected !== undefined) {
-        answers[currentQuestion] = parseInt(selected);
-    }
-    
-    currentQuestion--;
-    displayQuestion(currentQuestion);
-});
-
-// Submit quiz
-$('#submitBtn').click(function() {
-    // Save last answer
-    const q = questions[currentQuestion];
-    const selected = $(`input[name="question${q.id}"]:checked`).val();
-    
-    if (selected === undefined) {
-        alert('Please select an answer before proceeding.');
-        return;
-    }
-    
-    // Format answers properly - THIS IS THE KEY FIX
-    let formattedAnswers = [];
-    for (let i = 0; i <= currentQuestion; i++) {
-        formattedAnswers.push({
-            question_id: questions[i].id,
-            selected: answers[i]
-        });
-    }
-    
-    console.log("📤 Submitting answers:", formattedAnswers);
-    
-    // Show loading
-    $('#quizCard').hide();
-    $('.d-flex').hide();
-    $('#loading').show();
-    
-    // Submit answers
-    $.ajax({
-        url: '/submit-quiz',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ answers: formattedAnswers }), // Send formatted answers
-        success: function(response) {
-            console.log("✅ Quiz submitted successfully:", response);
-            $('#loading').hide();
-            displayResults(response);
-        },
-        error: function(xhr, status, error) {
-            console.error("❌ Error submitting quiz:", error);
-            console.error("Response:", xhr.responseText);
-            $('#loading').hide();
-            alert('Error submitting quiz. Please try again.');
-            $('#quizCard').show();
-            $('.d-flex').show();
-        }
-    });
-});
-function displayResults(data) {
-    let html = `
-        <div class="card animate__animated animate__fadeInUp">
-            <div class="card-header bg-success text-white">
-                <i class="fas fa-trophy me-2"></i>Your Quiz Results
-            </div>
-            <div class="card-body p-4">
-                <div class="text-center mb-4">
-                    <div class="display-1 text-success">${data.score || 0}</div>
-                    <p class="lead">points earned out of ${data.total_possible || 30}</p>
-                    
-                    <div class="row justify-content-center">
-                        <div class="col-md-6">
-                            <div class="progress" style="height: 20px;">
-                                <div class="progress-bar bg-success" 
-                                     style="width: ${Math.min(100, ((data.score || 0)/30)*100)}%">
-                                    ${Math.min(100, Math.round(((data.score || 0)/30)*100))}% Mastery
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h5 class="mb-3"><i class="fas fa-check-circle text-success me-2"></i>Skills Identified:</h5>
-                <div class="mb-4">
-                    ${(data.skills || []).map(s => 
-                        `<span class="skill-badge"><i class="fas fa-check-circle text-success me-1"></i>${s}</span>`
-                    ).join('')}
-                </div>
-                
-                <h5 class="mb-3"><i class="fas fa-briefcase text-primary me-2"></i>Your Job Recommendations:</h5>
-    `;
-    
-    (data.recommendations || []).forEach((rec, index) => {
-        const medals = ['🥇', '🥈', '🥉'];
-        const medal = index < 3 ? medals[index] : '📌';
-        
+    q.options.forEach((opt, i) => {
+        let checked = selected === i ? 'checked' : '';
         html += `
-            <div class="card mt-3 animate__animated animate__fadeInUp" style="animation-delay: ${index * 0.2}s">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-1 text-center">
-                            <span class="display-6">${medal}</span>
-                        </div>
-                        <div class="col-md-7">
-                            <h5 class="text-primary">${rec.title}</h5>
-                            <p class="text-muted mb-0"><i class="fas fa-tag me-2"></i>${rec.category || 'General'}</p>
-                        </div>
-                        <div class="col-md-2 text-center">
-                            <span class="match-score">${rec.match_score}%</span>
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-outline-primary w-100 view-gap" data-job="${rec.job_id}">
-                                <i class="fas fa-chart-bar me-1"></i>Gap
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="form-check mb-2" style="cursor:pointer" onclick="selectOption(${i})">
+                <input class="form-check-input" type="radio" name="quizOption" value="${i}" id="opt${i}" ${checked}>
+                <label class="form-check-label">${String.fromCharCode(65 + i)}. ${opt}</label>
             </div>
         `;
     });
     
-    html += `
-                <div class="text-center mt-4">
-                    <a href="/quiz" class="btn btn-primary me-2">
-                        <i class="fas fa-redo me-2"></i>Take Quiz Again
-                    </a>
-                    <a href="/manual-input" class="btn btn-success">
-                        <i class="fas fa-pen me-2"></i>Manual Input
-                    </a>
+    document.getElementById('quizQuestions').innerHTML = html;
+    
+    document.getElementById('prevBtn').disabled = (currentQuestion === 0);
+    if (currentQuestion === quizQuestions.length - 1) {
+        document.getElementById('nextBtn').style.display = 'none';
+        document.getElementById('submitBtn').style.display = 'inline-block';
+    } else {
+        document.getElementById('nextBtn').style.display = 'inline-block';
+        document.getElementById('submitBtn').style.display = 'none';
+    }
+}
+
+function selectOption(optionIndex) {
+    userAnswers[currentQuestion] = optionIndex;
+    document.querySelectorAll('input[name="quizOption"]').forEach((radio, i) => {
+        if (i === optionIndex) radio.checked = true;
+        else radio.checked = false;
+    });
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+    if (userAnswers[currentQuestion] === -1) {
+        alert('Please select an answer before continuing');
+        return;
+    }
+    currentQuestion++;
+    renderQuestion();
+});
+
+document.getElementById('prevBtn').addEventListener('click', () => {
+    currentQuestion--;
+    renderQuestion();
+});
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+    if (userAnswers[currentQuestion] === -1) {
+        alert('Please select an answer before submitting');
+        return;
+    }
+    
+    let score = 0;
+    let skills = [];
+    quizQuestions.forEach((q, i) => {
+        if (userAnswers[i] === q.correct) {
+            score++;
+            skills.push(q.skill);
+        }
+    });
+    
+    let percentage = Math.round((score / quizQuestions.length) * 100);
+    let uniqueSkills = [...new Set(skills)];
+    
+    let resultsHtml = `
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Quiz Results</h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <h1 class="display-4">${score}/${quizQuestions.length}</h1>
+                    <p>Score: ${percentage}%</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" style="width: ${percentage}%"></div>
+                    </div>
                 </div>
+                <h6>Skills Identified:</h6>
+                <div class="mb-3">
+                    ${uniqueSkills.map(s => `<span class="skill-badge">${s}</span>`).join('')}
+                    ${uniqueSkills.length === 0 ? '<span class="text-muted">No specific skills identified</span>' : ''}
+                </div>
+                <button class="btn btn-primary w-100" id="findJobsFromQuiz">Find Jobs Based on Your Skills</button>
             </div>
         </div>
     `;
     
-    $('#results').html(html).show();
+    document.getElementById('quizArea').style.display = 'none';
+    document.getElementById('quizResults').innerHTML = resultsHtml;
+    document.getElementById('quizResults').style.display = 'block';
     
-    // Add gap analysis handler
-    $('.view-gap').click(function() {
-        const jobId = $(this).data('job');
-        viewSkillGap(jobId);
-    });
-}
-
-// ========== VIEW SKILL GAP ==========
-function viewSkillGap(jobId) {
-    console.log("🔍 Viewing skill gap for job:", jobId);
-    
-    if (!jobId) {
-        console.error("❌ No job ID provided");
-        return;
-    }
-    
-    // Force cleanup any stuck modals
-    $('body').removeClass('modal-open');
-    $('.modal-backdrop').remove();
-    $('.modal.show').removeClass('show').hide();
-    
-    // Set loading content
-    $('#gapModal .modal-body').html(`
-        <div class="text-center p-4">
-            <div class="spinner-border text-primary mb-3" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <p>Analyzing your skills...</p>
-        </div>
-    `);
-    
-    // Show modal
-    $('#gapModal').addClass('show').css('display', 'block');
-    
-    // Make AJAX request
-    $.ajax({
-        url: `/skill-gap/${jobId}`,
-        method: 'GET',
-        timeout: 10000,
-        success: function(data) {
-            console.log("📊 Gap data received:", data);
-            
-            let html = '';
-            
-            if (data.gaps && data.gaps.length > 0) {
-                html += '<h5 class="mb-3">Skills You Need to Develop:</h5>';
-                data.gaps.forEach(gap => {
-                    let priorityClass = '';
-                    let priorityText = gap.priority || 'Medium';
-                    
-                    if (priorityText.includes('High') || priorityText === 'High') {
-                        priorityClass = 'priority-high';
-                        priorityText = '🔴 High Priority';
-                    } else if (priorityText.includes('Medium') || priorityText === 'Medium') {
-                        priorityClass = 'priority-medium';
-                        priorityText = '🟡 Medium Priority';
-                    } else {
-                        priorityClass = 'priority-low';
-                        priorityText = '🟢 Low Priority';
-                    }
-                    
-                    html += `
-                        <div class="card mb-2">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <span class="fw-bold">${gap.skill || 'Unknown skill'}</span>
-                                <span class="${priorityClass}">${priorityText}</span>
-                            </div>
+    document.getElementById('findJobsFromQuiz').addEventListener('click', () => {
+        if (!uniqueSkills.length) uniqueSkills = ['communication'];
+        
+        document.getElementById('quizResults').innerHTML = '<div class="text-center"><div class="loading-spinner"></div><p>Finding jobs...</p></div>';
+        
+        fetch('/get-recommendations', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ skills: uniqueSkills.join(',') })
+        })
+        .then(r => r.json())
+        .then(data => {
+            let jobsHtml = `<div class="card"><div class="card-header">Your Job Matches</div><div class="card-body">`;
+            data.recommendations.slice(0, 8).forEach(job => {
+                const applyUrl = job.apply_link || job.message_link;
+                jobsHtml += `
+                    <div class="border-bottom pb-2 mb-2">
+                        <div class="d-flex justify-content-between">
+                            <strong>${job.title}</strong>
+                            <span class="badge ${job.match_score > 70 ? 'bg-success' : job.match_score > 40 ? 'bg-warning' : 'bg-secondary'}">${job.match_score}%</span>
                         </div>
-                    `;
-                });
-                
-                // Add close button
+                        ${applyUrl ? 
+                            `<a href="${applyUrl}" target="_blank" class="btn btn-sm btn-success mt-1"><i class="fab fa-telegram"></i> Apply Now</a>` : 
+                            '<span class="text-muted small">No apply link</span>'}
+                        <button class="btn btn-sm btn-outline-primary mt-1 ms-2" onclick="viewSkillGapFromQuiz(${job.job_id})">Skill Gap</button>
+                    </div>
+                `;
+            });
+            jobsHtml += `</div></div>`;
+            document.getElementById('quizResults').innerHTML = jobsHtml;
+        })
+        .catch(() => {
+            document.getElementById('quizResults').innerHTML = '<div class="alert alert-danger">Error finding jobs</div>';
+        });
+    });
+});
+
+renderQuestion();
+
+function viewSkillGapFromQuiz(jobId) {
+    $('#gapModal').modal('show');
+    $('#gapModalBody').html('<div class="text-center"><div class="loading-spinner"></div><p>Analyzing...</p></div>');
+    
+    $.get(`/skill-gap/${jobId}`, function(data) {
+        if (data.gaps && data.gaps.length) {
+            let html = `<h6>Missing Skills for: ${data.job_title}</h6>`;
+            data.gaps.forEach(gap => {
+                let color = gap.priority === 'High' ? '#dc3545' : gap.priority === 'Medium' ? '#ffc107' : '#28a745';
                 html += `
-                    <div class="text-center mt-4">
-                        <button class="btn btn-secondary close-modal-btn" data-modal="gapModal">
-                            <i class="fas fa-times me-2"></i>Close
-                        </button>
+                    <div style="background: ${gap.priority === 'High' ? '#ffe6e6' : gap.priority === 'Medium' ? '#fff3cd' : '#e6f4e6'}; border-left: 3px solid ${color}; padding: 10px; margin-bottom: 8px; border-radius: 8px;">
+                        <strong>${gap.skill}</strong> 
+                        <span class="badge ${gap.priority === 'High' ? 'bg-danger' : gap.priority === 'Medium' ? 'bg-warning' : 'bg-success'}">${gap.priority}</span>
+                        <br><a href="${gap.learning_url}" target="_blank" class="small">Learn →</a>
                     </div>
                 `;
-            } else {
-                html = `
-                    <div class="alert alert-success text-center p-4">
-                        <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
-                        <h5>Congratulations! 🎉</h5>
-                        <p>You have all the required skills for this job!</p>
-                        <button class="btn btn-primary mt-3 close-modal-btn" data-modal="gapModal">
-                            <i class="fas fa-times me-2"></i>Close
-                        </button>
-                    </div>
-                `;
-            }
-            
-            $('#gapModal .modal-body').html(html);
-            
-            // Add close button handler
-            $('.close-modal-btn').off('click').on('click', function() {
-                const modalId = $(this).data('modal');
-                $(`#${modalId}`).removeClass('show').hide();
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
             });
-        },
-        error: function(xhr, status, error) {
-            console.error("❌ Gap analysis error:", error);
-            
-            $('#gapModal .modal-body').html(`
-                <div class="alert alert-danger text-center p-4">
-                    <i class="fas fa-exclamation-circle fa-4x mb-3"></i>
-                    <h5>Error</h5>
-                    <p>Could not load skill gap analysis.</p>
-                    <button class="btn btn-secondary mt-3 close-modal-btn" data-modal="gapModal">
-                        <i class="fas fa-times me-2"></i>Close
-                    </button>
-                </div>
-            `);
-            
-            $('.close-modal-btn').off('click').on('click', function() {
-                const modalId = $(this).data('modal');
-                $(`#${modalId}`).removeClass('show').hide();
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-            });
+            $('#gapModalBody').html(html);
+        } else {
+            $('#gapModalBody').html('<div class="alert alert-success">You have all required skills! 🎉</div>');
         }
     });
 }
-
-// Also add this helper function to handle modal close for X buttons
-$(document).on('click', '[data-bs-dismiss="modal"]', function() {
-    const modal = $(this).closest('.modal');
-    modal.removeClass('show').hide();
-    $('body').removeClass('modal-open');
-    $('.modal-backdrop').remove();
-});
-
-// Close on escape key
-$(document).on('keydown', function(e) {
-    if (e.key === 'Escape') {
-        $('.modal.show').removeClass('show').hide();
-        $('body').removeClass('modal-open');
-        $('.modal-backdrop').remove();
-    }
-});
-
 </script>
-
-<style>
-.option-card {
-    transition: all 0.3s;
-    border: 2px solid transparent;
-}
-
-.option-card:hover {
-    transform: translateX(10px);
-    border-color: #ff6b6b;
-    background: linear-gradient(135deg, #fff5f5, #fff0f0);
-}
-
-.option-card.border-primary {
-    border-color: #4ecdc4 !important;
-    background: linear-gradient(135deg, #f0faf9, #e6f5f3);
-}
-
-.form-check-input:checked {
-    background-color: #4ecdc4;
-    border-color: #4ecdc4;
-/* Fix for modal freezing */
-
-body.modal-open {
-    overflow: auto !important;
-    padding-right: 0 !important;
-}
-
-.modal-backdrop {
-    display: none !important;
-}
-
-.modal {
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.modal.show {
-    display: block !important;
-    z-index: 1050;
-}
-}
-</style>
 {% endblock %}

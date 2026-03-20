@@ -1,44 +1,17 @@
-from utils.nlp_processor import NLPProcessor
-from models.recommender import JobRecommender
+import pandas as pd
+from models.smart_matcher import SmartMatcher
 
-print("=" * 50)
-print("🔧 TESTING JOB RECOMMENDATION SYSTEM")
-print("=" * 50)
+matcher = SmartMatcher()
+matcher.load_jobs('data/jobs.csv')
 
-# Test NLP Processor
-print("\n📝 Testing NLP Processor...")
-nlp = NLPProcessor()
-test_text = "Looking for Python developer with SQL and machine learning experience"
-result = nlp.preprocess_job_description(test_text)
-print(f"   Original: {test_text}")
-print(f"   Extracted skills: {result['extracted_skills']}")
-print("   ✅ NLP Processor works!")
+print("\n📊 Testing with skills: python, sql")
+recs = matcher.get_recommendations(['python', 'sql'])
+for rec in recs[:3]:
+    print(f"  {rec['title']} - {rec['match_score']}%")
 
-# Test Job Recommender
-print("\n🎯 Testing Job Recommender...")
-recommender = JobRecommender()
+print("\n📊 Testing with typo: pyton")
+recs = matcher.get_recommendations(['pyton'])
+for rec in recs[:3]:
+    print(f"  {rec['title']} - {rec['match_score']}%")
 
-if recommender.load_jobs('data/jobs.csv'):
-    test_skills = ['python', 'sql', 'javascript']
-    print(f"   Testing with skills: {test_skills}")
-    
-    recommendations = recommender.get_recommendations(test_skills)
-    
-    if recommendations:
-        print("\n📊 Top Recommendations:")
-        print("-" * 40)
-        for i, rec in enumerate(recommendations[:5], 1):
-            print(f"{i}. {rec['title']}")
-            print(f"   Match: {rec['match_score']}%")
-            print(f"   Skills: {rec['required_skills']}")
-            print()
-    else:
-        print("   No recommendations found")
-    
-    print("✅ Job Recommender works!")
-else:
-    print("❌ Could not load jobs")
-
-print("\n" + "=" * 50)
-print("✅ SYSTEM TEST COMPLETE")
-print("=" * 50)
+print("\n✅ System test complete!")
