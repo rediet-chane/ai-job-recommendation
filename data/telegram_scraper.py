@@ -1,234 +1,273 @@
 import asyncio
-import csv
 from telethon import TelegramClient
+from telethon.network import ConnectionTcpAbridged
 import pandas as pd
-import os
 import re
-from amharic_text_processor import Pipeline
-from amharic_text_processor.processors import (
-    WhitespaceNormalizer,
-    PunctuationNormalizer,
-    UnicodeNormalizer,
-    CharacterRemapper,
-)
+from collections import Counter
 
 # ============================================
-# AMHARIC JOB SCRAPER
+# PYTHONANYWHERE-FRIENDLY SCRAPER
+# Uses HTTP protocol instead of MTProto
 # ============================================
 
-API_ID = 28759123  # Your actual ID
-API_HASH = '9a8b7c6d5e4f3g2h1i'  # Your actual hash
+API_ID = 39378710  # Your actual ID
+API_HASH = '80aefba1418ce690c011975d04db5d85'  # Your actual hash
 
-# Ethiopian job channels (many post in Amharic)
+# Use HTTP connection instead of default MTProto
+CONNECTION = ConnectionTcpAbridged
+
+# Ethiopian job channels
 CHANNELS = [
-    'hahujobs',        # Posts in Amharic & English
-    'ethiojobsofficial', 
-    'elelanjobs',       # Often posts in Amharic
+    'hahujobs',
+    'ethiojobsofficial',
+    'elelanjobs',
     'freelance_ethio',
-    'mertteka',         # Amharic job posts
-    'shegerjobs',       # Amharic job posts
 ]
 
-# Create Amharic text processing pipeline
-amharic_pipeline = Pipeline([
-    UnicodeNormalizer(),        # Normalize Unicode characters
-    CharacterRemapper(),        # Normalize Ethiopic variants (ሠ->ሰ, ዐ->አ)
-    PunctuationNormalizer(),    # Unify punctuation
-    WhitespaceNormalizer(),     # Clean up spaces
-])
-
-# Amharic keywords for job detection
-AMHARIC_JOB_KEYWORDS = [
-    'ሥራ', 'ቀጥሮ', 'ቀጣሪ', 'ባንክ', 'ኩባንያ',  # job, hire, company
-    'ፈልጎታል', 'ፈልጎ', 'ይፈልጋል',           # looking for
-    'ተፈላጊ', 'ቀጥሮታል', 'ቀጣሪ ይፈልጋል',     # wanted, hiring
-    'ክፍት ቦታ', 'የሥራ ቦታ',                 # vacancy, job position
-]
-
-# Amharic skill keywords
-AMHARIC_SKILLS = {
-    'ሶፍትዌር': 'software',
-    'ፕሮግራሚንግ': 'programming',
-    'ኮምፒውተር': 'computer',
-    'ዳታ': 'data',
-    'አካውንቲንግ': 'accounting',
-    'ፋይናንስ': 'finance',
-    'ማርኬቲንግ': 'marketing',
-    'ሽያጭ': 'sales',
-    'ኢንጂነር': 'engineer',
-    'ቴክኒሻን': 'technician',
-    'አስተዳዳሪ': 'manager',
-    'ረዳት': 'assistant',
+# Skills to look for INSIDE descriptions
+SKILL_PATTERNS = {
+    'python': ['python', 'django', 'flask', 'pandas'],
+    'sql': ['sql', 'mysql', 'postgresql', 'database', 'query', 'db'],
+    'javascript': ['javascript', 'js', 'react', 'node', 'vue', 'angular'],
+    'java': ['java', 'spring', 'j2ee'],
+    'html': ['html', 'css', 'web design', 'frontend'],
+    'excel': ['excel', 'spreadsheet', 'sheets'],
+    'communication': ['communication', 'verbal', 'written', 'presentation'],
+    'management': ['management', 'leadership', 'team lead', 'supervisor'],
+    'accounting': ['accounting', 'finance', 'quickbooks', 'peachtree', 'tax'],
+    'marketing': ['marketing', 'seo', 'social media', 'advertising'],
+    'sales': ['sales', 'business development', 'client'],
+    'teaching': ['teaching', 'education', 'training', 'instruction'],
+    'design': ['design', 'graphic', 'creative', 'photoshop', 'illustrator'],
+    'engineering': ['engineering', 'engineer', 'civil', 'mechanical', 'electrical'],
+    'architecture': ['architect', 'architecture', 'drafting', 'autocad', 'revit'],
+    'customer service': ['customer service', 'support', 'help desk', 'client service'],
 }
 
 async def scrape_jobs():
-    print("📱 Connecting to Telegram...")
-    client = TelegramClient('session_name', API_ID, API_HASH)
-    await client.start()
-    
-    print("✅ Connected! Now reading Amharic job channels...")
-    all_jobs = []
-    
-    for channel_name in CHANNELS:
-        try:
-            print(f"📥 Reading from @{channel_name}...")
-            channel = await client.get_entity(channel_name)
-            messages = await client.get_messages(channel, limit=30)
-            
-            for msg in messages:
-                if msg.text and len(msg.text) > 50:
-                    # Process Amharic text through the pipeline
-                    cleaned_text = amharic_pipeline.apply(msg.text)["text"]
-                    
-                    # Check if it's a job posting (Amharic or English)
-                    if is_job_posting(cleaned_text):
-                        job = extract_amharic_job_info(cleaned_text, channel_name, msg)
-                        all_jobs.append(job)
-                        print(f"  ✅ Found job: {job['title'][:50]}...")
-                    
-        except Exception as e:
-            print(f"⚠️ Couldn't read {channel_name}: {e}")
-    
-    await client.disconnect()
-    return all_jobs
+    print("📱 Connecting to Telegram (using HTTP protocol)...")
 
-def is_job_posting(text):
-    """Detect if message is a job posting (supports Amharic & English)"""
-    text_lower = text.lower()
-    
-    # Check for Amharic job keywords
-    for keyword in AMHARIC_JOB_KEYWORDS:
-        if keyword in text:
-            return True
-    
-    # Check for English job keywords
-    english_keywords = ['job', 'vacancy', 'hiring', 'position', 'recruitment']
-    for keyword in english_keywords:
-        if keyword in text_lower:
-            return True
-    
-    return False
+    # Use ConnectionTcpAbridged for better compatibility
+    client = TelegramClient(
+        'session_name',
+        API_ID,
+        API_HASH,
+        connection=CONNECTION
+    )
 
-def extract_amharic_job_info(text, channel, message):
-    """Extract job information from mixed Amharic/English text"""
-    
-    # Try to find job title - look for patterns
-    title = "የሥራ ቦታ"  # Default: "Job Position" in Amharic
-    
-    # Look for lines that might contain job titles
-    lines = text.split('\n')
-    for line in lines[:5]:
-        line = line.strip()
-        if len(line) > 10 and len(line) < 100:
-            # If line contains job keywords, it might be the title
-            if any(kw in line for kw in AMHARIC_JOB_KEYWORDS + ['job', 'position']):
-                title = line[:100]
-                break
-    
-    # Extract skills (both Amharic and English)
-    skills = []
-    text_lower = text.lower()
-    
-    # Check Amharic skills
-    for am_skill, en_skill in AMHARIC_SKILLS.items():
-        if am_skill in text:
-            skills.append(en_skill)
-    
-    # Check English skills
-    english_skills = ['python', 'sql', 'excel', 'word', 'powerpoint', 'communication']
-    for skill in english_skills:
-        if skill in text_lower:
-            skills.append(skill)
-    
-    # Try to find company name
-    company = "ኩባንያ"  # Default: "Company" in Amharic
-    company_patterns = [
-        r'(?:ኩባንያ|ድርጅት|ተቋም)[:\s]+([^\n]+)',  # Amharic patterns
-        r'(?:company|organization)[:\s]+([^\n]+)',  # English patterns
-        r'@(\w+)'  # Telegram username
-    ]
-    for pattern in company_patterns:
-        match = re.search(pattern, text, re.IGNORECASE)
-        if match:
-            company = match.group(1).strip()[:50]
-            break
-    
+    try:
+        await client.start()
+        print("✅ Connected! Reading job channels...")
+
+        all_jobs = []
+
+        for channel_name in CHANNELS:
+            try:
+                print(f"📥 Reading from @{channel_name}...")
+                channel = await client.get_entity(channel_name)
+                messages = await client.get_messages(channel, limit=100)
+
+                for msg in messages:
+                    if msg.text and len(msg.text) > 50:
+                        job = extract_job_info(msg.text, channel_name, msg)
+                        if job:
+                            all_jobs.append(job)
+                            print(f"  ✅ Found: {job['title'][:40]}...")
+
+            except Exception as e:
+                print(f"⚠️ Couldn't read {channel_name}: {e}")
+
+        await client.disconnect()
+        return all_jobs
+
+    except Exception as e:
+        print(f"❌ Connection error: {e}")
+        return []
+
+def extract_job_info(text, channel_name, message):
+    """Extract FULL job information from message"""
+
+    # Extract title
+    title = extract_title(text)
+
+    # Extract company name
+    company = extract_company(text)
+
+    # Extract application link (if any)
+    link = extract_link(text)
+
+    # Extract salary (if mentioned)
+    salary = extract_salary(text)
+
+    # Extract skills from description
+    skills = find_skills_in_text(text)
+
+    # Determine category
+    category = guess_category(text, skills)
+
+    # Get the message link
+    message_link = f"https://t.me/{channel_name}/{message.id}"
+
     return {
+        'job_id': message.id,
         'title': title,
+        'description': text[:1000],
+        'required_skills': ', '.join(skills) if skills else 'See description',
+        'category': category,
         'company': company,
-        'description': text[:500],
-        'required_skills': ', '.join(skills) if skills else 'ተዛማጅ ክህሎቶች',  # "Related skills" in Amharic
-        'category': guess_category_amharic(text),
-        'experience_level': guess_experience_amharic(text),
+        'channel': f'@{channel_name}',
+        'message_link': message_link,
+        'salary': salary,
         'date': str(message.date)[:10],
-        'channel': f'@{channel}',
         'message_id': message.id,
     }
 
-def guess_category_amharic(text):
-    """Guess job category from Amharic/English text"""
-    categories = {
-        '💻 ቴክኖሎጂ': ['ሶፍትዌር', 'ፕሮግራም', 'ኮምፒውተር', 'ዳታ', 'software', 'developer', 'it'],
-        '📊 ቢዝነስ': ['አካውንቲንግ', 'ፋይናንስ', 'ማርኬቲንግ', 'ሽያጭ', 'business', 'marketing'],
-        '🎨 ዲዛይን': ['ዲዛይን', 'ግራፊክ', 'design', 'graphic'],
-        '📚 ትምህርት': ['መምህር', 'ትምህርት', 'teacher', 'education'],
-        '🏗️ ኢንጂነሪንግ': ['ኢንጂነር', 'ሲቪል', 'ሜካኒካል', 'engineer', 'civil'],
-    }
-    
-    for cat, keywords in categories.items():
-        for keyword in keywords:
-            if keyword in text:
-                return cat
-    
-    return '📌 አጠቃላይ'
+def extract_link(text):
+    """Extract Telegram or external link from message"""
+    # Look for t.me links
+    tg_link = re.search(r'https?://t\.me/[^\s]+', text)
+    if tg_link:
+        return tg_link.group()
+    # Look for other links
+    other_link = re.search(r'https?://[^\s]+', text)
+    if other_link:
+        return other_link.group()
+    return None
 
-def guess_experience_amharic(text):
-    """Guess experience level from Amharic/English text"""
-    if re.search(r'(ጀማሪ|አዲስ|entry|junior|fresh|0|no experience)', text, re.IGNORECASE):
-        return 'ጀማሪ'
-    elif re.search(r'(መካከለኛ|mid|intermediate|2-5)', text, re.IGNORECASE):
-        return 'መካከለኛ'
-    elif re.search(r'(ከፍተኛ|ሲኒየር|senior|lead|manager|5\+)', text, re.IGNORECASE):
-        return 'ከፍተኛ'
-    else:
-        return 'ጀማሪ'
+def extract_salary(text):
+    """Extract salary information"""
+    # Look for salary patterns
+    patterns = [
+        r'salary[:\s]*([^\n]+)',
+        r'በደሞዝ[:\s]*([^\n]+)',
+        r'ቅጥር[:\s]*([^\n]+)',
+        r'(\d+,\d+|\d+)\s*(?:birr|ETB|ብር)',
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            return match.group(1) if '(' in pattern else match.group(0)
+    return "Not specified"
 
-def save_to_csv(jobs, filename='data/jobs_from_telegram.csv'):
-    """Save jobs to CSV with Amharic support"""
+def extract_title(text):
+    """Extract job title from message"""
+    lines = text.split('\n')
+
+    # Look for common title indicators
+    for line in lines[:5]:
+        line = line.strip()
+        if 'Job Title:' in line:
+            return line.replace('Job Title:', '').strip()
+        if 'Position:' in line:
+            return line.replace('Position:', '').strip()
+        if 'Job:' in line:
+            return line.replace('Job:', '').strip()
+
+    # If no clear title, use first non-empty line
+    for line in lines[:3]:
+        line = line.strip()
+        if line and len(line) < 100 and not line.startswith('http'):
+            return line
+
+    return "Job Opening"
+
+def find_skills_in_text(text):
+    """Scan the entire text to find skills"""
+    text_lower = text.lower()
+    found_skills = []
+
+    # Check each skill pattern
+    for skill, patterns in SKILL_PATTERNS.items():
+        for pattern in patterns:
+            if pattern in text_lower:
+                found_skills.append(skill)
+                break
+
+    # Remove duplicates
+    found_skills = list(set(found_skills))
+
+    # For architecture roles
+    if 'architect' in text_lower and 'architecture' not in found_skills:
+        found_skills.append('architecture')
+    if 'design' in text_lower and 'design' not in found_skills:
+        found_skills.append('design')
+
+    return found_skills
+
+def extract_company(text):
+    """Extract company name"""
+    lines = text.split('\n')
+    for line in lines[:10]:
+        line = line.strip()
+        if 'Company:' in line:
+            return line.replace('Company:', '').strip()
+        if 'PLC' in line or 'SC' in line:
+            return line.strip()
+        # Check for email domain
+        email_match = re.search(r'@(\w+\.\w+)', line)
+        if email_match:
+            return email_match.group(1)
+    return "Not specified"
+
+def guess_category(text, skills):
+    """Guess job category based on skills and text"""
+    text_lower = text.lower()
+
+    if any(s in skills for s in ['architecture', 'design']):
+        return '🏗️ Architecture/Design'
+    if 'engineer' in text_lower or 'engineering' in text_lower:
+        return '🔧 Engineering'
+    if any(s in skills for s in ['python', 'javascript', 'java', 'html']):
+        return '💻 Technology'
+    if any(s in skills for s in ['accounting', 'finance']):
+        return '💰 Finance'
+    if any(s in skills for s in ['marketing', 'sales']):
+        return '📈 Marketing'
+
+    return '📌 General'
+
+def save_to_csv(jobs, filename='data/jobs.csv'):
+    """Save jobs to CSV, avoiding duplicates"""
     if not jobs:
         print("❌ No jobs found")
         return
-    
-    # Make sure to handle Amharic text properly
-    df = pd.DataFrame(jobs)
-    
-    # Save with UTF-8 encoding to preserve Amharic characters
-    df.to_csv(filename, index=False, encoding='utf-8-sig')
-    print(f"✅ Saved {len(jobs)} jobs to {filename}")
-    
-    # Also append to main jobs file
+
+    new_df = pd.DataFrame(jobs)
+
     try:
-        main_df = pd.read_csv('data/jobs.csv', encoding='utf-8')
-        combined = pd.concat([main_df, df], ignore_index=True)
-        combined.to_csv('data/jobs.csv', index=False, encoding='utf-8-sig')
-        print(f"✅ Added to main jobs.csv! Total: {len(combined)} jobs")
-    except Exception as e:
-        print(f"ℹ️ Couldn't add to main jobs.csv: {e}")
-    
-    return df
+        existing = pd.read_csv(filename)
+        combined = pd.concat([existing, new_df], ignore_index=True)
+        combined = combined.drop_duplicates(subset=['message_id', 'channel'], keep='last')
+    except:
+        combined = new_df
+
+    combined.to_csv(filename, index=False, encoding='utf-8-sig')
+    print(f"✅ Saved {len(jobs)} new jobs")
+    print(f"📊 Total jobs now: {len(combined)}")
+
+    # Show skill statistics
+    all_skills = []
+    for skills in combined['required_skills'].dropna():
+        all_skills.extend([s.strip() for s in skills.split(',') if s.strip()])
+    common_skills = Counter(all_skills).most_common(5)
+    print("📊 Top skills in database:")
+    for skill, count in common_skills:
+        print(f"   - {skill}: {count} jobs")
+
+    return combined
 
 async def main():
     print("=" * 60)
-    print("🤖 የኢትዮጵያ ሥራ ሰብሳቢ (Ethiopian Job Scraper)")
+    print("🤖 ETHIOPIAN JOB SCRAPER")
     print("=" * 60)
-    
+
     jobs = await scrape_jobs()
-    
+
     if jobs:
         save_to_csv(jobs)
-        print(f"\n📊 ጠቅላላ የተገኙ ሥራዎች: {len(jobs)}")
+        print(f"\n✅ Scraping complete! Added {len(jobs)} jobs")
     else:
-        print("❌ ምንም ሥራ አልተገኘም")
+        print("❌ No jobs found")
 
 if __name__ == "__main__":
     asyncio.run(main())

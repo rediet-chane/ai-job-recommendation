@@ -339,6 +339,7 @@ $(document).ready(function() {
     });
     
     // ========== COMPACT RESULTS DISPLAY ==========
+// ========== ENHANCED RESULTS DISPLAY ==========
 function displayResults(recommendations) {
     let html = '<h3 class="text-center text-white mb-4">Your Job Matches</h3>';
     
@@ -352,6 +353,10 @@ function displayResults(recommendations) {
             `<span class="badge bg-light text-dark me-1 mb-1">${s}</span>`
         ).join('');
         
+        // Determine job source (Telegram or Sample)
+        const source = job.channel ? `📱 ${job.channel}` : '📝 Sample Job';
+        const sourceBadge = job.channel ? 'bg-success' : 'bg-secondary';
+        
         html += `
             <div class="card mb-3">
                 <div class="card-body p-3">
@@ -361,7 +366,10 @@ function displayResults(recommendations) {
                             <div>
                                 <h5 class="mb-1 text-primary">${job.title || 'Unknown'}</h5>
                                 <p class="small text-muted mb-2">${job.category || 'General'}</p>
-                                <div class="mb-2">${skillBadges}</div>
+                                <div class="mb-2">
+                                    <span class="badge ${sourceBadge} me-2">${source}</span>
+                                    ${skillBadges}
+                                </div>
                             </div>
                         </div>
                         <div class="text-end">

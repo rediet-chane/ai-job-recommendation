@@ -1,0 +1,288 @@
+2026-03-19 13:35:13 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:36:18 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:37:21 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:39:36 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:40:38 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:41:41 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:42:43 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:43:46 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:44:48 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:45:51 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:46:54 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:47:57 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:48:59 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:50:01 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:51:04 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:52:06 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:53:08 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:54:11 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:55:13 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:56:15 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:57:18 ❌ Error: Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scrape
+2026-03-19 13:57:26 ❌ Failed (code 1)
+Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scraper.py", line 234, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\Redie\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\Redie\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Redie\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scraper.py", line 222, in main
+    print("\U0001f916 \u12e8\u12a2\u1275\u12ee\u1335\u12eb \u1225\u122b \u1230\u1265\u1233\u1262 (Ethiopian Job Scraper)")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Redie\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f916' in position 0: character maps to <undefined>
+
+2026-03-19 13:58:27 ❌ Failed (code 1)
+Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scraper.py", line 234, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\Redie\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\Redie\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Redie\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scraper.py", line 222, in main
+    print("\U0001f916 \u12e8\u12a2\u1275\u12ee\u1335\u12eb \u1225\u122b \u1230\u1265\u1233\u1262 (Ethiopian Job Scraper)")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Redie\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f916' in position 0: character maps to <undefined>
+
+2026-03-19 14:00:03 ❌ Failed (code 1)
+Traceback (most recent call last):
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scraper.py", line 234, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\Redie\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\Redie\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Redie\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\Redie\ai-job-recommendation\data\telegram_scraper.py", line 222, in main
+    print(" \u12e8\u12a2\u1275\u12ee\u1335\u12eb \u1225\u122b \u1230\u1265\u1233\u1262 (Ethiopian Job Scraper)")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Redie\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 1-6: character maps to <undefined>
+
+2026-03-19 14:01:00 ✅ Success
+==================================================
+ETHIOPIAN JOB SCRAPER
+==================================================
+Connecting to Telegram...
+Connected! Reading job channels...
+Reading from @hahujobs...
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+Reading from @ethiojobsofficial...
+  Found job
+  
+2026-03-19 14:02:01 ✅ Success
+==================================================
+ETHIOPIAN JOB SCRAPER
+==================================================
+Connecting to Telegram...
+Connected! Reading job channels...
+Reading from @hahujobs...
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+Reading from @ethiojobsofficial...
+  Found job
+  
+2026-03-19 14:03:08 ✅ Success
+==================================================
+ETHIOPIAN JOB SCRAPER
+==================================================
+Connecting to Telegram...
+Connected! Reading job channels...
+Reading from @hahujobs...
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+Reading from @ethiojobsofficial...
+  Found job
+  
+2026-03-19 14:04:15 ✅ Success
+==================================================
+ETHIOPIAN JOB SCRAPER
+==================================================
+Connecting to Telegram...
+Connected! Reading job channels...
+Reading from @hahujobs...
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+Reading from @ethiojobsofficial...
+  Found job
+  
+2026-03-19 14:05:23 ✅ Success
+==================================================
+ETHIOPIAN JOB SCRAPER
+==================================================
+Connecting to Telegram...
+Connected! Reading job channels...
+Reading from @hahujobs...
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+Reading from @ethiojobsofficial...
+  Found job
+  
+2026-03-19 14:06:54 ✅ Success
+==================================================
+ETHIOPIAN JOB SCRAPER
+==================================================
+Connecting to Telegram...
+Connected! Reading job channels...
+Reading from @hahujobs...
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+  Found job
+Reading from @ethiojobsofficial...
+  Found job
+  
