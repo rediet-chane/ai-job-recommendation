@@ -62,26 +62,27 @@ def extract_skills_from_text(text):
     skills = []
     
     skill_database = {
-        'python': ['python', 'django', 'flask', 'pandas', 'numpy'],
-        'sql': ['sql', 'mysql', 'postgresql', 'database'],
-        'javascript': ['javascript', 'react', 'node', 'vue'],
-        'java': ['java', 'spring'],
-        'html': ['html', 'css', 'frontend'],
-        'communication': ['communication', 'presentation', 'public speaking'],
-        'leadership': ['leadership', 'management', 'team lead'],
-        'accounting': ['accounting', 'finance', 'quickbooks'],
-        'marketing': ['marketing', 'seo', 'social media'],
-        'design': ['design', 'photoshop', 'illustrator', 'figma'],
-        'project management': ['project management', 'agile', 'scrum', 'jira'],
-        'data analysis': ['data analysis', 'analytics', 'statistics', 'tableau'],
-        'machine learning': ['machine learning', 'ml', 'ai', 'tensorflow'],
-        'aws': ['aws', 'amazon', 'cloud', 'ec2', 's3'],
-        'docker': ['docker', 'kubernetes', 'container'],
+        'python': ['python', 'django', 'flask', 'pandas', 'numpy', 'fastapi'],
+        'sql': ['sql', 'mysql', 'postgresql', 'database', 'query', 'oracle'],
+        'javascript': ['javascript', 'react', 'node', 'vue', 'angular', 'typescript'],
+        'java': ['java', 'spring', 'j2ee', 'hibernate'],
+        'html': ['html', 'css', 'frontend', 'bootstrap'],
+        'communication': ['communication', 'presentation', 'public speaking', 'verbal', 'written'],
+        'leadership': ['leadership', 'management', 'team lead', 'supervisor', 'director'],
+        'teamwork': ['teamwork', 'collaboration', 'team player', 'interpersonal'],
+        'problem solving': ['problem solving', 'analytical', 'critical thinking', 'troubleshooting'],
+        'project management': ['project management', 'agile', 'scrum', 'jira', 'trello'],
+        'data analysis': ['data analysis', 'analytics', 'statistics', 'tableau', 'power bi'],
+        'machine learning': ['machine learning', 'ml', 'ai', 'tensorflow', 'pytorch', 'keras'],
+        'aws': ['aws', 'amazon', 'cloud', 'ec2', 's3', 'lambda'],
+        'docker': ['docker', 'kubernetes', 'container', 'devops'],
         'git': ['git', 'github', 'version control'],
-        'excel': ['excel', 'spreadsheet'],
-        'problem solving': ['problem solving', 'analytical', 'critical thinking'],
-        'teamwork': ['teamwork', 'collaboration', 'team player'],
-        'creativity': ['creativity', 'creative', 'innovation']
+        'excel': ['excel', 'spreadsheet', 'sheets'],
+        'accounting': ['accounting', 'finance', 'quickbooks', 'peachtree', 'tax'],
+        'marketing': ['marketing', 'seo', 'social media', 'digital marketing', 'content'],
+        'design': ['design', 'photoshop', 'illustrator', 'figma', 'adobe xd', 'ui', 'ux'],
+        'engineering': ['engineering', 'engineer', 'civil', 'mechanical', 'electrical'],
+        'architecture': ['architecture', 'architect', 'autocad', 'revit', 'sketchup']
     }
     
     for skill, keywords in skill_database.items():
@@ -93,32 +94,101 @@ def extract_skills_from_text(text):
     return list(set(skills))
 
 # ============================================
-# PERSONALIZED RESUME TIPS
+# PERSONALIZED RESUME TIPS (Based on CV content)
 # ============================================
 
 def generate_personalized_tips(skills, text):
     tips = []
+    text_lower = text.lower()
+    words = text.split()
     
-    # Basic tips
-    tips.append({'category': '📝 Keywords', 'tips': ['Use action verbs: Developed, Led, Created, Implemented']})
-    tips.append({'category': '📄 Format', 'tips': ['Keep to 1-2 pages', 'Use bullet points', 'Quantify achievements']})
-    
-    # Skill-based tips
+    # Skills analysis
     if skills:
-        tips.append({'category': '🎯 Skills to Highlight', 'tips': [f'Emphasize your {skills[0]} experience', f'Add specific projects using {", ".join(skills[:3])}']})
+        tips.append({
+            'category': '🎯 Skills Detected',
+            'tips': [f'We found these skills: {", ".join(skills[:5])}', 
+                     f'Highlight these skills prominently in your resume']
+        })
     
-    # Missing common skills detection
-    common_skills = ['communication', 'teamwork', 'problem solving']
+    # Missing common skills
+    common_skills = ['communication', 'teamwork', 'problem solving', 'leadership']
     missing = [s for s in common_skills if s not in skills]
     if missing:
-        tips.append({'category': '📚 Skills to Add', 'tips': [f'Consider adding {", ".join(missing)} to your resume']})
+        tips.append({
+            'category': '📚 Skills to Add',
+            'tips': [f'Consider adding these in-demand skills: {", ".join(missing)}']
+        })
     
-    # Length check
-    words = len(text.split())
-    if words < 200:
-        tips.append({'category': '📏 Length', 'tips': ['Your resume seems short. Add more details about your experience and projects.']})
+    # Length analysis
+    if len(words) < 300:
+        tips.append({
+            'category': '📏 Resume Length',
+            'tips': ['Your resume seems short. Aim for 300-500 words', 'Add more details about your experience and projects']
+        })
+    elif len(words) > 1000:
+        tips.append({
+            'category': '📏 Resume Length',
+            'tips': ['Your resume is quite long. Consider keeping it to 2 pages', 'Focus on most relevant experiences']
+        })
     
-    return tips
+    # Action verb analysis
+    action_verbs = ['developed', 'created', 'managed', 'led', 'implemented', 'designed', 'analyzed', 'improved']
+    has_verbs = any(verb in text_lower for verb in action_verbs)
+    if not has_verbs:
+        tips.append({
+            'category': '💪 Action Verbs',
+            'tips': ['Use strong action verbs: Developed, Created, Managed, Led, Implemented', 'Quantify achievements with numbers']
+        })
+    
+    # Numbers/achievements
+    has_numbers = bool(re.search(r'\d+%|\d+,\d+|\d+', text))
+    if not has_numbers:
+        tips.append({
+            'category': '📊 Achievements',
+            'tips': ['Add numbers to quantify your achievements', 'Example: "Improved efficiency by 20%"']
+        })
+    
+    # Customization tip
+    tips.append({
+        'category': '🎯 Customization',
+        'tips': ['Tailor your resume for each job application', 'Use keywords from the job description']
+    })
+    
+    return tips[:6]  # Limit to 6 tips
+
+# ============================================
+# CALCULATE SKILL PRIORITY (Based on market demand)
+# ============================================
+
+def calculate_skill_priority(skill, user_skills, all_jobs_df):
+    """Calculate priority based on how common the skill is in jobs matching user skills"""
+    try:
+        # Find jobs similar to user skills
+        user_skills_set = set(user_skills)
+        matching_jobs = []
+        for _, job in all_jobs_df.iterrows():
+            job_skills = str(job.get('required_skills', '')).lower()
+            job_skills_set = set([s.strip() for s in job_skills.split(',') if s.strip()])
+            if user_skills_set & job_skills_set:  # If shares at least one skill
+                matching_jobs.append(job_skills)
+        
+        # Count how many matching jobs require this skill
+        count = 0
+        for job_skills in matching_jobs:
+            if skill in job_skills:
+                count += 1
+        
+        total = len(matching_jobs) if matching_jobs else 1
+        frequency = count / total
+        
+        if frequency > 0.5:
+            return 'High'
+        elif frequency > 0.2:
+            return 'Medium'
+        else:
+            return 'Low'
+    except:
+        return 'Medium'
 
 # ============================================
 # ROUTES
@@ -183,9 +253,11 @@ def analyze_cv():
         if not text.strip():
             return jsonify({'error': 'Could not extract text'}), 400
         
+        # Extract skills
         skills = extract_skills_from_text(text)
         session['user_skills'] = skills
         
+        # Get job recommendations
         recommendations = matcher.get_recommendations(skills)
         
         # Personalized resume tips
@@ -226,20 +298,15 @@ def skill_gap(job_id):
         gaps = []
         for skill in required_skills:
             if skill and skill not in user_skills_lower:
-                # Check if similar skill exists
+                # Check if similar skill exists (fuzzy match)
                 is_similar = False
                 for uskill in user_skills_lower:
                     if fuzz.ratio(skill, uskill) > 85:
                         is_similar = True
                         break
                 if not is_similar:
-                    # Calculate priority based on job importance
-                    if len(required_skills) <= 3:
-                        priority = 'High'
-                    elif len(required_skills) <= 6:
-                        priority = 'Medium'
-                    else:
-                        priority = 'Low'
+                    # Calculate priority based on market demand
+                    priority = calculate_skill_priority(skill, user_skills, matcher.jobs_df)
                     
                     gaps.append({
                         'skill': skill.title(),
@@ -248,7 +315,7 @@ def skill_gap(job_id):
                     })
         
         return jsonify({
-            'gaps': gaps[:8],
+            'gaps': gaps[:10],
             'job_title': job['title']
         })
     except Exception as e:
@@ -264,8 +331,7 @@ def learning_resources():
                 resources.append({
                     'skill': skill.strip(),
                     'resources': [
-                        {'title': f'Learn {skill.title()} - Course', 'url': f'https://www.coursera.org/search?query={skill}'},
-                        {'title': f'{skill.title()} Tutorial', 'url': f'https://www.youtube.com/results?search_query={skill}+tutorial'}
+                        {'title': f'Learn {skill.title()}', 'url': f'https://www.coursera.org/search?query={skill}'}
                     ]
                 })
         return jsonify({'resources': resources})
@@ -274,10 +340,11 @@ def learning_resources():
 
 @app.route('/resume-tips')
 def resume_tips():
+    # Generic tips as fallback
     tips = [
-        {'category': '🎯 Keywords', 'tips': ['Use action verbs: Developed, Implemented, Led, Created', 'Include skills from job descriptions', 'Add industry keywords']},
-        {'category': '📄 Format', 'tips': ['Keep to 1-2 pages', 'Use bullet points', 'Quantify achievements with numbers']},
-        {'category': '✨ Content', 'tips': ['Tailor resume for each job', 'Include relevant projects', 'Add certifications']}
+        {'category': '📝 Keywords', 'tips': ['Use action verbs', 'Include skills from job descriptions']},
+        {'category': '📄 Format', 'tips': ['Keep to 1-2 pages', 'Use bullet points']},
+        {'category': '✨ Content', 'tips': ['Quantify achievements', 'Tailor for each job']}
     ]
     return jsonify({'tips': tips})
 

@@ -89,8 +89,6 @@ function displayResults(jobs) {
     jobs.forEach((job, i) => {
         let medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '📌';
         let skills = job.required_skills.split(',').slice(0,5).map(s => `<span class="skill-badge">${s.trim()}</span>`).join('');
-        
-        // Use apply_link first, fallback to message_link
         const applyUrl = job.apply_link || job.message_link;
         
         html += `
@@ -126,11 +124,11 @@ function viewSkillGap(jobId) {
         if (data.gaps && data.gaps.length) {
             let html = `<h6 class="mb-2">Missing Skills for: ${data.job_title}</h6>`;
             data.gaps.forEach(gap => {
-                let priorityColor = gap.priority === 'High' ? '#dc3545' : gap.priority === 'Medium' ? '#ffc107' : '#28a745';
+                let priorityClass = gap.priority === 'High' ? 'priority-high' : gap.priority === 'Medium' ? 'priority-medium' : 'priority-low';
                 html += `
-                    <div style="background: ${gap.priority === 'High' ? '#ffe6e6' : gap.priority === 'Medium' ? '#fff3cd' : '#e6f4e6'}; border-left: 3px solid ${priorityColor}; padding: 10px; margin-bottom: 8px; border-radius: 8px;">
+                    <div class="gap-item ${priorityClass}" style="padding: 10px; margin-bottom: 8px; border-radius: 8px;">
                         <strong>${gap.skill}</strong>
-                        <span class="badge ${gap.priority === 'High' ? 'bg-danger' : gap.priority === 'Medium' ? 'bg-warning' : 'bg-success'}">${gap.priority}</span>
+                        <span class="badge ${gap.priority === 'High' ? 'bg-danger' : gap.priority === 'Medium' ? 'bg-warning' : 'bg-success'} float-end">${gap.priority}</span>
                         <br><a href="${gap.learning_url}" target="_blank" class="small">Learn this skill →</a>
                     </div>
                 `;
