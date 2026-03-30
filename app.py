@@ -1,17 +1,17 @@
 from flask import Flask, render_template, request, jsonify, session
 import secrets
-import pandas as pd
-from models.ai_matcher import AIMatcher
-from utils.cv_parser import CVParser
-from utils.nlp_processor import NLPProcessor
+import os
+from models.ai_job_matcher import AIJobMatcher
+from utils.ai_cv_parser import AICVParser
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 # Initialize AI components
-ai_matcher = AIMatcher()
-nlp = NLPProcessor()
+print("🤖 Initializing AI Job Recommendation System...")
+ai_matcher = AIJobMatcher()
+cv_parser = AICVParser()
 
 # Load jobs
 try:
@@ -44,11 +44,21 @@ def upload_cv():
 def get_recommendations():
     try:
         data = request.json
-        skills = [s.strip() for s in data.get('skills', '').split(',') if s.strip()]
-        session['user_skills'] = skills
-        recs = ai_matcher.get_recommendations(skills)
-        return jsonify({'success': True, 'recommendations': recs})
+        skills_text = data.get('skills', '')
+        skills_list = [s.strip() for s in skills_text.split(',') if s.strip()]
+        
+        session['user_skills'] = skills_list
+        
+        # AI-powered recommendations
+        recommendations = ai_matcher.get_recommendations(skills_list)
+        
+        return jsonify({
+            'success': True,
+            'skills': skills_list,
+            'recommendations': recommendations
+        })
     except Exception as e:
+        print(f"Error: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/analyze-cv', methods=['POST'])
@@ -62,37 +72,31 @@ def analyze_cv():
             return jsonify({'error': 'No file selected'}), 400
         
         file_bytes = file.read()
-        filename = file.filename.lower()
-        text = ""
+        filename = file.filename
         
-        if filename.endswith('.pdf'):
-            text = CVParser.extract_text_from_pdf(file_bytes)
-        elif filename.endswith('.docx'):
-            text = CVParser.extract_text_from_docx(file_bytes)
-        else:
-            text = CVParser.extract_text_from_txt(file_bytes)
+        # AI-powered CV analysis
+        result = cv_parser.analyze_cv(file_bytes, filename)
         
-        if not text.strip():
-            return jsonify({'error': 'Could not extract text'}), 400
+        if 'error' in result:
+            return jsonify({'error': result['error']}), 400
         
-        skills = ai_matcher.extract_skills_from_cv(text)
+        skills = result['skills']
         session['user_skills'] = skills
-        recs = ai_matcher.get_recommendations(skills)
         
-        # Generate personalized tips
-        tips = [
-            {'category': '🎯 Skills Detected', 'tips': [f'We found: {", ".join(skills[:5])}']},
-            {'category': '📝 Resume Tips', 'tips': ['Use action verbs', 'Quantify achievements', 'Tailor for each job']}
-        ]
+        # Get job recommendations based on CV skills
+        recommendations = ai_matcher.get_recommendations(skills)
         
         return jsonify({
             'success': True,
             'skills': skills,
-            'recommendations': recs[:8],
-            'resume_tips': tips,
-            'filename': file.filename
+            'recommendations': recommendations[:8],
+            'resume_tips': result['resume_tips'],
+            'experience_years': result['experience_years'],
+            'word_count': result['word_count'],
+            'filename': filename
         })
     except Exception as e:
+        print(f"Error in analyze-cv: {e}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/skill-gap/<int:job_id>')
@@ -104,7 +108,11 @@ def skill_gap(job_id):
         
         gaps = ai_matcher.analyze_skill_gap(user_skills, job_id)
         job = ai_matcher.jobs_df.iloc[job_id]
-        return jsonify({'gaps': gaps, 'job_title': job['title']})
+        
+        return jsonify({
+            'gaps': gaps,
+            'job_title': job['title']
+        })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -117,7 +125,10 @@ def learning_resources():
             if skill.strip():
                 resources.append({
                     'skill': skill.strip(),
-                    'resources': [{'title': f'Learn {skill.title()}', 'url': f'https://www.google.com/search?q=learn+{skill}'}]
+                    'resources': [
+                        {'title': f'Learn {skill.title()} on Coursera', 'url': f'https://www.coursera.org/search?query={skill}'},
+                        {'title': f'{skill.title()} Tutorial on YouTube', 'url': f'https://www.youtube.com/results?search_query={skill}+tutorial'}
+                    ]
                 })
         return jsonify({'resources': resources})
     except Exception as e:
