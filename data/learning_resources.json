@@ -1,64 +1,45 @@
 {
-    "python": [
-        {
-            "title": "Python for Beginners",
-            "platform": "Coursera",
-            "url": "https://www.coursera.org/learn/python",
-            "difficulty": "Beginner"
-        },
-        {
-            "title": "Complete Python Bootcamp",
-            "platform": "Udemy",
-            "url": "https://www.udemy.com/course/python/",
-            "difficulty": "Beginner"
-        }
-    ],
-    "sql": [
-        {
-            "title": "SQL Tutorial",
-            "platform": "W3Schools",
-            "url": "https://www.w3schools.com/sql/",
-            "difficulty": "Beginner"
-        }
-    ],
-    "javascript": [
-        {
-            "title": "JavaScript Basics",
-            "platform": "freeCodeCamp",
-            "url": "https://www.freecodecamp.org/learn/",
-            "difficulty": "Beginner"
-        }
-    ],
-    "machine learning": [
-        {
-            "title": "Machine Learning Course",
-            "platform": "Coursera",
-            "url": "https://www.coursera.org/learn/machine-learning",
-            "difficulty": "Intermediate"
-        }
-    ],
-    "communication": [
-        {
-            "title": "Effective Communication",
-            "platform": "LinkedIn Learning",
-            "url": "https://www.linkedin.com/learning/",
-            "difficulty": "Beginner"
-        }
-    ],
-    "django": [
-        {
-            "title": "Django for Beginners",
-            "platform": "Django Project",
-            "url": "https://www.djangoproject.com/start/",
-            "difficulty": "Beginner"
-        }
-    ],
-    "react": [
-        {
-            "title": "React Tutorial",
-            "platform": "React.dev",
-            "url": "https://react.dev/learn",
-            "difficulty": "Beginner"
-        }
-    ]
+  "python": [
+    {"title": "Python for Beginners", "platform": "Coursera", "url": "https://www.coursera.org/learn/python", "difficulty": "Beginner"},
+    {"title": "Complete Python Bootcamp", "platform": "Udemy", "url": "https://www.udemy.com/course/python/", "difficulty": "Beginner"},
+    {"title": "Python Official Docs", "platform": "Python.org", "url": "https://docs.python.org/3/tutorial/", "difficulty": "All Levels"}
+  ],
+  "sql": [
+    {"title": "SQL Tutorial", "platform": "W3Schools", "url": "https://www.w3schools.com/sql/", "difficulty": "Beginner"},
+    {"title": "SQL for Data Science", "platform": "Coursera", "url": "https://www.coursera.org/learn/sql-for-data-science", "difficulty": "Beginner"}
+  ],
+  "javascript": [
+    {"title": "JavaScript Basics", "platform": "freeCodeCamp", "url": "https://www.freecodecamp.org/learn/", "difficulty": "Beginner"},
+    {"title": "The Modern JavaScript Tutorial", "platform": "JavaScript.info", "url": "https://javascript.info/", "difficulty": "Beginner"}
+  ],
+  "machine_learning": [
+    {"title": "Machine Learning Course", "platform": "Coursera", "url": "https://www.coursera.org/learn/machine-learning", "difficulty": "Intermediate"},
+    {"title": "Machine Learning Specialization", "platform": "DeepLearning.AI", "url": "https://www.deeplearning.ai/courses/", "difficulty": "Intermediate"}
+  ],
+  "aws": [
+    {"title": "AWS Cloud Practitioner", "platform": "AWS Training", "url": "https://aws.amazon.com/training/", "difficulty": "Beginner"},
+    {"title": "AWS Solutions Architect", "platform": "Udemy", "url": "https://www.udemy.com/course/aws-certified-solutions-architect-associate/", "difficulty": "Intermediate"}
+  ],
+  "docker": [
+    {"title": "Docker Mastery", "platform": "Udemy", "url": "https://www.udemy.com/course/docker-mastery/", "difficulty": "Intermediate"}
+  ],
+  "communication": [
+    {"title": "Effective Communication", "platform": "LinkedIn Learning", "url": "https://www.linkedin.com/learning/communication-foundations", "difficulty": "Beginner"}
+  ],
+  "leadership": [
+    {"title": "Leadership Principles", "platform": "Harvard Business Review", "url": "https://hbr.org/topic/leadership", "difficulty": "Intermediate"}
+  ],
+  "project_management": [
+    {"title": "Project Management Professional", "platform": "PMI", "url": "https://www.pmi.org/pmp", "difficulty": "Advanced"}
+  ],
+  "react": [
+    {"title": "React Tutorial", "platform": "React.dev", "url": "https://react.dev/learn", "difficulty": "Intermediate"}
+  ],
+  "django": [
+    {"title": "Django for Beginners", "platform": "Django Project", "url": "https://www.djangoproject.com/start/", "difficulty": "Intermediate"}
+  ],
+  "git": [
+    {"title": "Git Tutorial", "platform": "Git SCM", "url": "https://git-scm.com/doc", "difficulty": "Beginner"},
+    {"title": "GitHub Skills", "platform": "GitHub", "url": "https://skills.github.com/", "difficulty": "Beginner"}
+  ]
 }

@@ -1,46 +1,58 @@
 {% extends "base.html" %}
 
-{% block title %}Find Jobs{% endblock %}
+{% block title %}Find Jobs - AI Career Mate{% endblock %}
 
 {% block content %}
-<div class="container mt-3">
+<div class="container mt-4">
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-keyboard me-2"></i>Enter Your Skills
+                    <i class="fas fa-keyboard"></i> Enter Your Skills
                 </div>
                 <div class="card-body">
-                    <textarea class="form-control mb-3" id="skills" rows="3" placeholder="e.g., python, sql, javascript, communication, leadership"></textarea>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold small">Experience Level</label>
-                        <div>
-                            <span class="exp-badge entry active" data-level="entry">Entry</span>
-                            <span class="exp-badge mid" data-level="mid">Mid</span>
-                            <span class="exp-badge senior" data-level="senior">Senior</span>
-                            <span class="exp-badge lead" data-level="lead">Lead</span>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Your Skills (separate with commas)</label>
+                        <textarea class="form-control" id="skills" rows="4" 
+                            placeholder="e.g., python, sql, javascript, communication, leadership, machine learning"></textarea>
+                        <div class="form-text mt-2">
+                            <i class="fas fa-info-circle"></i> We understand typos and synonyms!
                         </div>
                     </div>
-                    <button class="btn btn-primary w-100" id="findJobs"><i class="fas fa-search me-2"></i>Find Jobs</button>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Experience Level</label>
+                        <div id="experienceLevels">
+                            <span class="exp-badge entry active" data-level="entry">Entry (0-2 years)</span>
+                            <span class="exp-badge mid" data-level="mid">Mid (2-5 years)</span>
+                            <span class="exp-badge senior" data-level="senior">Senior (5-8 years)</span>
+                            <span class="exp-badge lead" data-level="lead">Lead (8+ years)</span>
+                        </div>
+                        <input type="hidden" id="experience" value="entry">
+                    </div>
+                    
+                    <button class="btn btn-primary w-100 py-3" id="findJobs">
+                        <i class="fas fa-search me-2"></i>Find My Perfect Job
+                    </button>
                 </div>
             </div>
             
-            <div id="loading" style="display: none;" class="text-center my-4">
+            <div id="loading" style="display: none;" class="text-center my-5">
                 <div class="loading-spinner"></div>
-                <p class="small">Analyzing your skills...</p>
+                <p class="mt-2">AI is analyzing your skills...</p>
             </div>
             
-            <div id="results" style="display: none;" class="mt-3"></div>
+            <div id="results" style="display: none;" class="mt-4"></div>
         </div>
     </div>
 </div>
 
 <div class="modal fade" id="gapModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header">
                 <h5 class="modal-title"><i class="fas fa-chart-bar me-2"></i>Skill Gap Analysis</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body" id="gapModalBody"></div>
         </div>
@@ -54,13 +66,14 @@ $(document).ready(function() {
     $('.exp-badge').click(function() {
         $('.exp-badge').removeClass('active');
         $(this).addClass('active');
+        $('#experience').val($(this).data('level'));
     });
     
     $('#findJobs').click(function() {
-        let skills = $('#skills').val().trim();
+        const skills = $('#skills').val().trim();
         if (!skills) return alert('Please enter your skills');
         
-        $(this).prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Searching...');
+        $(this).prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i> Searching...');
         $('#loading').show();
         $('#results').hide();
         
@@ -70,49 +83,52 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify({ skills: skills }),
             success: function(res) {
-                $('#findJobs').prop('disabled', false).html('<i class="fas fa-search me-2"></i>Find Jobs');
+                $('#findJobs').prop('disabled', false).html('<i class="fas fa-search me-2"></i>Find My Perfect Job');
                 $('#loading').hide();
                 if (res.success && res.recommendations.length) displayResults(res.recommendations);
-                else $('#results').html('<div class="alert alert-warning">No jobs found</div>').show();
+                else $('#results').html('<div class="alert alert-warning">No jobs found. Try different skills!</div>').show();
             },
             error: function() {
-                $('#findJobs').prop('disabled', false).html('<i class="fas fa-search me-2"></i>Find Jobs');
+                $('#findJobs').prop('disabled', false).html('<i class="fas fa-search me-2"></i>Find My Perfect Job');
                 $('#loading').hide();
-                $('#results').html('<div class="alert alert-danger">Error</div>').show();
+                $('#results').html('<div class="alert alert-danger">Error. Please try again.</div>').show();
             }
         });
     });
 });
 
 function displayResults(jobs) {
-    let html = '<h5 class="mb-3">Job Matches</h5>';
+    let html = '<h5 class="mb-4">🎯 Your Job Matches</h5>';
+    
     jobs.forEach((job, i) => {
-        let medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '📌';
-        let skills = job.required_skills.split(',').slice(0,5).map(s => `<span class="skill-badge">${s.trim()}</span>`).join('');
+        const medals = ['🥇', '🥈', '🥉'];
+        const medal = i < 3 ? medals[i] : '📌';
+        const skills = job.required_skills.split(',').slice(0,5).map(s => `<span class="skill-badge">${s.trim()}</span>`).join('');
         const applyUrl = job.apply_link || job.message_link;
         
         html += `
-            <div class="card mb-2">
-                <div class="card-body p-3">
+            <div class="card mb-3">
+                <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <span class="me-2">${medal}</span>
-                            <strong>${job.title}</strong>
+                            <span class="fs-4 me-2">${medal}</span>
+                            <strong class="fs-5">${job.title}</strong>
                             ${job.channel ? `<span class="telegram-badge ms-2"><i class="fab fa-telegram"></i> ${job.channel}</span>` : ''}
                         </div>
-                        <span class="badge ${job.match_score > 70 ? 'bg-success' : job.match_score > 40 ? 'bg-warning' : 'bg-secondary'}">${job.match_score}%</span>
+                        <span class="match-score fs-4">${job.match_score}%</span>
                     </div>
                     <div class="mt-2">${skills}</div>
-                    <div class="mt-2 d-flex gap-2">
+                    <div class="mt-3 d-flex gap-2">
                         ${applyUrl ? 
-                            `<a href="${applyUrl}" target="_blank" class="btn btn-sm btn-success"><i class="fab fa-telegram"></i> Apply Now</a>` : 
-                            '<span class="text-muted small">No apply link</span>'}
-                        <button class="btn btn-sm btn-outline-primary" onclick="viewSkillGap(${job.job_id})">Skill Gap</button>
+                            `<a href="${applyUrl}" target="_blank" class="btn btn-success btn-sm"><i class="fab fa-telegram"></i> Apply Now</a>` : 
+                            '<span class="text-muted small">No direct apply link</span>'}
+                        <button class="btn btn-outline-primary btn-sm" onclick="viewSkillGap(${job.job_id})">Skill Gap</button>
                     </div>
                 </div>
             </div>
         `;
     });
+    
     $('#results').html(html).show();
 }
 
@@ -122,20 +138,21 @@ function viewSkillGap(jobId) {
     
     $.get(`/skill-gap/${jobId}`, function(data) {
         if (data.gaps && data.gaps.length) {
-            let html = `<h6 class="mb-2">Missing Skills for: ${data.job_title}</h6>`;
+            let html = `<h6 class="mb-3">Missing Skills for: ${data.job_title}</h6>`;
             data.gaps.forEach(gap => {
-                let priorityClass = gap.priority === 'High' ? 'priority-high' : gap.priority === 'Medium' ? 'priority-medium' : 'priority-low';
                 html += `
-                    <div class="gap-item ${priorityClass}" style="padding: 10px; margin-bottom: 8px; border-radius: 8px;">
-                        <strong>${gap.skill}</strong>
-                        <span class="badge ${gap.priority === 'High' ? 'bg-danger' : gap.priority === 'Medium' ? 'bg-warning' : 'bg-success'} float-end">${gap.priority}</span>
-                        <br><a href="${gap.learning_url}" target="_blank" class="small">Learn this skill →</a>
+                    <div class="gap-item priority-${gap.priority.toLowerCase()}">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <strong>${gap.skill}</strong>
+                            <span class="badge ${gap.priority === 'High' ? 'bg-danger' : gap.priority === 'Medium' ? 'bg-warning' : 'bg-success'}">${gap.priority}</span>
+                        </div>
+                        <a href="${gap.learning_url}" target="_blank" class="small mt-2 d-inline-block">📚 ${gap.resource_title || 'Learn this skill'}</a>
                     </div>
                 `;
             });
             $('#gapModalBody').html(html);
         } else {
-            $('#gapModalBody').html('<div class="alert alert-success">🎉 You have all the required skills for this job!</div>');
+            $('#gapModalBody').html('<div class="alert alert-success">🎉 You have all the skills required for this job!</div>');
         }
     }).fail(() => {
         $('#gapModalBody').html('<div class="alert alert-danger">Error loading gap analysis</div>');

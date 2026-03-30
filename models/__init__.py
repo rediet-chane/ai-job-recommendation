@@ -1,1 +1,3 @@
-from .smart_matcher import SmartMatcher  
+from .ai_matcher import AIMatcher
+
+__all__ = ['AIMatcher']

@@ -1,26 +1,28 @@
 {% extends "base.html" %}
 
-{% block title %}Upload CV{% endblock %}
+{% block title %}Upload CV - AI Career Mate{% endblock %}
 
 {% block content %}
-<div class="container mt-3">
+<div class="container mt-4">
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-file-upload me-2"></i>Upload Your CV
+                    <i class="fas fa-file-upload"></i> Upload Your CV / Resume
                 </div>
                 <div class="card-body">
-                    <p class="small text-muted">Supported: PDF, DOCX, TXT (max 16MB)</p>
+                    <p class="text-muted small">Supported formats: PDF, DOCX, TXT (max 16MB)</p>
                     <form id="cvForm" enctype="multipart/form-data">
                         <input type="file" class="form-control mb-3" id="cvFile" accept=".pdf,.docx,.txt">
-                        <button type="submit" class="btn btn-primary w-100" id="uploadBtn"><i class="fas fa-robot me-2"></i>Analyze with AI</button>
+                        <button type="submit" class="btn btn-primary w-100 py-3" id="uploadBtn">
+                            <i class="fas fa-robot me-2"></i>Analyze with AI
+                        </button>
                     </form>
-                    <div id="loading" style="display: none;" class="text-center my-3">
+                    <div id="loading" style="display: none;" class="text-center my-4">
                         <div class="loading-spinner"></div>
-                        <p class="small">Analyzing your resume...</p>
+                        <p>AI is analyzing your resume...</p>
                     </div>
-                    <div id="results" style="display: none;" class="mt-3"></div>
+                    <div id="results" style="display: none;" class="mt-4"></div>
                 </div>
             </div>
         </div>
@@ -28,11 +30,11 @@
 </div>
 
 <div class="modal fade" id="gapModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header">
                 <h5 class="modal-title">Skill Gap Analysis</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body" id="gapModalBody"></div>
         </div>
@@ -45,10 +47,10 @@
 document.getElementById('cvForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     let file = document.getElementById('cvFile').files[0];
-    if (!file) return alert('Select a file');
+    if (!file) return alert('Please select a file');
     
-    let formData = new FormData();
-    formData.append('cv', file);
+    let fd = new FormData();
+    fd.append('cv', file);
     
     document.getElementById('uploadBtn').disabled = true;
     document.getElementById('uploadBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
@@ -56,14 +58,12 @@ document.getElementById('cvForm').addEventListener('submit', async (e) => {
     document.getElementById('results').style.display = 'none';
     
     try {
-        let res = await fetch('/analyze-cv', { method: 'POST', body: formData });
+        let res = await fetch('/analyze-cv', { method: 'POST', body: fd });
         let data = await res.json();
         if (data.error) alert(data.error);
         else displayResults(data);
-    } catch(e) { 
-        alert('Error analyzing file'); 
-        console.error(e);
-    } finally {
+    } catch(e) { alert('Error analyzing file'); }
+    finally {
         document.getElementById('uploadBtn').disabled = false;
         document.getElementById('uploadBtn').innerHTML = '<i class="fas fa-robot me-2"></i>Analyze with AI';
         document.getElementById('loading').style.display = 'none';
@@ -71,57 +71,22 @@ document.getElementById('cvForm').addEventListener('submit', async (e) => {
 });
 
 function displayResults(data) {
-    let html = `
-        <div class="alert alert-success py-2">
-            <i class="fas fa-check-circle"></i> Skills detected: <strong>${data.skills.join(', ') || 'None found'}</strong>
-        </div>
-    `;
+    let html = `<div class="alert alert-success"><i class="fas fa-check-circle"></i> Skills detected: <strong>${data.skills.join(', ')}</strong></div>`;
     
-    // Personalized Resume Tips (based on CV content)
-    if (data.resume_tips && data.resume_tips.length) {
-        html += `<h6 class="mt-3 mb-2"><i class="fas fa-lightbulb"></i> Personalized Resume Tips</h6>`;
+    if (data.resume_tips?.length) {
+        html += `<h6 class="mt-3"><i class="fas fa-lightbulb"></i> Personalized Resume Tips</h6>`;
         data.resume_tips.forEach(tip => {
-            html += `<div class="card mb-2"><div class="card-body p-2">
-                <strong>${tip.category}</strong>
-                <ul class="mb-0 mt-1 ps-3">
-                    ${tip.tips.map(t => `<li><small>${t}</small></li>`).join('')}
-                </ul>
-            </div></div>`;
+            html += `<div class="card mb-2"><div class="card-body p-2"><strong>${tip.category}</strong><ul class="mb-0 mt-1">${tip.tips.map(t => `<li><small>${t}</small></li>`).join('')}</ul></div></div>`;
         });
     }
     
-    // Job Recommendations
-    if (data.recommendations && data.recommendations.length) {
-        html += `<h6 class="mt-3 mb-2"><i class="fas fa-briefcase"></i> Recommended Jobs</h6>`;
+    if (data.recommendations?.length) {
+        html += `<h6 class="mt-3"><i class="fas fa-briefcase"></i> Recommended Jobs</h6>`;
         data.recommendations.forEach(job => {
-            const applyUrl = job.apply_link || job.message_link;
-            html += `
-                <div class="card mb-2">
-                    <div class="card-body p-3">
-                        <div class="d-flex justify-content-between">
-                            <strong>${job.title}</strong>
-                            <span class="badge ${job.match_score > 70 ? 'bg-success' : job.match_score > 40 ? 'bg-warning' : 'bg-secondary'}">${job.match_score}%</span>
-                        </div>
-                        <div class="mt-2">
-                            ${applyUrl ? 
-                                `<a href="${applyUrl}" target="_blank" class="btn btn-sm btn-success"><i class="fab fa-telegram"></i> Apply Now</a>` : 
-                                '<span class="text-muted small">No apply link available</span>'}
-                            <button class="btn btn-sm btn-outline-primary ms-2" onclick="viewSkillGap(${job.job_id})">Skill Gap</button>
-                        </div>
-                        ${job.channel ? `<div class="mt-1 small text-muted"><i class="fab fa-telegram"></i> ${job.channel}</div>` : ''}
-                    </div>
-                </div>
-            `;
-        });
-    }
-    
-    // Learning Resources
-    if (data.learning_resources && data.learning_resources.length) {
-        html += `<h6 class="mt-3 mb-2"><i class="fas fa-graduation-cap"></i> Learning Resources</h6>`;
-        data.learning_resources.forEach(r => {
-            html += `<div class="card mb-2"><div class="card-body p-2">
-                <strong>${r.skill}</strong><br>
-                ${r.resources.map(res => `<a href="${res.url}" target="_blank" class="small me-2">${res.title}</a>`).join('')}
+            html += `<div class="card mb-2"><div class="card-body p-3">
+                <div class="d-flex justify-content-between"><strong>${job.title}</strong><span class="match-score">${job.match_score}%</span></div>
+                ${job.apply_link ? `<a href="${job.apply_link}" target="_blank" class="btn btn-sm btn-success mt-2">Apply Now</a>` : ''}
+                <button class="btn btn-sm btn-outline-primary ms-2 mt-2" onclick="viewGap(${job.job_id})">Skill Gap</button>
             </div></div>`;
         });
     }
@@ -130,29 +95,17 @@ function displayResults(data) {
     document.getElementById('results').style.display = 'block';
 }
 
-function viewSkillGap(jobId) {
+function viewGap(jobId) {
     $('#gapModal').modal('show');
-    $('#gapModalBody').html('<div class="text-center"><div class="loading-spinner"></div><p>Analyzing your skills...</p></div>');
-    
-    $.get(`/skill-gap/${jobId}`, function(data) {
-        if (data.gaps && data.gaps.length) {
-            let html = `<h6 class="mb-2">Missing Skills for: ${data.job_title}</h6>`;
-            data.gaps.forEach(gap => {
-                let priorityClass = gap.priority === 'High' ? 'priority-high' : gap.priority === 'Medium' ? 'priority-medium' : 'priority-low';
-                html += `
-                    <div class="gap-item ${priorityClass}" style="padding: 10px; margin-bottom: 8px; border-radius: 8px;">
-                        <strong>${gap.skill}</strong>
-                        <span class="badge ${gap.priority === 'High' ? 'bg-danger' : gap.priority === 'Medium' ? 'bg-warning' : 'bg-success'} float-end">${gap.priority}</span>
-                        <br><a href="${gap.learning_url}" target="_blank" class="small">Learn this skill →</a>
-                    </div>
-                `;
+    $('#gapModalBody').html('<div class="text-center"><div class="loading-spinner"></div><p>Analyzing...</p></div>');
+    $.get(`/skill-gap/${jobId}`, data => {
+        if (data.gaps?.length) {
+            let html = `<h6>Missing Skills for: ${data.job_title}</h6>`;
+            data.gaps.forEach(g => {
+                html += `<div class="gap-item priority-${g.priority.toLowerCase()}"><strong>${g.skill}</strong> - ${g.priority}<br><a href="${g.learning_url}" target="_blank">Learn →</a></div>`;
             });
             $('#gapModalBody').html(html);
-        } else {
-            $('#gapModalBody').html('<div class="alert alert-success">🎉 You have all the skills required for this job!</div>');
-        }
-    }).fail(() => {
-        $('#gapModalBody').html('<div class="alert alert-danger">Error loading gap analysis</div>');
+        } else $('#gapModalBody').html('<div class="alert alert-success">You have all required skills! 🎉</div>');
     });
 }
 </script>

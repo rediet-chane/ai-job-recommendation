@@ -1,35 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}Skill Quiz{% endblock %}
+{% block title %}Skill Quiz - AI Career Mate{% endblock %}
 
 {% block content %}
-<div class="container mt-3">
+<div class="container mt-4">
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-question-circle me-2"></i>Skill Assessment Quiz
+                    <i class="fas fa-question-circle"></i> AI Skill Assessment Quiz
                 </div>
                 <div class="card-body" id="quizArea">
                     <div id="quizQuestions"></div>
-                    <div id="quizControls" class="d-flex justify-content-between mt-3">
-                        <button class="btn btn-secondary btn-sm" id="prevBtn" disabled>Previous</button>
-                        <button class="btn btn-primary btn-sm" id="nextBtn">Next</button>
-                        <button class="btn btn-success btn-sm" id="submitBtn" style="display:none">Submit Quiz</button>
+                    <div id="quizControls" class="d-flex justify-content-between mt-4">
+                        <button class="btn btn-secondary" id="prevBtn" disabled>Previous</button>
+                        <button class="btn btn-primary" id="nextBtn">Next</button>
+                        <button class="btn btn-success" id="submitBtn" style="display:none">Submit Quiz</button>
                     </div>
                 </div>
             </div>
-            <div id="quizResults" style="display: none;" class="mt-3"></div>
+            <div id="quizResults" style="display: none;" class="mt-4"></div>
         </div>
     </div>
 </div>
 
 <div class="modal fade" id="gapModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header">
                 <h5 class="modal-title">Skill Gap Analysis</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body" id="gapModalBody"></div>
         </div>
@@ -40,40 +40,30 @@
 {% block scripts %}
 <script>
 const quizQuestions = [
-    { id: 1, text: "What does Python use for indentation?", options: ["Braces", "Spaces/Tabs", "Keywords", "Parentheses"], correct: 1, skill: "python" },
-    { id: 2, text: "Which SQL command is used to retrieve data?", options: ["INSERT", "UPDATE", "SELECT", "DELETE"], correct: 2, skill: "sql" },
-    { id: 3, text: "What's the best way to handle a conflict with a colleague?", options: ["Ignore it", "Report immediately", "Private discussion", "Email chain"], correct: 2, skill: "communication" },
-    { id: 4, text: "What does API stand for?", options: ["Application Programming Interface", "Application Process Integration", "Automated Program Interface", "Advanced Programming Interface"], correct: 0, skill: "api" },
-    { id: 5, text: "What is Git primarily used for?", options: ["Database management", "Version control", "Web hosting", "Image editing"], correct: 1, skill: "git" }
+    { id: 1, text: "What does Python use for indentation?", options: ["Braces", "Spaces/Tabs", "Keywords", "Parentheses"], correct: 1, skill: "python", explanation: "Python uses indentation (spaces/tabs) to define code blocks!" },
+    { id: 2, text: "Which SQL command is used to retrieve data?", options: ["INSERT", "UPDATE", "SELECT", "DELETE"], correct: 2, skill: "sql", explanation: "SELECT is the command to query and retrieve data from a database!" },
+    { id: 3, text: "What's the best way to handle a conflict with a colleague?", options: ["Ignore it", "Report immediately", "Private discussion", "Email chain"], correct: 2, skill: "communication", explanation: "Private, supportive communication is key to resolving conflicts!" },
+    { id: 4, text: "What does API stand for?", options: ["Application Programming Interface", "Application Process Integration", "Automated Program Interface", "Advanced Programming Interface"], correct: 0, skill: "api", explanation: "API stands for Application Programming Interface!" },
+    { id: 5, text: "What is Git primarily used for?", options: ["Database management", "Version control", "Web hosting", "Image editing"], correct: 1, skill: "git", explanation: "Git is a version control system for tracking code changes!" }
 ];
 
-let currentQuestion = 0;
-let userAnswers = new Array(quizQuestions.length).fill(-1);
-let quizSubmitted = false;
+let current = 0;
+let answers = new Array(quizQuestions.length).fill(-1);
 
 function renderQuestion() {
-    let q = quizQuestions[currentQuestion];
-    let selected = userAnswers[currentQuestion];
-    
-    let html = `<div class="mb-3">
-        <span class="badge bg-primary mb-2">Question ${currentQuestion + 1}/${quizQuestions.length}</span>
-        <h6>${q.text}</h6>
-    </div>`;
-    
+    let q = quizQuestions[current];
+    let selected = answers[current];
+    let html = `<div class="mb-3"><span class="badge bg-primary mb-2">Question ${current+1}/${quizQuestions.length}</span><h5>${q.text}</h5></div>`;
     q.options.forEach((opt, i) => {
-        let checked = selected === i ? 'checked' : '';
-        html += `
-            <div class="form-check mb-2" style="cursor:pointer" onclick="selectOption(${i})">
-                <input class="form-check-input" type="radio" name="quizOption" value="${i}" id="opt${i}" ${checked}>
-                <label class="form-check-label">${String.fromCharCode(65 + i)}. ${opt}</label>
-            </div>
-        `;
+        html += `<div class="form-check mb-2" style="cursor:pointer" onclick="selectOption(${i})">
+            <input class="form-check-input" type="radio" name="quiz" value="${i}" id="opt${i}" ${selected===i ? 'checked' : ''}>
+            <label class="form-check-label">${String.fromCharCode(65+i)}. ${opt}</label>
+        </div>`;
     });
-    
     document.getElementById('quizQuestions').innerHTML = html;
     
-    document.getElementById('prevBtn').disabled = (currentQuestion === 0);
-    if (currentQuestion === quizQuestions.length - 1) {
+    document.getElementById('prevBtn').disabled = (current === 0);
+    if (current === quizQuestions.length - 1) {
         document.getElementById('nextBtn').style.display = 'none';
         document.getElementById('submitBtn').style.display = 'inline-block';
     } else {
@@ -82,133 +72,77 @@ function renderQuestion() {
     }
 }
 
-function selectOption(optionIndex) {
-    userAnswers[currentQuestion] = optionIndex;
-    document.querySelectorAll('input[name="quizOption"]').forEach((radio, i) => {
-        if (i === optionIndex) radio.checked = true;
-        else radio.checked = false;
-    });
+function selectOption(i) {
+    answers[current] = i;
+    document.querySelectorAll('input[name="quiz"]').forEach((r, idx) => r.checked = (idx === i));
 }
 
-document.getElementById('nextBtn').addEventListener('click', () => {
-    if (userAnswers[currentQuestion] === -1) {
-        alert('Please select an answer before continuing');
-        return;
-    }
-    currentQuestion++;
+document.getElementById('nextBtn').onclick = () => {
+    if (answers[current] === -1) return alert('Please select an answer');
+    current++;
     renderQuestion();
-});
+};
 
-document.getElementById('prevBtn').addEventListener('click', () => {
-    currentQuestion--;
-    renderQuestion();
-});
+document.getElementById('prevBtn').onclick = () => { current--; renderQuestion(); };
 
-document.getElementById('submitBtn').addEventListener('click', () => {
-    if (userAnswers[currentQuestion] === -1) {
-        alert('Please select an answer before submitting');
-        return;
-    }
+document.getElementById('submitBtn').onclick = () => {
+    if (answers[current] === -1) return alert('Please select an answer');
     
-    let score = 0;
-    let skills = [];
+    let score = 0, skills = [];
     quizQuestions.forEach((q, i) => {
-        if (userAnswers[i] === q.correct) {
-            score++;
-            skills.push(q.skill);
-        }
+        if (answers[i] === q.correct) { score++; skills.push(q.skill); }
     });
     
-    let percentage = Math.round((score / quizQuestions.length) * 100);
     let uniqueSkills = [...new Set(skills)];
+    let percent = Math.round((score / quizQuestions.length) * 100);
     
-    let resultsHtml = `
-        <div class="card">
-            <div class="card-header bg-success text-white">
-                <h5 class="mb-0">Quiz Results</h5>
-            </div>
-            <div class="card-body">
-                <div class="text-center mb-3">
-                    <h1 class="display-4">${score}/${quizQuestions.length}</h1>
-                    <p>Score: ${percentage}%</p>
-                    <div class="progress">
-                        <div class="progress-bar bg-success" style="width: ${percentage}%"></div>
-                    </div>
-                </div>
-                <h6>Skills Identified:</h6>
-                <div class="mb-3">
-                    ${uniqueSkills.map(s => `<span class="skill-badge">${s}</span>`).join('')}
-                    ${uniqueSkills.length === 0 ? '<span class="text-muted">No specific skills identified</span>' : ''}
-                </div>
-                <button class="btn btn-primary w-100" id="findJobsFromQuiz">Find Jobs Based on Your Skills</button>
-            </div>
-        </div>
-    `;
+    let resultsHtml = `<div class="card"><div class="card-header bg-success text-white">Your Results</div><div class="card-body">
+        <div class="text-center"><h1 class="display-4">${score}/${quizQuestions.length}</h1><p>Score: ${percent}%</p>
+        <div class="progress mb-4"><div class="progress-bar bg-success" style="width: ${percent}%"></div></div></div>
+        <h6>Skills Identified:</h6><div class="mb-3">${uniqueSkills.map(s => `<span class="skill-badge">${s}</span>`).join('')}</div>
+        <button class="btn btn-primary w-100" id="findJobsBtn">Find Jobs Based on Your Skills</button>
+    </div></div>`;
     
     document.getElementById('quizArea').style.display = 'none';
     document.getElementById('quizResults').innerHTML = resultsHtml;
     document.getElementById('quizResults').style.display = 'block';
     
-    document.getElementById('findJobsFromQuiz').addEventListener('click', () => {
+    document.getElementById('findJobsBtn').onclick = () => {
         if (!uniqueSkills.length) uniqueSkills = ['communication'];
-        
         document.getElementById('quizResults').innerHTML = '<div class="text-center"><div class="loading-spinner"></div><p>Finding jobs...</p></div>';
         
         fetch('/get-recommendations', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ skills: uniqueSkills.join(',') })
-        })
-        .then(r => r.json())
-        .then(data => {
-            let jobsHtml = `<div class="card"><div class="card-header">Your Job Matches</div><div class="card-body">`;
-            data.recommendations.slice(0, 8).forEach(job => {
-                const applyUrl = job.apply_link || job.message_link;
-                jobsHtml += `
-                    <div class="border-bottom pb-2 mb-2">
-                        <div class="d-flex justify-content-between">
-                            <strong>${job.title}</strong>
-                            <span class="badge ${job.match_score > 70 ? 'bg-success' : job.match_score > 40 ? 'bg-warning' : 'bg-secondary'}">${job.match_score}%</span>
-                        </div>
-                        ${applyUrl ? 
-                            `<a href="${applyUrl}" target="_blank" class="btn btn-sm btn-success mt-1"><i class="fab fa-telegram"></i> Apply Now</a>` : 
-                            '<span class="text-muted small">No apply link</span>'}
-                        <button class="btn btn-sm btn-outline-primary mt-1 ms-2" onclick="viewSkillGapFromQuiz(${job.job_id})">Skill Gap</button>
-                    </div>
-                `;
+        }).then(r => r.json()).then(data => {
+            let jobsHtml = `<div class="card"><div class="card-header">Job Matches</div><div class="card-body">`;
+            data.recommendations.slice(0,6).forEach(job => {
+                jobsHtml += `<div class="border-bottom pb-2 mb-2">
+                    <div class="d-flex justify-content-between"><strong>${job.title}</strong><span class="match-score">${job.match_score}%</span></div>
+                    ${job.apply_link ? `<a href="${job.apply_link}" target="_blank" class="btn btn-sm btn-success mt-1">Apply Now</a>` : ''}
+                    <button class="btn btn-sm btn-outline-primary mt-1 ms-2" onclick="viewGap(${job.job_id})">Skill Gap</button>
+                </div>`;
             });
             jobsHtml += `</div></div>`;
             document.getElementById('quizResults').innerHTML = jobsHtml;
-        })
-        .catch(() => {
-            document.getElementById('quizResults').innerHTML = '<div class="alert alert-danger">Error finding jobs</div>';
         });
-    });
-});
+    };
+};
 
 renderQuestion();
 
-function viewSkillGapFromQuiz(jobId) {
+function viewGap(jobId) {
     $('#gapModal').modal('show');
     $('#gapModalBody').html('<div class="text-center"><div class="loading-spinner"></div><p>Analyzing...</p></div>');
-    
-    $.get(`/skill-gap/${jobId}`, function(data) {
-        if (data.gaps && data.gaps.length) {
+    $.get(`/skill-gap/${jobId}`, data => {
+        if (data.gaps?.length) {
             let html = `<h6>Missing Skills for: ${data.job_title}</h6>`;
-            data.gaps.forEach(gap => {
-                let color = gap.priority === 'High' ? '#dc3545' : gap.priority === 'Medium' ? '#ffc107' : '#28a745';
-                html += `
-                    <div style="background: ${gap.priority === 'High' ? '#ffe6e6' : gap.priority === 'Medium' ? '#fff3cd' : '#e6f4e6'}; border-left: 3px solid ${color}; padding: 10px; margin-bottom: 8px; border-radius: 8px;">
-                        <strong>${gap.skill}</strong> 
-                        <span class="badge ${gap.priority === 'High' ? 'bg-danger' : gap.priority === 'Medium' ? 'bg-warning' : 'bg-success'}">${gap.priority}</span>
-                        <br><a href="${gap.learning_url}" target="_blank" class="small">Learn →</a>
-                    </div>
-                `;
+            data.gaps.forEach(g => {
+                html += `<div class="gap-item priority-${g.priority.toLowerCase()}"><strong>${g.skill}</strong> - ${g.priority}<br><a href="${g.learning_url}" target="_blank">Learn →</a></div>`;
             });
             $('#gapModalBody').html(html);
-        } else {
-            $('#gapModalBody').html('<div class="alert alert-success">You have all required skills! 🎉</div>');
-        }
+        } else $('#gapModalBody').html('<div class="alert alert-success">You have all required skills! 🎉</div>');
     });
 }
 </script>

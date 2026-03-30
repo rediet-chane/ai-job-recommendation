@@ -1,41 +1,79 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Home - AI Career Mate{% endblock %}
 
 {% block content %}
 <div class="hero-section">
     <div class="container">
-        <h1>Find Your Perfect Job Match</h1>
-        <p>AI-powered job recommendations based on your skills</p>
-        <a href="/manual-input" class="btn btn-light btn-sm mt-2">Get Started</a>
+        <h1><i class="fas fa-magic"></i> Find Your Perfect Job Match</h1>
+        <p>AI-powered job recommendations based on your skills and experience</p>
+        <a href="/manual-input" class="btn btn-light btn-lg mt-3 px-5">
+            <i class="fas fa-rocket"></i> Get Started
+        </a>
     </div>
 </div>
+
 <div class="container">
-    <div class="row g-3">
+    <div class="row g-4">
         <div class="col-md-4">
             <div class="card text-center h-100">
-                <div class="card-body">
-                    <i class="fas fa-keyboard fa-2x mb-2 text-primary"></i>
-                    <h6>1. Enter Skills</h6>
-                    <p class="small text-muted">Tell us what you know</p>
+                <div class="card-body py-5">
+                    <i class="fas fa-keyboard fa-3x mb-3" style="color: #667eea;"></i>
+                    <h5>1. Enter Your Skills</h5>
+                    <p class="text-muted">Tell us what you know - programming, soft skills, tools</p>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card text-center h-100">
-                <div class="card-body">
-                    <i class="fas fa-brain fa-2x mb-2 text-primary"></i>
-                    <h6>2. AI Analysis</h6>
-                    <p class="small text-muted">Matches your skills with jobs</p>
+                <div class="card-body py-5">
+                    <i class="fas fa-brain fa-3x mb-3" style="color: #667eea;"></i>
+                    <h5>2. AI Analysis</h5>
+                    <p class="text-muted">Our AI matches your skills with thousands of jobs</p>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card text-center h-100">
+                <div class="card-body py-5">
+                    <i class="fas fa-chart-line fa-3x mb-3" style="color: #667eea;"></i>
+                    <h5>3. Get Matches</h5>
+                    <p class="text-muted">View personalized job recommendations with match scores</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-star"></i> Why Choose AI Career Mate?
+                </div>
                 <div class="card-body">
-                    <i class="fas fa-chart-line fa-2x mb-2 text-primary"></i>
-                    <h6>3. Get Matches</h6>
-                    <p class="small text-muted">View personalized recommendations</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-robot fa-2x mb-2" style="color: #667eea;"></i>
+                                <h6>AI-Powered Matching</h6>
+                                <p class="small text-muted">Advanced algorithms understand your skills</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-file-alt fa-2x mb-2" style="color: #667eea;"></i>
+                                <h6>CV Analysis</h6>
+                                <p class="small text-muted">Upload your resume for intelligent parsing</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-graduation-cap fa-2x mb-2" style="color: #667eea;"></i>
+                                <h6>Learning Resources</h6>
+                                <p class="small text-muted">Get personalized course recommendations</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
